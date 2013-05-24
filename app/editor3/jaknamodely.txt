@@ -1,0 +1,24 @@
+http://3.towns.cz/3dmap/model.php?model=...
+ 
+Teï jednoduchý( a kompletní) popis formátu modelù...
+ Model se skládá ze 3 èástí, které jsou oddìlené znakem ":" :
+ 1)Popis jednotlivých bodù modelu ve tvaru [x,y,z] pøímo za sebou
+    -Souøadnice x,y jsou v rozsahu 0-100. (bod 0,0 je nahoøe uprostøed, x
+ smìøuje doprava dolù, y smìruje doleva dolù)
+    -Souøadnice z je výška a ta je v rozsahu 0-250. (0 je zemì)
+    -Používej pouze celé hodnoty.
+ 2)Polygony oddìlené ";"
+    -Každý polygon je seznam všech jeho bodù(v poøadí po obvodu) oddìlených
+ ",".
+    -První bod má èíslo 1.
+ 3)Barvy polygonù
+   -Klasický RGB tvar bez #.
+ 
+Pøíklad:
+ [34,26,0][79,55,0][25,87,0]:1,2,3:00CC00
+
+1)34,26,0
+2)79,55,0
+3)25,87,0
+
+http://3.towns.cz/3dmap/model.php?model=[34,26,0][79,55,0][25,87,0]:1,2,3:00CC00

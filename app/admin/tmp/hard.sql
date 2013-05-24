@@ -1,0 +1,1 @@
+UPDATE `[mpx]map` SET  `hard` =  IF(`terrain`='t1',1,0)+IF(`terrain`='t3',0.5,0)+IF(`terrain`='t4',0.5,0)+IF(`terrain`='t5',1,0)+IF(`terrain`='t6',0.3,0)+IF(`terrain`='t7',0.5,0)+IF(`terrain`='t10',0.6,0)+IF(`terrain`='t11',1,0)

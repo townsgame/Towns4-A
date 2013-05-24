@@ -1,0 +1,25 @@
+{layout '../commander.latte'}
+
+{block content_left}
+
+
+{/block}
+{block content_right}
+
+{ifset $data}
+<div class="center">
+
+<strong>Thank you for your order!</strong><br />
+The order was completed by {$data['first_name']} {$data['last_name']}.<br />
+The <b>{$data['item_name']}</b> was associated to the <b>{$data['user']}</b> account.<br /> 
+You can see and download your orders in your account.<br /><br />
+You paid: <b>${$data['amount']}</b><br /><br />
+
+Receipt for your purchase has been emailed to you.<br />
+You may log into your PayPal account at <a href='https://www.paypal.com'>www.paypal.com</a> to view details of the transaction.<br>
+
+</div>
+{/ifset}
+
+{/block}
+

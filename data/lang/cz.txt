@@ -1,0 +1,271 @@
+title=Towns;
+title2=Testovací verze systému;
+info=Toto je pouze vývojová verze hry. Registrace je zamčená. Pokud chcete získat přihlašovací údaje, napište správci webu na info@towns.cz.;
+copy=© Pavel Hejný | 2013;
+copy2=©2013;
+ok=OK;
+null=(0);
+back=zpět;
+
+config_error=chyba konfigurace;
+
+
+left_sessiondestroy=Nové;
+left_refresh=Obnovit;
+left_logout=Odhlásit se;
+
+messages=Zprávy;
+
+hybrid=hybrid;
+nature=příroda;
+tree=strom;
+rock=skála;
+message=zpráva;
+user=uživatel;
+unit=jednotka;
+building=budova;
+item=jednotka;
+terrain=terén;
+image=obrázek;/**/
+
+
+user1=uživatel;
+
+tree4=strom;
+rock4=skálu;
+user4=uživatele;
+unit4=jednotku;
+building4=budovu;
+
+/*------------------------------------*/
+
+name_error_same=Toto jméno právě používáte.;
+name_error_space=Jméno nesmí začínat ani končit mezerou.;
+name_error_noname=Musíte zadat jméno.;
+name_error_minchars=Jméno musí mít alespoň [0] znaky.;
+name_error_maxchars=Jméno nesmí mít víc než [0] znaků.;
+name_error_specialchars=Jméno nesmí obsahovat speciální znaky.;
+name_error_used=Jméno je už obsazené.;
+name_error_number=Jméno nesmí být pouze číslo.;
+
+/*------------------------------------*/
+
+title_login=Přihlášení;
+login_username=Jméno;
+login_password=Heslo;
+login_permanent=Zůstat přihlášen;
+login_ok=OK;
+
+register_username=Jméno;
+register_ok=OK;
+register_info=Heslo a další přihlašovací údaje vyplníte až po registraci.;
+register_error_nospace=Omlouváme se, ale na mapě nezbývá místo!;
+register_nopassword=Ještě potřebujete dokončit registraci nastavením hesla, abyste se mohli přihlásit i příště.;
+register_block_error=Registrace je zablokovaná.;
+
+
+password_change_no_error=Musíte zadat heslo!;
+password_change_use_warning=Heslo se bude měnit pro přihlášeného uživatele [0].;
+/*------------------------------------*/
+
+life=Život;
+attack=Útok;
+defence=Obrana;
+distance=Dosah;
+/*------------------------------------*/
+mx=x;
+my=y;
+
+time=[day]:[month]:[year] [hour]:[minute];
+/*time=hvězdné datum [timestamp];*/
+timex2=předevčírem v [hour]:[minute];
+timex1=včera v [hour]:[minute];
+timex=dnes v [hour]:[minute];
+timeq1=zítra v [hour]:[minute];
+timeq2=pozítří v [hour]:[minute];
+
+tleft=zbývá;
+tjoin=a;
+tsecond1=vteřina;
+tsecond2=vteřiny;
+tsecond5=vteřin;
+tminute1=minuta;
+tminute2=minuty;
+tminute5=minut;
+thour1=hodina;
+thour2=hodiny;
+thour5=hodin;
+tday1=den;
+tday2=dny;
+tday5=dnů;
+tweek1=týden;
+tweek2=týdny;
+tweek5=týdny;
+tmonth1=měsíc;
+tmonth2=měsíce;
+tmonth5=měsíců;
+tyear1=rok;
+tyear2=roky;
+tyear5=let;
+
+/*------------------------------------*/
+login=Přihlášení;
+register=Registrace;
+about=O hře;
+
+
+f_login_changepass=Heslo změněno;
+f_login_nochangepass=Hesla se neshodují;
+f_login_nologin=Neplatné přihlašovací údaje;
+f_login_nofblogin=Chyba přihlašování přes Facebook;
+
+fb_login_button=Přihlásit se přes Facebook;
+
+
+context_profile=Profil;
+
+
+profile=Profil;
+users=Uživatelé;
+units=Jednotky;
+buildings=Budovy;
+items=Předměty;
+all=Vše;
+
+stat_first=<<<;
+stat_previous=<<zpět;
+stat_next=vpřed>>;
+stat_last=>>>;
+stat_page=stránka [0]/[1];
+
+
+level=Level;
+life=Život;
+realname=Skutečné jméno;
+gender=Pohlaví;
+male=muž;
+female=žena;
+web=Web;
+
+f_leave=opustit budovu;
+f_leave_prompt=Opravdu chcete opustit budovu?;
+
+f_move=pohyb;
+f_move_speed=rychlost;
+f_move_eff=efektivita;
+
+f_create=vytváření;
+
+f_attack=útok;
+f_attack_attack=síla;
+f_attack_distance=vzdálenost;
+f_attack_total=totální útok;
+f_attack_on=zaútočit na;
+
+res_energy=energie;
+res_fuel=palivo;
+res_stone=kámen;
+res_wood=dřevo;
+res_iron=železo;
+
+res_no={null};
+
+title_profile=Profil;
+
+
+title_messages=Zprávy;
+messages_public=Diskuse;
+messages_unread=Nové;
+messages_all=Zprávy;
+//messages_read=Přečtené;
+//messages_send=Odesané;
+messages_report=Hlášení;
+messages_new=Nová&nbsp;zpráva;
+
+message_to=Komu;
+message_subject=Předmět;
+message_reply=Odpovědět;
+
+send_success=Zpráva byla úspěšně odeslána.;
+message_limit=Posíláte zprávy přiliš rychle.;
+same_message=Nemůžete poslat tu samou zprávu 2x.;
+unknown_user=Neexistující uživatel;
+no_message=Musíte napsat předmět i text zprávy.;
+
+message_to_info=Pokud chcete napsat novou zprávu do diskuse, napište do políčka komu 0.;
+
+
+f_defence=Obrana;
+f_defence_defence=Obrana;
+
+
+attack_on=Útok na;
+attack_user=Zaútočit;
+attack_building=Zbořit;
+attack_tree=Pokácet;
+attack_rock=Vytěžit;
+
+attack_wtf=Chyba: Pravděpodobně už útok proběhl a hlášení máte ve zprávách.;
+attack_unknown=Chyba: Neexistující cíl;
+attack_noid=Chyba: Neznámý cíl;
+attack_self=Nemůžete útočit sami na sebe.;
+
+attack_lock=Útok na jiné uživatele je zamčený.;
+
+attack_error_distance=Nejdříve budete muset k jednotce dojít alespoň na [0] políček.;
+attack_error_price=Nedostatek zdrojů k útoku!;
+attack_error_ww=Cíl není na stejné mapě.;
+
+attack_warning_total_kill=Varování: Soupeř používá totální útok tzn. s největší pravděpodobností při útoku zemřete!;
+attack_warning_total=Varování: Soupeř používá totální útok tzn. může vás zabít!;
+
+attack_expected=Očekávaný výsledek;
+
+attack_expected_a=váš konečný počet životů;
+attack_expected_b=soupeřův k. počet životů;
+
+attack_price=cena;
+attack_steal=kořist;
+
+
+
+attack_q1=A má 0 životů;
+attack_q2=B má 0 životů;
+attack_q3=bez efektu;
+attack_q4=totální výhra;
+attack_q5=totální prohra;
+attack_q6=sebevražda;
+attack_q7=výhra;
+attack_q8=prohra;
+
+
+title_attack_report=Hlášení o útoku;
+attack_report_title=Útok na [b_name4];
+
+attack_report=<table border="0" width="100%"><tr><td width="50%" align="left" valign="top">
+<b><u>[a_name]</u></b><br/>
+Útok: [a_at]<br/>
+Obrana: [a_de]<br/>
+Štěstí: [a_seed]%<br/>
+Původní život: [a_fp]<br/>
+Konečný život: [a_fp2]
+</td><td width="50%" align="left" valign="top">
+<b><u>[b_name]</u></b><br/>
+Útok: [b_at]<br/>
+Obrana: [b_de]<br/>
+Štěstí: [b_seed]%<br/>
+Původní život: [b_fp]<br/>
+Konečný život: [b_fp2]
+</td></tr><td colspan="2" width="50%" align="left" valign="top"><hr/>
+Výsledek: [q]<br/>
+Cena: [price]<br/>
+Kořist: [steal]
+</td><tr>
+</tr></table>;
+
+//[a_name],[b_name],[q],[time],[a_fp2],[b_fp2],[a_tah],[b_tah],[a_atf],[b_atf],[a_seed],[b_seed],[a_fp],[b_fp],[a_at],[b_at],[a_de],[b_de],[a_att],[b_att],[price],[steal];
+
+
+create_building=Postavit budovu;
+title_build=Postavit budovu;
+build_submit=Postavit;

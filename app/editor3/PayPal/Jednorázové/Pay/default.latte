@@ -1,0 +1,31 @@
+{layout '../commander.latte'}
+
+{block content_left}
+
+{/block}
+{block content_right}
+
+{if !$block}
+<center>
+You will be redirected to the PayPal site soon. If you wait more than 30 seconds please click on the button below.<br />
+<form id="theForm" action="https://{$url}" method="post">
+<input type="hidden" name="cmd" value="{$data['cmd']}" />
+<input type="hidden" name="business" value="{$data['business']}" />
+<input type="hidden" name="currency_code" value="{$data['currency_code']}" />
+<input type="hidden" name="item_name" value="{$data['item_name']}" />
+<input type="hidden" name="amount" value="{$data['amount']}" />
+<input type="hidden" name="return" value="{$data['return']}" />
+<input type="hidden" name="on0" value="{$data['on0']}" />
+<input type="hidden" name="os0" value="{$data['os0']}" />
+<input type="hidden" name="custom" value="{$data['custom']}" />
+<input type="submit" name="send" value="Continue ..." />
+</form>
+
+<script type="text/javascript">
+document.getElementById("theForm").submit();
+</script>
+</center>
+{/if}
+
+{/block}
+

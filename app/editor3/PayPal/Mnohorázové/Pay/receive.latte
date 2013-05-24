@@ -1,0 +1,24 @@
+{layout '../commander.latte'}
+
+{block content_left}
+
+
+{/block}
+{block content_right}
+
+{ifset $data}
+<div class="center">
+
+<strong>{$lang['thanks']}</strong><br />
+{$lang['o_completed']} {$data['first_name']} {$data['last_name']}.<br />
+{$lang['the']} <b>{$data['item_name']}</b> {$lang['o_assoc']} <b>{$data['user']}</b>{$lang['account']}.<br />
+{$lang['o_paid']}: <b>${$data['amount']}</b><br /><br />
+
+{$lang['o_receipt']}<br />
+{$lang['o_login1']} <a href='https://www.paypal.com'>www.paypal.com</a> {$lang['o_login2']}<br>
+
+</div>
+{/ifset}
+
+{/block}
+
