@@ -74,7 +74,7 @@ if($sql and $id?ifobject($id):true){
     if($own==useid){ 
             $own_=('vlastní budova');
     }elseif($own){
-        $own_='budova hráče '.($ownname);
+        $own_='budova města '.($ownname);
     }elseif($type=='tree' or $type=='rock'){        
         $own_=('příroda');
     }else{
@@ -184,6 +184,9 @@ foreach($functionlist as $qq_class){
     }elseif($own){
         //$own_=($ownname);
         border(iconr("e=content;ee=profile;id=".$own,"profile","{profile}",$iconsize),0,$iconsize);
+        
+        $ownown=sql_1data('SELECT `own` FROM [mpx]objects WHERE `id`=\''.$own.'\'');
+        if($ownown)border(iconr("e=content;ee=profile;id=".$ownown,"profile","{profile}",$iconsize),0,$iconsize);
     }/*elseif($type=='tree' or $type=='rock'){        
         //$own_=('příroda');
     }else{
@@ -259,6 +262,7 @@ border(iconr("e=tabs;tab=$id;wtf=".($q?0:1).";js=".x2xx($stream),'fx_tab','{fx_t
     e(nbsp2);
     //tfont('|',40);
     icon("e=content;ee=profile;id=".useid,"profile","{profile}",$iconsize);
+    icon("e=content;ee=profile;id=".logid,"profile","{profile}",$iconsize);
      //===============================================================
     $iconsize=22;
     e('</td><td align="left" valign="top" width="'.$iconsize.'">');     

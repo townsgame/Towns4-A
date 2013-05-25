@@ -27,12 +27,15 @@ function a_register($param1){
                 $rows='`type`, `dev`, `fs`, `fp`, `fr`, `fx`, `fc`, `func`, `hold`, `res`, `profile`, `hard`, `expand`';                
                 sql_query/*e*/("INSERT INTO ".mpx."objects (`id`,`name` ,$rows, `set`, `own`, `in`, `ww`, `x`, `y`, `t`) SELECT '$id','$param1',$rows,'$set', '0', '0', '".$GLOBALS['ss']["ww"]."', '0', '0', '".time()."' FROM ".mpx."objects WHERE id='".register_user."';");
                 $id2=nextid();                
-                sql_query/*e*/("INSERT INTO ".mpx."objects (`id`,`name` ,$rows, `set`, `own`, `in`, `ww`, `x`, `y`, `t`) SELECT '$id2',`name`,$rows,`set`, '$id', '0', '".$GLOBALS['ss']["ww"]."', '$x', '$y', '".time()."' FROM ".mpx."objects WHERE id='".register_building."';");
+                sql_query/*e*/("INSERT INTO ".mpx."objects (`id`,`name` ,$rows, `set`, `own`, `in`, `ww`, `x`, `y`, `t`) SELECT '$id2','$param1',$rows,`set`, '$id', '0', '".$GLOBALS['ss']["ww"]."', '$x', '$y', '".time()."' FROM ".mpx."objects WHERE id='".register_town."';");
+                $id3=nextid();                
+                sql_query/*e*/("INSERT INTO ".mpx."objects (`id`,`name` ,$rows, `set`, `own`, `in`, `ww`, `x`, `y`, `t`) SELECT '$id3',`name`,$rows,`set`, '$id2', '0', '".$GLOBALS['ss']["ww"]."', '$x', '$y', '".time()."' FROM ".mpx."objects WHERE id='".register_building."';");
+                                
                 //------LOGIN                
                 $GLOBALS['ss']["query_output"]->add("1",1);
                 $GLOBALS['ss']["log_object"]=new object($id);               
                 $GLOBALS['ss']["logid"]=$GLOBALS['ss']["log_object"]->id;
-                a_use($param1);/**/
+                a_use($id2/*$param1*/);/**/
             }else{
                 $GLOBALS['ss']["query_output"]->add("error",'{register_error_nospace}'); 
             }
@@ -85,10 +88,18 @@ function a_login($param1,$param2,$param3,$param4="",$param5=""){
             }
             //--------------------
             
-            $GLOBALS['ss']["logid"]=$GLOBALS['ss']["log_object"]->id;
+            
             //die($GLOBALS['ss']["logid"]);
             //echo("abc");
-            a_use($param1);
+            $use=sql_1data('SELECT `id` FROM [mpx]objects WHERE `own`=\''.($GLOBALS['ss']["log_object"]->id).'\' AND `type`=\'town\'');
+            //die($use);            
+            if($use){
+                
+                $GLOBALS['ss']["logid"]=$GLOBALS['ss']["log_object"]->id;
+                a_use($use/*$param1*/);
+            }else{
+                $GLOBALS['ss']["query_output"]->add("error","{f_login_notown}");
+            }
             
         }else{
             xerror("{f_login_nologin}");
