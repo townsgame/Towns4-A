@@ -38,6 +38,7 @@ function contentlang($buffer){//if(rr())r();
         $buffer=str_replace(array("{0}","{}"),"",$buffer);
         $buffer=str_replace("x{","languageprotectiona",$buffer);
         $buffer=str_replace("}x","languageprotectionb",$buffer);
+        $addtoend='';
         //-------------
         for($i=0;$tmp=substr2($buffer,"{","}",$i);$i++){
             if(rr())r($tmp);
@@ -55,6 +56,10 @@ function contentlang($buffer){//if(rr())r();
             }else{
                 $size=5;
                 $text="languageprotectiona".$key.$params."languageprotectionb";
+                
+                $add='//'.$key.'=;';
+                if(!strpos($stream,$add) and !strpos($addtoend,$add))$addtoend.=nln.$add;
+                
             }
             if(lem){
                 //$text='#'.$text;
@@ -67,6 +72,9 @@ function contentlang($buffer){//if(rr())r();
         $buffer=str_replace(array("{",";}","}"),"",$buffer);
         $buffer=str_replace("languageprotectiona","{",$buffer);
         $buffer=str_replace("languageprotectionb","}",$buffer);
+
+
+        if($addtoend)file_put_contents2($file,file_get_contents($file).$addtoend);
     }else{
         //$buffer="contentlang".$buffer;
         $buffer=str_replace("x{","{",$buffer);

@@ -22,6 +22,9 @@ require2("func_object.php");
 require2("func_main.php");
 require2("memory.php");
 }
+
+ini_set("max_execution_time","1000");
+ini_set('memory_limit','128M');
 //-----------------------------------
 if($_POST['changeworld']){
    $GLOBALS['ss']["ww"]=intval($_POST['changeworld']);

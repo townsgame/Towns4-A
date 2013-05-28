@@ -20,13 +20,14 @@ hybrid=hybrid;
 nature=příroda;
 tree=strom;
 rock=skála;
-message=zpráva;
-user=uživatel;
-unit=jednotka;
+//message=zpráva;
+user=hráč;
+town=město;
+//unit=jednotka;
 building=budova;
-item=jednotka;
-terrain=terén;
-image=obrázek;/**/
+//item=jednotka;
+//terrain=terén;
+//image=obrázek;/**/
 
 
 user1=uživatel;
@@ -125,16 +126,17 @@ fb_login_button=Přihlásit se přes Facebook;
 context_profile=Profil;
 
 
-profile=Profil;
-users=Uživatelé;
-units=Jednotky;
-buildings=Budovy;
-items=Předměty;
-all=Vše;
+stat_profile=Profil;
+//units=Jednotky;
+stat_buildings=Budovy;
+stat_towns=Města;
+stat_users=Hráči;
+//items=Předměty;
+//all=Vše;
 
 stat_first=<<<;
-stat_previous=<<zpět;
-stat_next=vpřed>>;
+stat_previous=<<;
+stat_next=>>;
 stat_last=>>>;
 stat_page=stránka [0]/[1];
 
@@ -267,5 +269,50 @@ Kořist: [steal]
 
 
 create_building=Postavit budovu;
+unique_from=[0];
 title_build=Postavit budovu;
 build_submit=Postavit;
+
+
+/*------------------------------------*/
+
+
+
+//town1=;
+//fx_center=;
+//fx_tab=;
+//profile=;
+//fullscreen=;
+//logout=;
+//help=;
+//expandarea=;
+//items=;
+//close=;
+//id=;
+//town_count=;
+//building_count=;
+//name=;
+//showmail=;
+//Mail můžete změnit v nastavení.=;
+//image=;
+//description=;
+//oldpass=;
+//newpass=;
+//newpass2=;
+//f_create_eff=;
+//f_create_maxfs=;
+//f_create_limit=;
+//f_attack_xeff=;
+//f_attack_window=;
+//title_help=;
+//navigation_up=;
+//navigation_left=;
+//navigation_down=;
+//navigation_right=;
+//rotate=;
+//cancel=;
+//$('#map').html(vystup)=;
+//build=;
+//create_error_collapse=;
+//create_error_expand=;
+//create_error_duplicite=;

@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS `[mpx]objects` (
   `set` text COLLATE utf8_czech_ci,
   `hard` decimal(10,3) NOT NULL DEFAULT '0.000',
   `expand` decimal(10,3) NOT NULL DEFAULT '0.000',
+  `collapse` decimal(10,3) NOT NULL DEFAULT '0.000',
   `own` int(11) DEFAULT NULL,
   `in` int(11) DEFAULT NULL,
   `ww` int(11) NOT NULL DEFAULT '1',

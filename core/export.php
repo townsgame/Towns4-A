@@ -36,9 +36,9 @@ $stream.="<param key=\"$key\" value=\"$value\"/>".$nln;
 $stream.="</config>".$nln;
 //-----------------------------------------MAP
 $stream.="<map>".$nln;
-foreach(sql_array('SELECT `x`, `y`, `ww`, `terrain`, `hard`, `name` FROM `[mpx]map` WHERE 1 '.$limit) as $row){
-	list($x,$y,$ww,$terrain,$hard,$name)=$row;
-	$stream.="<field x=\"$x\" y=\"$y\" ww=\"$ww\" terrain=\"$terrain\" hard=\"$hard\" name=\"$name\"/>".$nln;	
+foreach(sql_array('SELECT `x`, `y`, `ww`, `terrain`, `name` FROM `'.mpx.'map` WHERE 1 '.$limit) as $row){
+	list($x,$y,$ww,$terrain,$name)=$row;
+	$stream.="<field x=\"$x\" y=\"$y\" ww=\"$ww\" terrain=\"$terrain\" name=\"$name\"/>".$nln;	
 }
 $stream.="</map>".$nln;
 //-----------------------------------------TEXT
@@ -60,8 +60,8 @@ foreach(sql_array('SELECT `id`, `method`, `key`, `text`, `time_create`, `time_ch
 }
 $stream.="</login>".$nln;
 //-----------------------------------------OBJECTS
-foreach(sql_array('SELECT `id`, `name`, `type`, `dev`, `fs`, `fp`, `fr`, `fx`, `fc`, `func`, `hold`, `res`, `profile`, `set`, `hard`, `own`, `in`, `ww`, `x`, `y`, `t` FROM `[mpx]objects` WHERE 1 '.$limit) as $row){
-	list($id,$name,$type,$dev,$fs,$fp,$fr,$fx,$fc,$func,$hold,$res,$profile,$set,$hard,$own,$in,$ww,$x,$y,$t)=$row;
+foreach(sql_array('SELECT `id`, `name`, `type`, `dev`, `fs`, `fp`, `fr`, `fx`, `fc`, `func`, `hold`, `res`, `profile`, `set`, `hard`, `expand`, `collapse`, `own`, `in`, `ww`, `x`, `y`, `t` FROM `'.mpx.'objects` WHERE 1 '.$limit) as $row){
+	list($id,$name,$type,$dev,$fs,$fp,$fr,$fx,$fc,$func,$hold,$res,$profile,$set,$hard,$expand,$collapse,$own,$in,$ww,$x,$y,$t)=$row;
 	$stream.="<object id=\"$id\">".$nln;
 
 	$stream.="<param key=\"name\" value=\"$name\"/>".$nln;
@@ -78,6 +78,8 @@ foreach(sql_array('SELECT `id`, `name`, `type`, `dev`, `fs`, `fp`, `fr`, `fx`, `
 	$stream.="<param key=\"profile\" value=\"$profile\"/>".$nln;
 	$stream.="<param key=\"set\" value=\"$set\"/>".$nln;
 	$stream.="<param key=\"hard\" value=\"$hard\"/>".$nln;
+	$stream.="<param key=\"expand\" value=\"$expand\"/>".$nln;
+	$stream.="<param key=\"collapse\" value=\"$collapse\"/>".$nln;
 	$stream.="<param key=\"own\" value=\"$own\"/>".$nln;
 	$stream.="<param key=\"in\" value=\"$in\"/>".$nln;
 	$stream.="<param key=\"ww\" value=\"$ww\"/>".$nln;
@@ -87,8 +89,8 @@ foreach(sql_array('SELECT `id`, `name`, `type`, `dev`, `fs`, `fp`, `fr`, `fx`, `
 
 		
 	$stream.="</object>".$nln;
-	
 }
+
 
 //-----------------------------------------
 $stream.='</world>'.$nln;

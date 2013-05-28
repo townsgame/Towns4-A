@@ -4,17 +4,7 @@ define("a_leave_help","");
 function a_leave($id){
     sql_query('UPDATE [mpx]objects SET own=0 WHERE own='.useid.' AND id='.$id);
 }
-//======================================================================================CHAT
-define("a_chat","text");
-function a_chat($text){
-    if(trim($text)){
-    if($text!="."){
-        sql_query("INSERT INTO `".mpx."text` (`id`, `from`, `to`, `text`, `time`, `timestop`) VALUES (NULL, '".useid."', '', '$text', '".time()."', '')");
-    }else{
-        sql_query("UPDATE `".mpx."text` SET timestop='".time()."' WHERE `from`='".useid."' ORDER BY time DESC LIMIT 1");
-    }
-    }
-}
+
 //======================================================================================INFO
 
 define("a_info_help","[q={use,log,id}]");

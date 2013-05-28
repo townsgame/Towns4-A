@@ -83,7 +83,7 @@ function time5($a1,$c1,$a2,$c2){
 //-----------------------------------------
 function fs2lvl($fs,$decimal=0){
     $decimal=pow(10,$decimal);
-    $lvl=ceil(sqrt($fs/10)/*log($fs)*/*$decimal)/$decimal;
+    $lvl=ceil(sqrt($fs/*10*/)/*log($fs)*/*$decimal)/$decimal;
     //$lvl=$fs;
  return($lvl);   
 }

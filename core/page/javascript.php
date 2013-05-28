@@ -194,18 +194,23 @@
         }x);  
         $(document).keyup(function(e) x{
             /*---------UP,DOWN,LEFT,RIGHT*/
-            if ( e.which ==87) x{key_up=false;}x
+            key_up=false;
+            key_down=false;
+            key_left=false;
+            key_right=false;
+            /*if ( e.which ==87) x{key_up=false;}x
             if ( e.which ==83) x{key_down=false;}x
             if ( e.which ==65) x{key_left=false;}x
-            if ( e.which ==68) x{key_right=false;}x
+            if ( e.which ==68) x{key_right=false;}x*/
             /*---------*/
-        }x);    
+        }x);
+
         /*===========================================================================MAPMOVEBYKEYS*/
 		accux=0;
         accuy=0;
         
         act_tmp=0;
-        setInterval(function() x{
+        setInterval(function() x{http://test.towns.cz/tmp/world1/model/184/0/285224.png
             if(document.activeElement.tagName=='BODY')x{
                                 /*----------------------------------------?FPS*/
                 act_tmpp=act_tmp;

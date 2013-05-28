@@ -16,10 +16,9 @@ if(logged()){
         
         $stream="[".timer($time)."][".liner($from)."]:".nbsp.tr($text).br.$stream;
     }
-    $stream='<span id="chat_new" style="display:none;">['.timer(time())."][".liner(useid)."]:".nbsp.'[text]'.br.'</span>'.$stream;
+    $stream='<span id="chat_new" style="display:none;">['.timer(time())."][".liner(logid)."]:".nbsp.'[text]'.br.'</span>'.$stream;
     echo($stream);
 }else{
     refresh();
 }
 ?>
-<script type="text/javascript">$("#chatscroll").scrollTop(10000);</script>

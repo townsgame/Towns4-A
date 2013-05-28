@@ -81,6 +81,7 @@ if(logged()){
         $bgs=explode(',',$GLOBALS['config']['bg']);
         shuffle($bgs);
         $GLOBALS['ss']['bg']=$bgs[0];
+        if(!$GLOBALS['ss']['bg'])$GLOBALS['ss']['bg']='_';
     }
     //------------
     if(substr($GLOBALS['ss']['bg'],0,1)=='_'){
@@ -286,7 +287,11 @@ if(logged()){
     eval(subpage("javascript"));
     ?><script type="text/javascript">parseMap();</script><?php
 }else{
-if($GLOBALS['ss']['bg']){
+if($GLOBALS['ss']['bg']=='_'){
+
+    eval(subpage("map"));
+    
+ }else{
     //print_r($GLOBALS['config']['bg']);
     //echo($GLOBALS['ss']['bg']);
     $imageurl=imageurl('bg/'.$GLOBALS['ss']['bg']);//vaslvvas.jpg

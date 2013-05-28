@@ -18,6 +18,9 @@ $ry=round($y);
     //OLDHARD//sql_1data("SELECT hard FROM ".mpx."map WHERE x=ROUND(".($x).") AND y=ROUND(".($y).") LIMIT 1"))
     $hard=hard($rx,$ry);
     if($hard<supportF($id,'resistance','hard')){
+    
+    if(intval(sql_1data("SELECT COUNT(1) FROM ".mpx."objects WHERE own!='".useid."'AND `ww`=".$GLOBALS['ss']["ww"]." AND POW($x-x,2)+POW($y-y,2)<=POW(collapse,2)"))==0){
+       
     if(intval(sql_1data("SELECT COUNT(1) FROM ".mpx."objects WHERE own='".useid."'AND `ww`=".$GLOBALS['ss']["ww"]." AND POW($x-x,2)+POW($y-y,2)<=POW(expand,2)"))>=1){
         
 
@@ -131,6 +134,10 @@ changemap($x,$y);
         define('object_build',true);
         define('create_error','{create_error_expand}');
         $GLOBALS['ss']["query_output"]->add("error","{create_error_expand}");
+    }}else{
+        define('object_build',true);
+        define('create_error','{create_error_collapse}');
+        $GLOBALS['ss']["query_output"]->add("error","{create_error_collapse}");
     }}else{
         define('object_build',true);
         //$sql="SELECT (SELECT IF(`terrain`='t1' OR `terrain`='t11',1,0) FROM `".mpx."map`  WHERE `".mpx."map`.`ww`=".$GLOBALS['ss']["ww"]." AND  `".mpx."map`.`x`=$y AND `".mpx."map`.`y`=$x)+(SELECT SUM(`".mpx."objects`. `hard`) FROM `".mpx."objects` WHERE `".mpx."objects`.`ww`=".$GLOBALS['ss']["ww"]." AND  ROUND(`".mpx."objects`.`x`)=$y AND ROUND(`".mpx."objects`.`y`)=$x)";

@@ -8,7 +8,7 @@ $object=new object($GLOBALS['get']['master']);
 $GLOBALS['ss']['master']=$object->id;
 
 
-//echo($object->name);
+infob(lr('unique_from',$object->name));
 $maxfs=$object->supportF('create','maxfs');
 $func=$object->func->vals2list();
 $limit=$func['create']['profile']['limit'];

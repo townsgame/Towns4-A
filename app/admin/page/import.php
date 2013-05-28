@@ -40,7 +40,7 @@ if($_POST['filename']){
 		//===============================================MAP
 		foreach($xml['map']['field'] as $row){
 			$row=$row['@attributes'];
-			sql_query("INSERT INTO `".mpx."map` (`x`, `y`, `ww`, `terrain`, `hard`, `name`) VALUES ('".($row['x'])."', '".($row['y'])."', '".($row['ww'])."', '".($row['terrain'])."', '".($row['hard'])."', '".($row['name'])."');");
+			sql_query("INSERT INTO `".mpx."map` (`x`, `y`, `ww`, `terrain`, `name`) VALUES ('".($row['x'])."', '".($row['y'])."', '".($row['ww'])."', '".($row['terrain'])."', '".($row['name'])."');");
 		}
 		//===============================================TEXT
 		foreach($xml['text']['row'] as $row){

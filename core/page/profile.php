@@ -3,20 +3,22 @@ window("{title_profile}"/*,520,500*/);
 $GLOBALS['ss']["profileid"]=0;
 //r(imageurl('id_1'));
 
-$q=submenu(array("content","profile"),array("profile","users","units","buildings","items","all"),1);
+$q=submenu(array("content","profile"),array("stat_profile","stat_buildings","stat_towns","stat_users"),1);
 
 if($GLOBALS['get']["id"]){$GLOBALS['ss']["profileid"]=$GLOBALS['get']["id"];$q=1;}
 
+contenu_a();
 if($q==1){
-    if(!$GLOBALS['ss']["profileid"]){$GLOBALS['ss']["profileid"]=$GLOBALS['ss']["useid"];}
+    if(!$GLOBALS['ss']["profileid"]){$GLOBALS['ss']["profileid"]=$GLOBALS['ss']["logid"];}
     profile($GLOBALS['ss']["profileid"]);
-}elseif($q==2){$GLOBALS['where']="type='user' AND ww!=0 ";eval(subpage("stat"));
-}elseif($q==3){$GLOBALS['where']="type='unit' AND ww!=0 ";eval(subpage("stat"));
-}elseif($q==4){$GLOBALS['where']="type='building' AND ww!=0 ";eval(subpage("stat"));
-}elseif($q==5){$GLOBALS['where']="type='item' AND ww!=0 ";eval(subpage("stat"));
-}elseif($q==6){$GLOBALS['where']='1';eval(subpage("stat"));
+    
+}elseif($q==2){$GLOBALS['stattype']='buildings';eval(subpage("stat"));
+}elseif($q==3){$GLOBALS['stattype']='towns';eval(subpage("stat"));
+}elseif($q==4){$GLOBALS['stattype']='users';eval(subpage("stat"));
+//}elseif($q==5){$GLOBALS['where']="type='item' AND ww!=0 ";eval(subpage("stat"));
+//}elseif($q==6){$GLOBALS['where']='1';eval(subpage("stat"));
 }
-
+contenu_b();
 //----------------------------------------------------OLDPROFILE
 /*$response=xquery("info");
 //$profile=new profile($response["profile"]);

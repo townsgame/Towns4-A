@@ -13,11 +13,18 @@ if(!defined("func_map"))require(root.core."/func_map.php");
        $GLOBALS['ss']["ww"]=intval($GLOBALS['get']['ww']);
     }
 
-    $xc=$GLOBALS['ss']["log_object"]->set->ifnot("map_xc",1);
-    $yc=$GLOBALS['ss']["log_object"]->set->ifnot("map_yc",1);
-    $xx=$GLOBALS['ss']["log_object"]->set->ifnot("map_xx",0);
-    $yy=$GLOBALS['ss']["log_object"]->set->ifnot("map_yy",0);    
-    
+
+    if(logged()){
+        $xc=$GLOBALS['ss']["use_object"]->set->ifnot("map_xc",1);
+        $yc=$GLOBALS['ss']["use_object"]->set->ifnot("map_yc",1);
+        $xx=$GLOBALS['ss']["use_object"]->set->ifnot("map_xx",0);
+        $yy=$GLOBALS['ss']["use_object"]->set->ifnot("map_yy",0);    
+    }else{
+        $xc=1;
+        $yc=1;
+        $xx=0;
+        $yy=0;    
+    }
     
     //if($GLOBALS['ss']["get"]["xc"]!=""){$GLOBALS['ss']["map_xc"]=$GLOBALS['ss']["get"]["xc"];}
     //if($GLOBALS['ss']["get"]["yc"]!=""){$GLOBALS['ss']["map_yc"]=$GLOBALS['ss']["get"]["yc"];}
@@ -38,16 +45,20 @@ if(!defined("func_map"))require(root.core."/func_map.php");
     $GLOBALS['xx']=$xx;
     $GLOBALS['yy']=$yy;
     //------------------------------
-    $GLOBALS['ss']["log_object"]->set->add("map_xc",$xc);
-    $GLOBALS['ss']["log_object"]->set->add("map_yc",$yc);
-    $GLOBALS['ss']["log_object"]->set->add("map_xx",$xx);
-    $GLOBALS['ss']["log_object"]->set->add("map_yy",$yy);
-    
+    if(logged()){
+        $GLOBALS['ss']["use_object"]->set->add("map_xc",$xc);
+        $GLOBALS['ss']["use_object"]->set->add("map_yc",$yc);
+        $GLOBALS['ss']["use_object"]->set->add("map_xx",$xx);
+        $GLOBALS['ss']["use_object"]->set->add("map_yy",$yy);
+    }
     
     //e("$xc,$yc,$xx,$yy");
 ?>
 
 
+<?php
+    if(logged()){
+?>
 <script type="text/javascript">
     /*---------------------------------POSITION*/
         function pos2pos(xt,yt)x{
@@ -122,10 +133,9 @@ if(!defined("func_map"))require(root.core."/func_map.php");
             }x
         }x);/**/
         /*---------------------------------CENTER*/
-        <?php if($GLOBALS['get']['center']){ ?>/*alert('center');*/
-        /*xc=$('#object<?php e($GLOBALS['get']['center']); ?>').css('left');*/
-        /*yc=$('#object<?php e($GLOBALS['get']['center']); ?>').css('top');*/
-        		/* */ 
+        <?php if($GLOBALS['get']['center']){ ?>
+        
+        
 		xc=parseInt($( "#draglayer" ).css('left'));
 		yc=parseInt($( "#draglayer" ).css('top'));     
         $( "#draglayer" ).css('left',xc-400/*(window.width)*/);
@@ -195,14 +205,66 @@ if(!defined("func_map"))require(root.core."/func_map.php");
                 }
             ?>
 </script>
+<?php } ?>
+
 <!--===================================-->
 <?php /*<div style="position:absolute;width:100%;height:100%;z-index:10;">
 <div style="position:relative;top:0px;left:0px;width:100%;height:100%;z-index:10;">
 <?php htmlmap(false,false,'100%'); ?>
-</div></div>*/ ?>
+</div></div>
+ onmousedown="alert(1)" onmouseup="alert(2)" onmouseout=""
+onclick="key_up=true" onmouseup="key_up=false" onmouseout="key_up=false"
+*/ ?>
+
+<?php if(logged()){ ?>
+<div style="position:absolute;top:0px;left:0px;width:100%;height:27px;z-index:550;">
+<a onmousedown="key_up=true" onmouseup="key_up=false" onmouseout="key_up=false">
+<img src="<?php imageurle('design/blank.png'); ?>" id="navigation_up" border="0" alt="<?php le('navigation_up'); ?>" title="<?php le('navigation_up'); ?>" width="100%" height="100%">
+</a>
+</div>
+
+<div style="position:absolute;top:0px;left:0px;width:27px;height:100%;z-index:550;">
+<a onmousedown="key_left=true" onmouseup="key_left=false" onmouseout="key_left=false">
+<img src="<?php imageurle('design/blank.png'); ?>" id="navigation_left" border="0" alt="<?php le('navigation_left'); ?>" title="<?php le('navigation_left'); ?>" width="100%" height="100%">
+</a>
+</div>
+
+<div style="position:absolute;top:100%;left:0px;width:100%;height:47px;z-index:550;">
+<div style="position:relative;top:-163px;left:0px;width:100%;height:100%;">
+<a onmousedown="key_down=true" onmouseup="key_down=false" onmouseout="key_down=false">
+<img src="<?php imageurle('design/blank.png'); ?>" id="navigation_down" border="0" alt="<?php le('navigation_down'); ?>" title="<?php le('navigation_down'); ?>" width="100%" height="100%">
+</a>
+</div></div>
+
+<div style="position:absolute;top:0px;left:100%;width:27px;height:100%;z-index:550;">
+<a onmousedown="key_right=true" onmouseup="key_right=false" onmouseout="key_right=false">
+<div style="position:relative;top:0px;left:-27px;width:100%;height:100%;">
+<img src="<?php imageurle('design/blank.png'); ?>" id="navigation_right" border="0" alt="<?php le('navigation_right'); ?>" title="<?php le('navigation_right'); ?>" width="100%" height="100%">
+</a>
+</div></div>
+
+<?php /*<script type="text/javascript" >
+        /*----------------------------------------------------------NAVIGATOR---/        
+        //$('#navigation_up').mousedown(function() x{key_up=true;}x);
+        $('#navigation_down').mousedown(function() x{key_down=true;}x);  
+        $('#navigation_left').mousedown(function() x{key_left=true;}x);  
+        $('#navigation_right').mousedown(function() x{key_right=true;}x);  
+        
+        $(document).mouseup(function(e) x{
+            /*---------UP,DOWN,LEFT,RIGHT/
+            //key_up=false;
+            key_down=false;
+            key_left=false;
+            key_right=false;
+            /*---------/
+        }x);  
+        /*------------------------------------/    
+</script>*/ ?>
+
+
+<?php } ?>
+
 <div style="top:<?php  echo($yy); ?>;left:<?php  echo($xx); ?>;z-index:20;" id="draglayer">
-
-
 <?php
 //subref("map_units",60);
 //---------------------

@@ -20,7 +20,7 @@ $ryp=0;//+$yyu;
 $px=424/10;$py=$px/2;
 $say="(SELECT IF((`".mpx."text`.`timestop`=0 OR ".time()."<=`".mpx."text`.`timestop`),`".mpx."text`.`text`,'')  FROM `".mpx."text` WHERE `".mpx."text`.`from`=`".mpx."objects`.id AND `".mpx."text`.`type`='chat' ORDER BY `".mpx."text`.time DESC LIMIT 1)";
 //$say="'ahoj'";
-foreach(sql_array("SELECT `x`,`y`,`type`,`res`,`set`,`name`,`id`,`own`,$say,expand FROM `".mpx."objects` WHERE ww=".$GLOBALS['ss']["ww"]." AND `type`='building'"/**/) as $row){//WHERE res=''//modelnamape//    
+foreach(sql_array("SELECT `x`,`y`,`type`,`res`,`set`,`name`,`id`,`own`,$say,expand,collapse FROM `".mpx."objects` WHERE ww=".$GLOBALS['ss']["ww"]." AND `type`='building'"/**/) as $row){//WHERE res=''//modelnamape//    
     $type=$row[2];    
     $res=$row[3];
     $set=$row[4];
@@ -31,6 +31,7 @@ foreach(sql_array("SELECT `x`,`y`,`type`,`res`,`set`,`name`,`id`,`own`,$say,expa
     $own=$row[7];
     $text=xx2x($row[8]);
     $expand=floatval($row[9]);
+    $collapse=floatval($row[10]);
     if($id==useid){
         $_xc=$GLOBALS['ss']["use_object"]->x;
         $_yc=$GLOBALS['ss']["use_object"]->y;
@@ -65,15 +66,15 @@ foreach(sql_array("SELECT `x`,`y`,`type`,`res`,`set`,`name`,`id`,`own`,$say,expa
                 //echo($area);
             }       
         }*/
-
-       //-------------------------------
-
+        
+       $y=gr;
+       $brd=3*$y;
+       //-------------------------------EXPAND
         if($expand and $own==useid){
         $file=tmpfile2('expand'.$expand,'png',"image");
         //e($file);
-        if(!file_exists($file)  or notmpimg or true){
-                $s=82*$expand;
-                $brd=3;
+        $s=82*$expand*$y;
+        if(!file_exists($file)  or notmpimg/* or true/**/){
                 $img=imagecreatetruecolor($s,$s/2);
                 imagealphablending($img,false);
                 $outer =  imagecolorallocatealpha($img, 0, 0, 0, 127);
@@ -90,15 +91,42 @@ foreach(sql_array("SELECT `x`,`y`,`type`,`res`,`set`,`name`,`id`,`own`,$say,expa
         $src=rebase(url.base.$file);        
         $areastream.='<div style="position:absolute;z-index:150;">
         <div style="position:relative; top:'.($ry-($s/4)).'; left:'.($rx-($s/2)).';" >
-        <img src="'.$src.'"  class="clickmap" border="0" />
+        <img src="'.$src.'" widht="'.($s/$y).'" height="'.($s/$y/2).'"  class="clickmap" border="0" />
         </div></div>';
-        }        
+        }   
+       //-------------------------------EXPAND
+        if($collapse){
+        $file=tmpfile2('collapse'.$collapse,'png',"image");
+        //e($file);
+        $s=82*$collapse*$y;
+        if(!file_exists($file)  or notmpimg/* or true/**/){    
+                $img=imagecreatetruecolor($s,$s/2);
+                imagealphablending($img,false);
+                $outer =  imagecolorallocatealpha($img, 0, 0, 0, 127);
+                $inner =  imagecolorallocatealpha($img, 255, 0, 0, 70);
+                $border = imagecolorallocatealpha($img, 0, 0, 0, 50);
+                imagefill($img,0,0,$outer);
+                imagefilledellipse($img, $s/2, $s/4, $s,  $s/2   , $border);
+                imagefilledellipse($img, $s/2, $s/4, $s-$brd, ($s/2)-$brd, $inner);
+                imagesavealpha($img,true);
+                imagepng($img,$file);
+                chmod($file,0777);
+        }
+        
+        $src=rebase(url.base.$file);        
+        $areastream.='<div style="position:absolute;z-index:150;">
+        <div style="position:relative; top:'.($ry-($s/$y/4)).'; left:'.($rx-($s/$y/2)).';" >
+        <img src="'.$src.'" widht="'.($s/$y).'" height="'.($s/$y/2).'"  class="clickmap" border="0" />
+        </div></div>';
+        }     
         //-------------------------------
         
         
         $modelurl=modelx($res);
         list($width, $height) = getimagesize($modelurl);
-        
+        if(!$GLOBALS['model_resize'])  $GLOBALS['model_resize']=1;      
+        $width=$width*$GLOBALS['model_resize'];
+        $height=$height*$GLOBALS['model_resize'];
         // width="83"
         ?>
         <?php
@@ -108,7 +136,7 @@ foreach(sql_array("SELECT `x`,`y`,`type`,`res`,`set`,`name`,`id`,`own`,$say,expa
         <div id="object<?php  echo($id); ?>" style="position:relative; top:<?php  echo($ry-132-$height+157); ?>; left:<?php  echo($rx-43); ?>;">
 
         <?php if($res){ ?>       
-        <img src="<?php e($modelurl); ?>" class="clickmap" border="0" alt="<?php e($name); ?>" title="<?php e($name); ?>">
+        <img src="<?php e($modelurl); ?>" width="82" class="clickmap" border="0" alt="<?php e($name); ?>" title="<?php e($name); ?>">
         <?php }else{echo('!res');} ?>           
         </div>
         </div>

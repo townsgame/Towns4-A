@@ -1,4 +1,8 @@
 <?php
+
+contenu_a(false,false);
+
+
 if($GLOBALS['get']["profile_edit"]){
     //$response=xquery("move",$_POST["move_x"],$_POST["move_y"]);  
     if($post["name"]){xquery("profile_edit","name",$post["name"]);}
@@ -18,7 +22,16 @@ if($GLOBALS['get']["profile_edit"]){
 $p=$info["profile"]->vals2list();
 //print_r($array);
 ?>
-<form id="login" name="login" method="POST" action="<?php url("profile_edit=1"); ?>">
+
+<?php
+
+ahref('{back}','e=content;ee=profile');
+
+form_a('profile_edit=1','profile_edit');
+//<form id="login" name="login" method="POST" action="">
+?>
+
+
 <table>
 
 
@@ -33,4 +46,11 @@ $p=$info["profile"]->vals2list();
 
 
 <tr><td colspan="2"><input type="submit" value="OK" /></td>
-</tr></table></form>
+</tr></table>
+
+<?php
+form_b();
+form_js('content','?e=profile_edit&'.urlr('profile_edit=1'),array('name','realname','gender','showmail','web','image','description'));
+
+contenu_b();
+?>

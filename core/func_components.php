@@ -70,19 +70,29 @@ function w_close($w_name){
 //----------------
 define('contentwidth',449);
 
-function contenu_a(){?>
+function contenu_a($scroll=true,$top17=true){?>
+<?php
+if(!$top17){
+    infob(nbsp);
+}
+
+$scroll=true;
+$top17=true;
+
+if($scroll){
+?>
 <style type="text/css">
 <!--
-#contenu {
+#contenu x{
 	margin:0 auto;
 	padding:0px;
-}
+}x
 
-#contenu ul li{
+#contenu ul lix{
 	margin-bottom:0px;
-}
+}x
 
-.clear{clear:both;}
+.clearx{clear:both;}x
 -->
 </style>
 <script type="text/javascript">
@@ -90,6 +100,7 @@ function contenu_a(){?>
 		$("#contenu").scrollbar();
 	}x);
 </script>
+<?php } ?>
 <div style="width:<?php echo(contentwidth); ?>;"></div>
 <div style="width:<?php echo(contentwidth-17); ?>px;overflow:visible;">
 <div id="contenu"><table cellpadding="0" cellspacing="0" border="0" width="100%"><tr><td width="100%" align="left" valign="top">
@@ -305,7 +316,7 @@ function imageurl($file,$rot=1){
                         $uz=1;
                         if(!defined("func_map"))require(root.core."/func_map.php");
                         //$GLOBALS['model_bigimg']=true;
-                        $img1=model($res,1,20,1.5,0);
+                        $img1=model($res,2,20,1.5,0);
                         //$GLOBALS['model_bigimg']=false;
                         imagesavealpha($img1,true);
                         $contents=$GLOBALS['model_file'];
@@ -624,7 +635,7 @@ function echostream($stream,$highlight=""){
     echo("</table>");
 }
 //===============================================================================================================
-function alert($text,$type,$tr=true){
+function alert($text,$type,$tr=true,$nbsp=true){
     //message,error
     if($tr)$text=tr($text);
     $col=$type;
@@ -632,7 +643,7 @@ function alert($text,$type,$tr=true){
     if($type==2){$col="992E2E";}
     if($type==3){$col="322E99";}
     if($type==4){$col="333333";}
-    echo("<div style=\"background:#$col;\" >&nbsp;&nbsp;&nbsp;$text</div>");
+    echo("<div style=\"background:#$col;\" >".($nbsp?'&nbsp;&nbsp;&nbsp;':'')."$text</div>");
 }
 function error($text,$tr=true){
     alert($text,2,$tr);
@@ -640,6 +651,10 @@ function error($text,$tr=true){
 function info($text,$tr=true){
     alert($text,4,$tr);
 }
+function infob($text){
+    alert('<table width="100%"><tr align="center"><td>'.$text.'</td></tr></table>',4,false,false);
+}
+
 function blue($text,$tr=true){
     alert($text,3,$tr);
 }
@@ -970,8 +985,12 @@ function timesr($t,$sec=true){
 //--------------------------------------------
 function timese($t,$sec=true){echo(timesr($t,$sec));}
 //======================================================================================
-function xyr($x,$y){
-    return("[".intval($x).",".intval($y)."]");
+function xyr($x,$y,$ww=''){
+    if($ww and $ww!=$GLOBALS['ss']['ww']){
+        return(tcolorr("[".intval($x).",".intval($y)."]",'777777'));
+    }else{
+        return("[".intval($x).",".intval($y)."]");
+    }
 }
 function xy($x,$y){echo(xyr($x,$y));}
 //======================================================================================
@@ -1031,7 +1050,7 @@ function profiler($id="use"){
     $in2=$in2["items"];
     $in2=csv2array($in2);
     //-----------
-    $stream.=("<table width=\"500\"><tr><td valign=\"top\"><table>");
+    $stream.=("<table width=\"".(contentwidth-3)."\"><tr><td valign=\"top\"><table>");
     //-----------
     $hline=tfontr(textcolorr(lr($response["type"]),$response["dev"])." ".tr($response["name"],true),18);
     if($response["in"]){
@@ -1039,8 +1058,32 @@ function profiler($id="use"){
     }
     $stream.=("<tr><td colspan=\"2\"  width=\"300\"><h3>$hline<hr/></h3></td></tr>");
     $stream.=("<tr><td><b>".lr("id").": </td><td></b>".($response["id"])."</td></tr>");
-    $stream.=("<tr><td><b>".lr("level").": </td><td></b>".fs2lvl($response["fs"])."</td></tr>");
-    $stream.=("<tr><td><b>".lr("life").": </td><td></b>".round($response["fs"])." / ".round($response["fp"])."</td></tr>");
+    
+    if($response["type"]=='building'){
+        
+        $stream.=("<tr><td><b>".lr("level").": </td><td></b>".fs2lvl($response["fs"])."</td></tr>");
+        $stream.=("<tr><td><b>".lr("life").": </td><td></b>".round($response["fp"])." / ".round($response["fs"])."</td></tr>");
+    
+    }elseif($response["type"]=='town'){
+    
+        $building_count=sql_1data('SELECT count(1) FROM [mpx]objects as x WHERE x.own='.$id.' AND type=\'building\'');
+        $lvl=sql_1data('SELECT sum(x.fs) FROM [mpx]objects as x WHERE x.own='.$id.' AND type=\'building\'');
+        
+        $stream.=("<tr><td><b>".lr("level").": </td><td></b>".fs2lvl($lvl)."</td></tr>");
+        $stream.=("<tr><td><b>".lr("building_count").": </td><td></b>".$building_count."</td></tr>");
+
+    }elseif($response["type"]=='user'){
+
+        $town_count=sql_1data('SELECT count(1) FROM [mpx]objects as x WHERE x.own='.$id.' AND type=\'town\'');
+        $building_count=sql_1data('SELECT count(1) FROM [mpx]objects as x WHERE x.own=(SELECT y.id FROM [mpx]objects as y WHERE y.own='.$id.' LIMIT 1) AND type=\'building\'');
+        $lvl=sql_1data('SELECT sum(x.fs) FROM [mpx]objects as x WHERE x.own=(SELECT y.id FROM [mpx]objects as y WHERE y.own='.$id.' LIMIT 1) AND type=\'building\'');
+    
+
+        $stream.=("<tr><td><b>".lr("level").": </td><td></b>".fs2lvl($lvl)."</td></tr>");
+        $stream.=("<tr><td><b>".lr("town_count").": </td><td></b>".$town_count."</td></tr>");
+        $stream.=("<tr><td><b>".lr("building_count").": </td><td></b>".$building_count."</td></tr>");
+
+    }
     //-----------
     foreach($array as $a=>$b){
         if($a!=''.($a-1+1) and trim($b) and $b!="@" and $a!="text"  and $a!="description"  and $a!="text" and $a!="image"){
@@ -1155,15 +1198,17 @@ function profiler($id="use"){
         //r($response);
         if($response['ww']==$GLOBALS['ss']['ww']){
         $stream.=("<hr/>");
-        if(useid==$id){
+        if(useid==$id or logid==$id){
             
-            $stream.=ahrefr("Upravit profil","e=profile_edit",false);
+            $stream.=ahrefr("Upravit profil","e=content;ee=profile_edit",false);
             $stream.=("<br/>");
-        
-            $stream.=ahrefr("Změnit heslo","e=password_edit",false);
-            $stream.=("<br/>");
+            
+            if(logid==$id){
+                $stream.=ahrefr("Změnit heslo","e=password_edit",false);
+                $stream.=("<br/>");
+            }
         }else{
-             $stream.=ahrefr("attack_".$response["type"],"e=content;ee=attack-attack;page=attack;id=$id",false); 
+             $stream.=ahrefr("attack_".$response["type"],"e=content;ee=attack-attack;page=attack;set=attack_id,$id",false); 
         }}
         //r($response["in"]);
         if($GLOBALS['ss']["useid"]==$response["in"]){
@@ -1171,8 +1216,8 @@ function profiler($id="use"){
         }
     //-----------
     if($response["type"]!="message") {
-        $stream.=("</td><td align=\"justify\" valign=\"top\" width=\"200\">");
-        $stream.=imgr("id_$id","",200);
+        $stream.=("</td><td align=\"justify\" valign=\"top\" width=\"147\">");
+        $stream.=imgr("id_$id","",147);
         $stream.=br;
         $stream.=tr($array["description"]);
     }else{
