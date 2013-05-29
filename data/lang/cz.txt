@@ -321,3 +321,7 @@ build_submit=Postavit;
 //editted=;
 //profile_description=;
 //profile_name=;
+//message_back=;
+//send_success_to=;
+//delete_message_prompt=;
+//unknown_logr=;

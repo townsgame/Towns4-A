@@ -570,6 +570,17 @@ function ifobject($id){
         return(0);
     }
 }
+//================================================
+function topobject($id){
+    //r("SELECT id FROM objects WHERE id='$id' OR name='$id'");
+    $result = sql_1data("SELECT own FROM ".mpx."objects WHERE id='$id' OR name='$id' LIMIT 1");
+    //r($result);
+    if($result){
+        return(topobject($result));
+    }else{
+        return($id);
+    }
+}
 //======================================================================================
 /**
  * @param $id

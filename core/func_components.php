@@ -190,7 +190,7 @@ function textabr_($array,$width=300,$width2=200){
         if($b!=''){
             $stream.=("<tr><td width=\"$width2\" $al><b>".tr($a)."</b></td><td $al>".tr($b)."</td></tr>");
         }else{
-            $stream.=("<tr><td width=\"$width2\" $al clospan=\"2\"><b>".tr($a)."</b></tr>");
+            $stream.=("<tr><td width=\"$width2\" $al colspan=\"2\"><b>".tr($a)."</b></tr>");
         }
     }
         
@@ -605,8 +605,11 @@ function limit($page,$w,$step,$to,$d=0){$to=$to-$step;//d-deafult
     return($d.",".$step);
 }
 //======================================================================================
+function bhpr($text){
+    return("<a onclick=\"$('#hydepark').css('display','block');\">$text</a>");
+}
 function bhp($text){
-    echo("<a onclick=\"$('#hydepark').css('display','block');\">$text</a>");
+    echo(bhpr($text));
 }
 function hydepark(){
     echo("<div style=\"display: none\" id=\"hydepark\">");

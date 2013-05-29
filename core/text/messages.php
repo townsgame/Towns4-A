@@ -6,7 +6,7 @@ if(!$textclass)$q=submenu(array("content","text-messages"),array("messages_publi
 $q=$GLOBALS['ss']['submenu'];
 r('textclass: '.$textclass);
 
-contenu_a();
+
 if($q==1 || $q==2 || $q==3 || $q==4){//r($q);
 //===========================================================
 
@@ -25,11 +25,12 @@ $response=xquery("text","list",$tmp);//`id` ,`idle` ,`type` ,`from` ,`to` ,`titl
 //r($tmp);
 $texts=$response["list"];
 if($textclass){
-    $col="333333";
+    $col="222222";
     //r('hovno');
-    tfont(ahrefr("{message_back}","e=content;ee=text-messages;textclass=0"),20);
-    e(nbspo.nbspo);
-    bhp("{message_reply}");
+    infob(ahrefr("{message_back}","e=content;ee=text-messages;textclass=0").(nbspo.nbspo).bhpr("{message_reply}"));
+    
+contenu_a();    
+    
     //-----------------------
     hydepark();
     $url=("q=text send,$textclass,".($texts[0][5]?$texts[0][4]:0).",[message_title],[message_text]");//($texts[0][4]?$texts[0][3]:0)
@@ -38,7 +39,7 @@ if($textclass){
     //textb("Nadpis:");
     //input_text("title",1,100,30);
     //br();
-    $style='border: 2px solid #333333; background-color: #CCCCCC';
+    $style='border: 2px solid #222222; background-color: #CCCCCC';
     tableab("{message_subject}:",input_textr("message_title",'',100,26,$style),"100%","30%");
     br();
     input_textarea("message_text",'',45,6,$style);
@@ -48,7 +49,7 @@ if($textclass){
     form_js('content','?e=text-messages&'.$url,array('message_title','message_text'));
     
     //-----------------------
-    echo("<table width=\"100%\" bgcolor=\"$col\" cellspacing=\"0\">");
+    echo("<table width=\"".contentwidth."\" bgcolor=\"$col\" cellspacing=\"0\">");
 
     /*echo("<tr  bgcolor=\"#444444\">");
     echo("<td height=\"\" valign=\"top\" colspan=\"6\">");
@@ -74,7 +75,7 @@ if($textclass){
                 timee($time);
                 echo("</td><td width=\"22\">");
                 //r($author);
-                if($GLOBALS['ss']["useid"]==$authorid and $textclass){iconp("{delete_message_prompt}","q=text delete ".$id,"delete","Smazat");}
+                if((logid==$authorid or useid==$authorid) and $textclass){iconp("{delete_message_prompt}","q=text delete ".$id,"delete","Smazat");}
                 echo("</td><td width=\"22\">");
                 echo("</td></tr><tr  bgcolor=\"#000000\"><td align=\"left\" colspan=\"6\">");
                 te($text);
@@ -83,6 +84,8 @@ if($textclass){
     }
     echo("</table>");
 }else{
+contenu_a();    
+    
     e("<table width=\"".(contentwidth)."\" cellspacing=\"0\">");
     /*e("<tr><td width=\"36%\">");
     e("Předmět");
@@ -97,7 +100,7 @@ if($textclass){
             list($id,$idle,$type,$new,$from,$to,$title,$text,$time,$timestop,$count)=$tmp;
                 //r($id,$class,$title,$time,$author,$text);
                 $author=id2name($from);
-                e("<tr bgcolor=\"#".($i%2==1?'222222':'555555')."\"><td width=\"41%\">");
+                e("<tr bgcolor=\"#".($i%2==1?'222222':'333333')."\"><td width=\"41%\">");
                 $title=short(tr($title),30);
                 if($new and $q!=1 and $to==useid)$title=tcolorr(textbr($title),'ff7777');
                 ahref($title,"e=content;ee=text-messages;textclass=".$idle,'',true);
@@ -114,7 +117,7 @@ if($textclass){
 }elseif($q==5){
 //===========================================================
     
-    
+    contenu_a();
 
     $url=("q=text send,".($textclass?$textclass:'0').",[message_to],[message_title],[message_text]");
     //$url=urlr("textclass=aa;q=text");
@@ -127,7 +130,7 @@ if($textclass){
     br();
     tableab("{message_subject}:",input_textr("message_title",'',100,26,$style),"100%","30%");
     br();
-    input_textarea("message_text",'',45,6,$style);
+    input_textarea("message_text",'',52,6,$style);
     br();
     form_sb();
     form_js('content','?e=text-messages&'.$url,array('message_to','message_title','message_text'));
