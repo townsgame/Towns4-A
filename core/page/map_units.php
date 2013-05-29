@@ -69,12 +69,13 @@ foreach(sql_array("SELECT `x`,`y`,`type`,`res`,`set`,`name`,`id`,`own`,$say,expa
         
        $y=gr;
        $brd=3*$y;
+       $s=82*$expand*$y;
        //-------------------------------EXPAND
         if($expand and $own==useid){
         $file=tmpfile2('expand'.$expand,'png',"image");
         //e($file);
-        $s=82*$expand*$y;
-        if(!file_exists($file)  or notmpimg/* or true/**/){
+        
+        if(!file_exists($file)  or notmpimg/**/ or true/**/){
                 $img=imagecreatetruecolor($s,$s/2);
                 imagealphablending($img,false);
                 $outer =  imagecolorallocatealpha($img, 0, 0, 0, 127);
@@ -90,16 +91,15 @@ foreach(sql_array("SELECT `x`,`y`,`type`,`res`,`set`,`name`,`id`,`own`,$say,expa
         
         $src=rebase(url.base.$file);        
         $areastream.='<div style="position:absolute;z-index:150;">
-        <div style="position:relative; top:'.($ry-($s/4)).'; left:'.($rx-($s/2)).';" >
+        <div style="position:relative; top:'.($ry-($s/$y/4)).'; left:'.($rx-($s/$y/2)).';" >
         <img src="'.$src.'" widht="'.($s/$y).'" height="'.($s/$y/2).'"  class="clickmap" border="0" />
         </div></div>';
         }   
-       //-------------------------------EXPAND
+       //-------------------------------COLLAPSE
         if($collapse){
         $file=tmpfile2('collapse'.$collapse,'png',"image");
         //e($file);
-        $s=82*$collapse*$y;
-        if(!file_exists($file)  or notmpimg/* or true/**/){    
+        if(!file_exists($file)  or notmpimg/**/ or true/**/){    
                 $img=imagecreatetruecolor($s,$s/2);
                 imagealphablending($img,false);
                 $outer =  imagecolorallocatealpha($img, 0, 0, 0, 127);
@@ -135,7 +135,7 @@ foreach(sql_array("SELECT `x`,`y`,`type`,`res`,`set`,`name`,`id`,`own`,$say,expa
         <div style="position:absolute;z-index:<?php  echo($ry+1000); ?>;" <?php  if($id==useid)e('id="jouu"'); ?>>
         <div id="object<?php  echo($id); ?>" style="position:relative; top:<?php  echo($ry-132-$height+157); ?>; left:<?php  echo($rx-43); ?>;">
 
-        <?php if($res){ ?>       
+        <?php if($res){ ?>
         <img src="<?php e($modelurl); ?>" width="82" class="clickmap" border="0" alt="<?php e($name); ?>" title="<?php e($name); ?>">
         <?php }else{echo('!res');} ?>           
         </div>

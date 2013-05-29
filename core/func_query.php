@@ -88,7 +88,7 @@ function townsfunction($query,$q){$queryp=$query;
                 eval($funceval);
             }else{
                 //r($GLOBALS['ss']["aac_func"]);
-                $GLOBALS['ss']["query_output"]->add("error","tato funkce je pasivní - $funcname");
+                if($funcname!='a_')$GLOBALS['ss']["query_output"]->add("error","tato funkce je pasivní - $funcname");
             }
         }else{
             //echo($func);
@@ -216,6 +216,7 @@ return($GLOBALS['ss']["use_object"]->hold->testhold($hold));
 //===============================================================================================================
 $GLOBALS['ss']["xresponse"]='';
 function xquery($a,$b="",$c="",$d="",$e="",$f="",$g="",$h="",$i=""){
+    xreport();
     $b=x2xx($b);$c=x2xx($c);$d=x2xx($d);$e=x2xx($e);$f=x2xx($f);$g=x2xx($g);$h=x2xx($h);$i=x2xx($i);
     /*$query=$a;
     if($b){$query="$a $b";}
@@ -236,11 +237,13 @@ function xquery($a,$b="",$c="",$d="",$e="",$f="",$g="",$h="",$i=""){
     $GLOBALS['ss']["xsuccess"]=($response->val("1"));
     //e($query.' - '.$GLOBALS['ss']["xsuccess"]);br();
     $response=$response->vals2list();
+    //print_r($response);
     if($GLOBALS['ss']["xresponse"]=='')$GLOBALS['ss']["xresponse"]=$response;
     return($response);
     
 }
 $GLOBALS['ss']["xsuccess"]=0;
+$GLOBALS['ss']["xresponse"]=array();
 //-----------------------------------------------------
 function xreport(){
     

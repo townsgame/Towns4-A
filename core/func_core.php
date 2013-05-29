@@ -53,22 +53,26 @@ function a_info($q="use"){
     }
 }
 //=======================================================================================PROFILE
-define("a_profile_edit_help","key,value");
-function a_profile_edit($key,$value){
+define("a_profile_edit_help","id,key,value");
+function a_profile_edit($id,$key,$value){
+    if($id==useid)$object=$GLOBALS['ss']["use_object"];
+    if($id==logid)$object=$GLOBALS['ss']["log_object"];
     if($key!="name"){
         $GLOBALS['ss']["query_output"]->add("1",1);
-        $GLOBALS['ss']["query_output"]->add("success","'$key' úspěšně upraveno na $value");
+        $GLOBALS['ss']["query_output"]->add("success","{profile_$key} {editted}");
         //r();
         //$GLOBALS['ss']["use_object"]->xxx();
         //r($GLOBALS['ss']["use_object"]->profile->vals2list());
-        $GLOBALS['ss']["use_object"]->profile->add($key,$value);
+        $object->profile->add($key,$value);
         //r($GLOBALS['ss']["use_object"]->profile->vals2list());
     }else{
         //echo("SELECT 1 FROM objects WHERE name='".$value."' and id!='".useid."'");
         $q=name_error($value);
         if(!$q){
-            $GLOBALS['ss']["use_object"]->name=$value;
+            $object->name=$value;
+            $GLOBALS['ss']["query_output"]->add("success","{profile_name} {editted}");
         }else{
+            //e('!');
             $GLOBALS['ss']["query_output"]->add("error",$q); 
         }
         //}else{

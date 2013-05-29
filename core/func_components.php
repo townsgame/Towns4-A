@@ -140,9 +140,12 @@ function le($i,$params){
 function tr($i,$nonl2br=false){
     $i=xx2x($i);
     $i=htmlspecialchars($i);
-    if(!$nonl2br){$i=nl2br($i);
-    $i=str_replace(' ',nbsp,$i);
-    $i=smiles($i);}
+    if(!$nonl2br){
+        $i=nl2br($i);
+        $i=str_replace(nln,'<br>',$i);
+        $i=str_replace(' ',nbsp,$i);
+        $i=smiles($i);
+    }
     //$i=str_replace("<br />","<br>",$i);
     //$i=str_replace(" ","&nbsp;",$i);
     return($i);
@@ -1200,7 +1203,7 @@ function profiler($id="use"){
         $stream.=("<hr/>");
         if(useid==$id or logid==$id){
             
-            $stream.=ahrefr("Upravit profil","e=content;ee=profile_edit",false);
+            $stream.=ahrefr("Upravit profil","e=content;ee=profile_edit;id=$id",false);
             $stream.=("<br/>");
             
             if(logid==$id){
@@ -1208,7 +1211,7 @@ function profiler($id="use"){
                 $stream.=("<br/>");
             }
         }else{
-             $stream.=ahrefr("attack_".$response["type"],"e=content;ee=attack-attack;page=attack;set=attack_id,$id",false); 
+             if($response["type"]=='building' or $response["type"]=='tree' or $response["type"]=='rock')$stream.=ahrefr("attack_".$response["type"],"e=content;ee=attack-attack;page=attack;set=attack_id,$id",false); 
         }}
         //r($response["in"]);
         if($GLOBALS['ss']["useid"]==$response["in"]){

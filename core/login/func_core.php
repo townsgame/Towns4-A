@@ -151,7 +151,7 @@ function a_logout(){
 //======================================================================================USE
 define("a_use_help","user");
 function a_use($param1){
-    //echo("hovnooooo");
+    echo("use($param1)");
     $GLOBALS['ss']["use_object"] = new object($param1);
     //$GLOBALS['ss']["use_object"]->xxx();
     //$GLOBALS['ss']["query_output"]->add("1",1);
