@@ -1,4 +1,5 @@
 <?php
+define('a_create_cooldown',true);
 function a_create($id,$x=0,$y=0,$rot=0){
     r("$id,$x=0,$y=0,$rot=0");
     //require(root."control/func_map.php");

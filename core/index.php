@@ -301,9 +301,11 @@ if($_GET['e']){
 if(logged() and $_GET['e']!="none"/**/){
 $GLOBALS['ss']["log_object"]->update();
 $GLOBALS['ss']["use_object"]->update();
+$GLOBALS['ss']["aac_object"]->update();
 
 unset($GLOBALS['ss']["log_object"]);
 unset($GLOBALS['ss']["use_object"]);
+unset($GLOBALS['ss']["aac_object"]);
 }
 //die2();
 //cleartmp(1);

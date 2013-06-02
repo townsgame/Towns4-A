@@ -1,4 +1,5 @@
 <?php
+define('a_attack_cooldown',true);
 function a_attack($id){
     //$id=sg("id");
     if(!$id){$GLOBALS['ss']["query_output"]->add("error","{attack_noid}");}

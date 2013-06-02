@@ -325,3 +325,7 @@ build_submit=Postavit;
 //send_success_to=;
 //delete_message_prompt=;
 //unknown_logr=;
+//message_fromto=;
+//f_login_notown=;
+//4=;
+//1=;

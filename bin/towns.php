@@ -410,6 +410,9 @@ $ry=round($y);
  
  $hard=hard($rx,$ry);
  if($hard<supportF($id,'resistance','hard')){
+ 
+ if(intval(sql_1data("SELECT COUNT(1) FROM ".mpx."objects WHERE own!='".useid."'AND `ww`=".$GLOBALS['ss']["ww"]." AND POW($x-x,2)+POW($y-y,2)<=POW(collapse,2)"))==0){
+ 
  if(intval(sql_1data("SELECT COUNT(1) FROM ".mpx."objects WHERE own='".useid."'AND `ww`=".$GLOBALS['ss']["ww"]." AND POW($x-x,2)+POW($y-y,2)<=POW(expand,2)"))>=1){
  
 
@@ -516,6 +519,10 @@ changemap($x,$y);
  $GLOBALS['ss']["query_output"]->add("error","{create_error_expand}");
  }}else{
  define('object_build',true);
+ define('create_error','{create_error_collapse}');
+ $GLOBALS['ss']["query_output"]->add("error","{create_error_collapse}");
+ }}else{
+ define('object_build',true);
  define('create_error','{create_error_resistance}');
  $GLOBALS['ss']["query_output"]->add("error","{create_error_resistance}");
  }}else{
@@ -611,8 +618,8 @@ foreach(sql_array('SELECT `id`, `method`, `key`, `text`, `time_create`, `time_ch
 
 }
 $stream.="</login>".$nln;
-foreach(sql_array('SELECT `id`, `name`, `type`, `dev`, `fs`, `fp`, `fr`, `fx`, `fc`, `func`, `hold`, `res`, `profile`, `set`, `hard`, `own`, `in`, `ww`, `x`, `y`, `t` FROM `[mpx]objects` WHERE 1 '.$limit) as $row){
-	list($id,$name,$type,$dev,$fs,$fp,$fr,$fx,$fc,$func,$hold,$res,$profile,$set,$hard,$own,$in,$ww,$x,$y,$t)=$row;
+foreach(sql_array('SELECT `id`, `name`, `type`, `dev`, `fs`, `fp`, `fr`, `fx`, `fc`, `func`, `hold`, `res`, `profile`, `set`, `hard`, `expand`, `collapse`, `own`, `in`, `ww`, `x`, `y`, `t` FROM `'.mpx.'objects` WHERE 1 '.$limit) as $row){
+	list($id,$name,$type,$dev,$fs,$fp,$fr,$fx,$fc,$func,$hold,$res,$profile,$set,$hard,$expand,$collapse,$own,$in,$ww,$x,$y,$t)=$row;
 	$stream.="<object id=\"$id\">".$nln;
 
 	$stream.="<param key=\"name\" value=\"$name\"/>".$nln;
@@ -629,6 +636,8 @@ foreach(sql_array('SELECT `id`, `name`, `type`, `dev`, `fs`, `fp`, `fr`, `fx`, `
 	$stream.="<param key=\"profile\" value=\"$profile\"/>".$nln;
 	$stream.="<param key=\"set\" value=\"$set\"/>".$nln;
 	$stream.="<param key=\"hard\" value=\"$hard\"/>".$nln;
+	$stream.="<param key=\"expand\" value=\"$expand\"/>".$nln;
+	$stream.="<param key=\"collapse\" value=\"$collapse\"/>".$nln;
 	$stream.="<param key=\"own\" value=\"$own\"/>".$nln;
 	$stream.="<param key=\"in\" value=\"$in\"/>".$nln;
 	$stream.="<param key=\"ww\" value=\"$ww\"/>".$nln;
@@ -638,8 +647,8 @@ foreach(sql_array('SELECT `id`, `name`, `type`, `dev`, `fs`, `fp`, `fr`, `fx`, `
 
 		
 	$stream.="</object>".$nln;
-	
 }
+
 
 $stream.='</world>'.$nln;
 
@@ -1123,9 +1132,12 @@ function le($i,$params){
 function tr($i,$nonl2br=false){
  $i=xx2x($i);
  $i=htmlspecialchars($i);
- if(!$nonl2br){$i=nl2br($i);
+ if(!$nonl2br){
+ $i=nl2br($i);
+ $i=str_replace(nln,'<br>',$i);
  $i=str_replace(' ',nbsp,$i);
- $i=smiles($i);}
+ $i=smiles($i);
+ }
  return($i);
 }
 function te($i,$nonl2br=false){
@@ -1165,7 +1177,7 @@ function textabr_($array,$width=300,$width2=200){
  if($b!=''){
  $stream.=("<tr><td width=\"$width2\" $al><b>".tr($a)."</b></td><td $al>".tr($b)."</td></tr>");
  }else{
- $stream.=("<tr><td width=\"$width2\" $al clospan=\"2\"><b>".tr($a)."</b></tr>");
+ $stream.=("<tr><td width=\"$width2\" $al colspan=\"2\"><b>".tr($a)."</b></tr>");
  }
  }
  
@@ -1487,8 +1499,11 @@ function limit($page,$w,$step,$to,$d=0){$to=$to-$step; if(is_array($page)){$e=$p
  $GLOBALS['ss']['ord']=$GLOBALS['ss'][$w];
  return($d.",".$step);
 }
+function bhpr($text){
+ return("<a onclick=\"$('#hydepark').css('display','block');\">$text</a>");
+}
 function bhp($text){
- echo("<a onclick=\"$('#hydepark').css('display','block');\">$text</a>");
+ echo(bhpr($text));
 }
 function hydepark(){
  echo("<div style=\"display: none\" id=\"hydepark\">");
@@ -1694,7 +1709,14 @@ function ahrefr($text,$url,$textd="none",$nol=true,$id=false,$data=false,$onclic
 }
 function ahref($text,$url,$textd="none",$nol=true,$id=false,$data=false,$onclick=""){echo(ahrefr($text,$url,$textd,$nol,$id,$data,$onclick));}
 function ahrefpr($prompt,$text,$url,$textd="underline",$nol=false,$id="page",$data=false){
+ $tmp=urlr($url);
+ if(strpos("x".$tmp,"javascript: ")){$onclick=str_replace("javascript: ","",$tmp);$tmp="#";} 
+ 
+ if($onclick){
+ $onclick="pokracovat = confirm('$prompt');if(pokracovat) ".$onclick;
+ }else{
  $onclick="pokracovat = confirm('$prompt');if(pokracovat) window.location.replace('".urlr($url)."');";
+ }
  $html=ahrefr($text,"",$textd,$nol,$id,$data,$onclick);
  return($html);
 }
@@ -1967,7 +1989,7 @@ function profiler($id="use"){
  $stream.=("<hr/>");
  if(useid==$id or logid==$id){
  
- $stream.=ahrefr("Upravit profil","e=content;ee=profile_edit",false);
+ $stream.=ahrefr("Upravit profil","e=content;ee=profile_edit;id=$id",false);
  $stream.=("<br/>");
  
  if(logid==$id){
@@ -1975,7 +1997,7 @@ function profiler($id="use"){
  $stream.=("<br/>");
  }
  }else{
- $stream.=ahrefr("attack_".$response["type"],"e=content;ee=attack-attack;page=attack;set=attack_id,$id",false); 
+ if($response["type"]=='building' or $response["type"]=='tree' or $response["type"]=='rock')$stream.=ahrefr("attack_".$response["type"],"e=content;ee=attack-attack;page=attack;set=attack_id,$id",false); 
  }}
  if($GLOBALS['ss']["useid"]==$response["in"]){
  $stream.=ahrefpr("Opravdu chcete odhodit tento předmět?","odhodit předmět","query=item $id drop",false);
@@ -2041,16 +2063,19 @@ function a_info($q="use"){
  $GLOBALS['ss']["query_output"]->add("y",$y);
  }
 }
-define("a_profile_edit_help","key,value");
-function a_profile_edit($key,$value){
+define("a_profile_edit_help","id,key,value");
+function a_profile_edit($id,$key,$value){
+ if($id==useid)$object=$GLOBALS['ss']["use_object"];
+ if($id==logid)$object=$GLOBALS['ss']["log_object"];
  if($key!="name"){
  $GLOBALS['ss']["query_output"]->add("1",1);
- $GLOBALS['ss']["query_output"]->add("success","'$key' úspěšně upraveno na $value");
- $GLOBALS['ss']["use_object"]->profile->add($key,$value);
+ $GLOBALS['ss']["query_output"]->add("success","{profile_$key} {editted}");
+ $object->profile->add($key,$value);
  }else{
  $q=name_error($value);
  if(!$q){
- $GLOBALS['ss']["use_object"]->name=$value;
+ $object->name=$value;
+ $GLOBALS['ss']["query_output"]->add("success","{profile_name} {editted}");
  }else{
  $GLOBALS['ss']["query_output"]->add("error",$q); 
  }
@@ -2500,8 +2525,8 @@ function paint($im){
 
 function modelx($res){
  $GLOBALS['model_noimg']=true;
- $GLOBALS['model_resize']=0.75;
- model($res,1); $GLOBALS['model_noimg']=false;
+ $GLOBALS['model_resize']=0.75/(0.75*gr);
+ model($res,0.75*gr); $GLOBALS['model_noimg']=false;
  return(rebase(url.base.$GLOBALS['model_file']));
 }
 function model($res,$s=1,$rot=0,$slnko=1.5,$ciary=0,$zburane=0,$hore=0){$pres=$res;
@@ -2988,6 +3013,7 @@ class object{
  $this->hold=new hold($row["hold"]);
  $this->hard=$row["hard"];
  $this->expand_=$row["expand"];
+ $this->collapse_=$row["collapse"];
  $this->own=$row["own"];
  $this->ownname=$row["ownname"];
  $this->in=$row["in"];
@@ -3010,7 +3036,7 @@ class object{
  return(false);
  }
  }else{
- sql_query("INSERT INTO `".mpx."objects` (`id`, `type`, `fp`, `fs`, `dev`, `name`, `func`, `set`, `res`, `profile`, `hold`, `own`, `hard`, `expand`, `ww`,`in`, `t`, `x`, `y`) VALUES (NULL, 'hybrid', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,'1', NULL, NULL, '0', '0')");
+ sql_query("INSERT INTO `".mpx."objects` (`id`, `type`, `fp`, `fs`, `dev`, `name`, `func`, `set`, `res`, `profile`, `hold`, `own`, `hard`, `expand`, `collapse`, `ww`,`in`, `t`, `x`, `y`) VALUES (NULL, 'hybrid', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,'1', NULL, NULL, '0', '0')");
  $this->id=sql_1data("SELECT LAST_INSERT_ID()");
  echo("creating ".$this->id);
  $this->loaded=true;
@@ -3026,6 +3052,7 @@ class object{
  $this->hold=new hold();
  $this->hard="";
  $this->expand_="";
+ $this->collapse_="";
  $this->own="";
  $this->ownname="";
  $this->ww="1";
@@ -3052,6 +3079,7 @@ class object{
  $stream.=",".$this->hold->vals2str();
  $stream.=",".$this->hard;
  $stream.=",".$this->expand_;
+ $stream.=",".$this->collapse_;
  $stream.=",".$this->own;
  $stream.=",".$this->in;
  $stream.=",".$this->ww;
@@ -3121,6 +3149,7 @@ class object{
  $this->fr=$this->hold->fp(); 
  $this->fx=$this->fp+$this->fr;
  $tmp=$funcs["hard"]["params"]["hard"];$this->hard=$tmp[0]*$tmp[1];					$tmp=$funcs["expand"]["params"]["distance"];$this->expand_=$tmp[0]*$tmp[1]; 
+					$tmp=$funcs["collapse"]["params"]["distance"];$this->collapse_=$tmp[0]*$tmp[1]; 
  
  }else{
  r("updating sumaries -".$this->id);
@@ -3141,6 +3170,7 @@ class object{
  `hold` = '".($this->hold->vals2str())."',
  `hard` = '".(($this->hard))."',
  `expand` = '".(($this->expand_))."',
+ `collapse` = '".(($this->collapse_))."',
  `own` = '".(($this->own))."',
  `in` = '".(($this->in))."',
  `ww` = '".(($this->ww))."',
@@ -3187,6 +3217,7 @@ $res:dev = ".($this->res).";
 ".($this->hold->vals2strobj("$head:hold"))."
 $head:hard = ".(($this->hard)).";
 $head:expand = ".(($this->expand_)).";
+$head:collapse = ".(($this->collapse_)).";
 $head:own = ".(($this->own)).";
 $head:in = ".(($this->in)).";
 $head:ww = ".(($this->ww)).";
@@ -3221,9 +3252,9 @@ $head:y = ".($this->y).";";
  $funcs=$this->func->vals2list();
  $newfuncs=$funcs;
  $support=array();
- $in2=sql_array("SELECT `id`,`type`,`fp`,`fs`,`dev`,`name`,NULL,`func`,`set`,NULL,`profile`,`hold`,`hard`,`expand`,`own`,`in`,`t`,`x`,`y` FROM ".mpx."objects WHERE `in`='".($this->id)."' ORDER BY t desc");
+ $in2=sql_array("SELECT `id`,`type`,`fp`,`fs`,`dev`,`name`,NULL,`func`,`set`,NULL,`profile`,`hold`,`hard`,`expand`,`collapse`,`own`,`in`,`t`,`x`,`y` FROM ".mpx."objects WHERE `in`='".($this->id)."' ORDER BY t desc");
  foreach($in2 as $item){
- list($_id,$_type,$_fp,$_fs,$_dev,$_name,$_password,$_func,$_set,$_res,$_profile,$_hold,$_hard,$_expand,$_own,$_in,$_t,$_x,$_y)=$item;
+ list($_id,$_type,$_fp,$_fs,$_dev,$_name,$_password,$_func,$_set,$_res,$_profile,$_hold,$_hard,$_expand,$_collapse,$_own,$_in,$_t,$_x,$_y)=$item;
  $_x=intval($_x);$_y=intval($_y);
  if(!$_x)$_x="";
  foreach($funcs["hold$_x"]["params"] as $param=>$value){
@@ -3348,6 +3379,14 @@ function ifobject($id){
  return(0);
  }
 }
+function topobject($id){
+ $result = sql_1data("SELECT own FROM ".mpx."objects WHERE id='$id' OR name='$id' LIMIT 1");
+ if($result){
+ return(topobject($result));
+ }else{
+ return($id);
+ }
+}
 
 function name_error($id){
  $id=xx2x($id);
@@ -3438,7 +3477,7 @@ function townsfunction($query,$q){$queryp=$query;
  $funceval="$funcname($params);";
  eval($funceval);
  }else{
- $GLOBALS['ss']["query_output"]->add("error","tato funkce je pasivní - $funcname");
+ if($funcname!='a_')$GLOBALS['ss']["query_output"]->add("error","tato funkce je pasivní - $funcname");
  }
  }else{
  $GLOBALS['ss']["query_output"]->add("error","$queryp: neexistující funkce u tohoto objektu($aid) $func");
@@ -3520,6 +3559,7 @@ return($GLOBALS['ss']["use_object"]->hold->testhold($hold));
 }
 $GLOBALS['ss']["xresponse"]='';
 function xquery($a,$b="",$c="",$d="",$e="",$f="",$g="",$h="",$i=""){
+ xreport();
  $b=x2xx($b);$c=x2xx($c);$d=x2xx($d);$e=x2xx($e);$f=x2xx($f);$g=x2xx($g);$h=x2xx($h);$i=x2xx($i);
  
  $query=("$a $b,$c,$d,$e,$f,$g,$h,$i"); 
@@ -3533,6 +3573,7 @@ function xquery($a,$b="",$c="",$d="",$e="",$f="",$g="",$h="",$i=""){
  
 }
 $GLOBALS['ss']["xsuccess"]=0;
+$GLOBALS['ss']["xresponse"]=array();
 function xreport(){
  
  $response=$GLOBALS['ss']["xresponse"];
@@ -4239,8 +4280,11 @@ if(logged()){
 }else{
 if($GLOBALS['ss']['bg']=='_'){
 
- eval(subpage("map"));
- 
+
+
+eval(subpage("map")); 
+
+
  }else{
  $imageurl=imageurl('bg/'.$GLOBALS['ss']['bg']); if(substr($GLOBALS['ss']['bg'],0,1)=='_'){
  $bgpos=0; 
@@ -4693,6 +4737,7 @@ function a_logout(){
 }
 define("a_use_help","user");
 function a_use($param1){
+ echo("use($param1)");
  $GLOBALS['ss']["use_object"] = new object($param1);
  $GLOBALS['ss']["useid"]=$GLOBALS['ss']["use_object"]->id;
  if($GLOBALS['ss']["use_object"]->own!=$GLOBALS['ss']["logid"] and $GLOBALS['ss']["logid"]!=$GLOBALS['ss']["useid"]){
@@ -5671,7 +5716,7 @@ require2_once(root.core."/func_map.php");
  
  $rxp=424*2.5;$ryp=0;$px=424/10;$py=$px/2;
 $say="(SELECT IF((`".mpx."text`.`timestop`=0 OR ".time()."<=`".mpx."text`.`timestop`),`".mpx."text`.`text`,'') FROM `".mpx."text` WHERE `".mpx."text`.`from`=`".mpx."objects`.id AND `".mpx."text`.`type`='chat' ORDER BY `".mpx."text`.time DESC LIMIT 1)";
-foreach(sql_array("SELECT `x`,`y`,`type`,`res`,`set`,`name`,`id`,`own`,$say,expand FROM `".mpx."objects` WHERE ww=".$GLOBALS['ss']["ww"]." AND `type`='building'") as $row){ $type=$row[2]; 
+foreach(sql_array("SELECT `x`,`y`,`type`,`res`,`set`,`name`,`id`,`own`,$say,expand,collapse FROM `".mpx."objects` WHERE ww=".$GLOBALS['ss']["ww"]." AND `type`='building'") as $row){ $type=$row[2]; 
  $res=$row[3];
  $set=$row[4];
  $name=trim($row[5]);
@@ -5679,6 +5724,7 @@ foreach(sql_array("SELECT `x`,`y`,`type`,`res`,`set`,`name`,`id`,`own`,$say,expa
  $own=$row[7];
  $text=xx2x($row[8]);
  $expand=floatval($row[9]);
+ $collapse=floatval($row[10]);
  if($id==useid){
  $_xc=$GLOBALS['ss']["use_object"]->x;
  $_yc=$GLOBALS['ss']["use_object"]->y;
@@ -5700,13 +5746,14 @@ foreach(sql_array("SELECT `x`,`y`,`type`,`res`,`set`,`name`,`id`,`own`,$say,expa
  if(true){
  
  
-
  
+ $y=gr;
+ $brd=3*$y;
+ $s=82*$expand*$y;
  if($expand and $own==useid){
  $file=tmpfile2('expand'.$expand,'png',"image");
+ 
  if(!file_exists($file) or notmpimg or true){
- $s=82*$expand;
- $brd=3;
  $img=imagecreatetruecolor($s,$s/2);
  imagealphablending($img,false);
  $outer = imagecolorallocatealpha($img, 0, 0, 0, 127);
@@ -5722,8 +5769,30 @@ foreach(sql_array("SELECT `x`,`y`,`type`,`res`,`set`,`name`,`id`,`own`,$say,expa
  
  $src=rebase(url.base.$file); 
  $areastream.='<div style="position:absolute;z-index:150;">
- <div style="position:relative; top:'.($ry-($s/4)).'; left:'.($rx-($s/2)).';" >
- <img src="'.$src.'" class="clickmap" border="0" />
+ <div style="position:relative; top:'.($ry-($s/$y/4)).'; left:'.($rx-($s/$y/2)).';" >
+ <img src="'.$src.'" widht="'.($s/$y).'" height="'.($s/$y/2).'" class="clickmap" border="0" />
+ </div></div>';
+ } 
+ if($collapse){
+ $file=tmpfile2('collapse'.$collapse,'png',"image");
+ if(!file_exists($file) or notmpimg or true){ 
+ $img=imagecreatetruecolor($s,$s/2);
+ imagealphablending($img,false);
+ $outer = imagecolorallocatealpha($img, 0, 0, 0, 127);
+ $inner = imagecolorallocatealpha($img, 255, 0, 0, 70);
+ $border = imagecolorallocatealpha($img, 0, 0, 0, 50);
+ imagefill($img,0,0,$outer);
+ imagefilledellipse($img, $s/2, $s/4, $s, $s/2 , $border);
+ imagefilledellipse($img, $s/2, $s/4, $s-$brd, ($s/2)-$brd, $inner);
+ imagesavealpha($img,true);
+ imagepng($img,$file);
+ chmod($file,0777);
+ }
+ 
+ $src=rebase(url.base.$file); 
+ $areastream.='<div style="position:absolute;z-index:150;">
+ <div style="position:relative; top:'.($ry-($s/$y/4)).'; left:'.($rx-($s/$y/2)).';" >
+ <img src="'.$src.'" widht="'.($s/$y).'" height="'.($s/$y/2).'" class="clickmap" border="0" />
  </div></div>';
  } 
  
@@ -5740,7 +5809,7 @@ foreach(sql_array("SELECT `x`,`y`,`type`,`res`,`set`,`name`,`id`,`own`,$say,expa
  <div style="position:absolute;z-index:<?php echo($ry+1000); ?>;" <?php if($id==useid)e('id="jouu"'); ?>>
  <div id="object<?php echo($id); ?>" style="position:relative; top:<?php echo($ry-132-$height+157); ?>; left:<?php echo($rx-43); ?>;">
 
- <?php if($res){ ?> 
+ <?php if($res){ ?>
  <img src="<?php e($modelurl); ?>" width="82" class="clickmap" border="0" alt="<?php e($name); ?>" title="<?php e($name); ?>">
  <?php }else{echo('!res');} ?> 
  </div>
@@ -6074,30 +6143,37 @@ contenu_b();
 }elseif($file=='page/profile_edit.php'){
 define('08ef9dc9da40c45597c2ff8c7a5d2245',true);
 
+window('{profile_edit}');
+infob(ahrefr('{back}','e=content;ee=profile'));
 
-contenu_a(false,false);
+contenu_a();
 
+if($GLOBALS['get']['id'])$GLOBALS['ss']['profile_edit_id']=$GLOBALS['get']['id'];
+if(!$GLOBALS['ss']['profile_edit_id'])$GLOBALS['ss']['profile_edit_id']=useid;
+$id=$GLOBALS['ss']['profile_edit_id'];
 
-if($GLOBALS['get']["profile_edit"]){
- if($post["name"]){xquery("profile_edit","name",$post["name"]);}
- if($post["realname"]){xquery("profile_edit","realname",$post["realname"]);}
- if($post["gender"]){xquery("profile_edit","gender",$post["gender"]);}
- if($post["showmail"]){xquery("profile_edit","showmail",$post["showmail"]);}
- if($post["web"]){xquery("profile_edit","web",$post["web"]);}
- if($post["image"]){xquery("profile_edit","image",$post["image"]);}
- if($post["description"]){xquery("profile_edit","description",$post["description"]);}
- $tmpinfo=xquery("info");
+ $info=array();
+ $tmpinfo=xquery("info",$id);
  $info["profile"]=new profile($tmpinfo["profile"]);
  $info["name"]=$tmpinfo["name"];
+ $p=$info["profile"]->vals2list();
+
+if($_GET["profile_edit"]){
+ if($_POST["name"] and $info["name"]!=$_POST["name"]){
+ xquery("profile_edit",$id,"name",$_POST["name"]);
+ xreport();
+ $info["name"]=$_POST["name"];
  }
-$p=$info["profile"]->vals2list();
+ if($_POST["description"] and $p["description"]!=$_POST["description"]){xquery("profile_edit",$id,"description",$_POST["description"]);xreport();$p["description"]=$_POST["description"];}
+ 
+ 
+}
+
 ?>
 
 <?php
 
-ahref('{back}','e=content;ee=profile');
-
-form_a('profile_edit=1','profile_edit');
+form_a(urlr('profile_edit=1'),'profile_edit');
 ?>
 
 
@@ -6105,12 +6181,8 @@ form_a('profile_edit=1','profile_edit');
 
 
 <tr><td><b><?php le("name"); ?>:</b></td><td><?php input_text("name",$info["name"]); ?></td></tr>
-<tr><td><b><?php le("realname"); ?>:</b></td><td><?php input_text("realname",$p["realname"]); ?></td></tr>
-<tr><td><b><?php le("gender"); ?>:</b></td><td><?php input_select("gender",$p["gender"],array(" "=>"---", "male"=>"Muž", "female"=>"Žena")); ?></td></tr>
-<tr><td><b><?php le("showmail"); ?>:</b></td><td><?php input_checkbox("showmail",$p["showmail"]); le("Mail můžete změnit v nastavení."); ?></td></tr>
-<tr><td><b><?php le("web"); ?>:</b></td><td>http://<?php input_text("web",$p["web"]); ?></td></tr>
-<tr><td><b><?php le("image"); ?>:</b></td><td><?php input_text("image",$p["image"]); ?></td></tr>
-<tr><td><b><?php le("description"); ?>:</b></td><td><?php input_textarea("description",$p["description"],40,7); ?></td></tr>
+
+<tr><td><b><?php le("description"); ?>:</b></td><td><?php input_textarea("description",$p["description"],44,17); ?></td></tr>
 
 
 
@@ -6119,7 +6191,9 @@ form_a('profile_edit=1','profile_edit');
 
 <?php
 form_b();
-form_js('content','?e=profile_edit&'.urlr('profile_edit=1'),array('name','realname','gender','showmail','web','image','description'));
+form_js('content','?e=profile_edit&profile_edit=1',array('name','description'));
+
+
 
 contenu_b();
 ?>
@@ -6398,21 +6472,21 @@ define('13b4d2caa91b7c706b38505a049975ed',true);
 
 define("a_text_help","action{list,send,delete}[idle][idle,to,title,text][,id]");
 function a_text($action,$idle,$to="",$title="",$text=""){
- $add1='(`to`='.logid.' OR `from`='.logid.') AND `to`!=0';
+ $add1='(`to`='.logid.' OR `from`='.logid.' OR `to`='.useid.' OR `from`='.useid.') AND `to`!=0';
  $add2="`type`='message'";
  if($action=="list"){
  if($idle and $idle!='new' and $idle!='public' and $idle!='report'){
- $add1='`to`='.logid.' OR `from`='.logid.' OR `to`=0';
+ $add1='`to`='.logid.' OR `from`='.logid.' OR `to`='.useid.' OR `from`='.useid.' OR `to`=0';
  $add2="`type`='message' OR `type`='report' ";
  $array=sql_array("SELECT `id` ,`idle` ,`type` ,`new` ,`from` ,`to` ,`title` ,`text` ,`time` ,`timestop` FROM `".mpx."text` WHERE `idle`='$idle' AND ($add1) AND ($add2) ORDER BY `time` DESC",1);
  if($array[0][3]==1){
  r('notnew');
- $add1='`to`='.logid.'';
+ $add1='`to`='.logid.' OR `to`='.useid.'';
  sql_query("UPDATE `".mpx."text` SET `new`='0' WHERE `idle`='$idle' AND ($add1) AND ($add2)");
  }
  $GLOBALS['ss']["query_output"]->add("list",$array);
  }else{
- if($idle=='new'){$add3='`new`=1';$add2.=" OR `type`='report'";}else{$add3='1';}
+ if($idle=='new'){$add3='`new`=1 AND (`from`!='.useid.' AND `from`!='.logid.')';$add2.=" OR `type`='report'";}else{$add3='1';}
  if($idle=='public'){$add1='`to`=0';}
  if($idle=='report'){$add2="`type`='report'";}
  $array=sql_array("SELECT `id` ,`idle` ,`type` ,`new` ,`from` ,`to` ,`title` ,`text` ,MAX(`time`) ,`timestop`, COUNT(`idle`) FROM `".mpx."text` WHERE ($add1) AND ($add2) AND ($add3) GROUP BY `idle` ORDER BY `time` DESC",1);
@@ -6427,8 +6501,15 @@ function a_text($action,$idle,$to="",$title="",$text=""){
  if($GLOBALS['ss']['message_limit'][$to]){if($GLOBALS['ss']['message_limit'][$to]+5>time()){$no=1;}}
  $GLOBALS['ss']['message_limit'][$to]=time();
  if(!$no){
- sql_query("INSERT INTO `".mpx."text`(`id` ,`idle` ,`type` ,`new` ,`from` ,`to` ,`title` ,`text` ,`time` ,`timestop`) VALUES(NULL,'$idle','message',1,'".logid."','".$to."','$title','$text','".(time())."','')");
+ 
+ $to_=topobject($to);
+ 
+ sql_query("INSERT INTO `".mpx."text`(`id` ,`idle` ,`type` ,`new` ,`from` ,`to` ,`title` ,`text` ,`time` ,`timestop`) VALUES(NULL,'$idle','message',1,'".logid."','".$to_."','$title','$text','".(time())."','')");
+ if($to_==$to){
  $GLOBALS['ss']["query_output"]->add("success",'{send_success}');
+ }else{
+ $GLOBALS['ss']["query_output"]->add("success",'{send_success_to;'.id2name($to_).'}'); 
+ }
  $GLOBALS['ss']["query_output"]->add('1',1);
  }else{
  $GLOBALS['ss']["query_output"]->add("error",'{message_limit}');
@@ -6449,6 +6530,8 @@ function a_text($action,$idle,$to="",$title="",$text=""){
 }
 function send_report($from,$to,$title="",$text=""){
  $idle=sql_1data("SELECT MAX(idle) FROM `".mpx."text`")-(-1);
+ $from=topobject($from);
+ $to=topobject($to);
  sql_query("INSERT INTO `".mpx."text`(`id` ,`idle` ,`type` ,`from` ,`to` ,`title` ,`text` ,`time` ,`timestop`) VALUES(NULL,'$idle','report','$from','$to','$title','$text','".(time())."','')");
 }
 define("a_chat","text");
@@ -6473,7 +6556,7 @@ if(!$textclass)$q=submenu(array("content","text-messages"),array("messages_publi
 $q=$GLOBALS['ss']['submenu'];
 r('textclass: '.$textclass);
 
-contenu_a();
+
 if($q==1 || $q==2 || $q==3 || $q==4){
 
 if(!$textclass){
@@ -6485,13 +6568,14 @@ if(!$textclass){
 
 $response=xquery("text","list",$tmp);$texts=$response["list"];
 if($textclass){
- $col="333333";
- tfont(ahrefr("{message_back}","e=content;ee=text-messages;textclass=0"),20);
- e(nbspo.nbspo);
- bhp("{message_reply}");
+ $col="222222";
+ infob(ahrefr("{message_back}","e=content;ee=text-messages;textclass=0").(nbspo.nbspo).bhpr("{message_reply}"));
+ 
+contenu_a(); 
+ 
  hydepark();
  $url=("q=text send,$textclass,".($texts[0][5]?$texts[0][4]:0).",[message_title],[message_text]"); form_a(urlr($url),'messages_tc');
- $style='border: 2px solid #333333; background-color: #CCCCCC';
+ $style='border: 2px solid #222222; background-color: #CCCCCC';
  tableab("{message_subject}:",input_textr("message_title",'',100,26,$style),"100%","30%");
  br();
  input_textarea("message_text",'',45,6,$style);
@@ -6500,7 +6584,7 @@ if($textclass){
  ihydepark();
  form_js('content','?e=text-messages&'.$url,array('message_title','message_text'));
  
- echo("<table width=\"100%\" bgcolor=\"$col\" cellspacing=\"0\">");
+ echo("<table width=\"".(contentwidth)."\" bgcolor=\"$col\" cellspacing=\"0\">");
 
  
 
@@ -6510,14 +6594,16 @@ if($textclass){
  echo("<tr bgcolor=\"#$col\">");
  echo("<td width=\"120\">");
  $authorid=$from;
- $author=id2name($from);
+ $fromto=ifobject($to)?(short(id2name($from),8).nbsp.'&gt;&gt;'.nbsp.short(id2name($to),8)):short(id2name($from),8);
+ 
+ 
  echo("<b>".tr($title)."</b>");
  echo("</td><td width=\"60\">");
- ahref(short($author,8),"e=content;ee=profile;page=profile;id=".$id,"",true);
- echo("</td><td width=\"\">");
+ ahref($fromto,"e=content;ee=profile;page=profile;id=".$id,"",true);
+ echo("</td><td width=\"\" align=\"right\">");
  timee($time);
  echo("</td><td width=\"22\">");
- if($GLOBALS['ss']["useid"]==$authorid and $textclass){iconp("{delete_message_prompt}","q=text delete ".$id,"delete","Smazat");}
+ if((logid==$authorid or useid==$authorid) and $textclass){iconp("{delete_message_prompt}","e=content;ee=text-messages;q=text delete ".$id,"delete","Smazat");}
  echo("</td><td width=\"22\">");
  echo("</td></tr><tr bgcolor=\"#000000\"><td align=\"left\" colspan=\"6\">");
  te($text);
@@ -6526,19 +6612,22 @@ if($textclass){
  }
  echo("</table>");
 }else{
- e("<table width=\"".(contentwidth)."\" cellspacing=\"0\">");
+contenu_a(); 
+ 
+ e("<table width=\"".(contentwidth-6)."\" cellspacing=\"0\">");
  
  $i=1;foreach($texts as $tmp){$i++;
  list($id,$idle,$type,$new,$from,$to,$title,$text,$time,$timestop,$count)=$tmp;
- $author=id2name($from);
- e("<tr bgcolor=\"#".($i%2==1?'222222':'555555')."\"><td width=\"41%\">");
+ $fromto=ifobject($to)?(short(id2name($from),8).nbsp.'&gt;&gt;'.nbsp.short(id2name($to),8)):short(id2name($from),8);
+ 
+ e("<tr bgcolor=\"#".($i%2==1?'222222':'333333')."\"><td width=\"41%\">");
  $title=short(tr($title),30);
  if($new and $q!=1 and $to==useid)$title=tcolorr(textbr($title),'ff7777');
  ahref($title,"e=content;ee=text-messages;textclass=".$idle,'',true);
  if($count!=1)e('('.$count.')');
  e("</td><td width=\"20%\">");
- ahref(short($author,8),"e=content;ee=profile;page=profile;id=".$from,'',true);
- e("</td><td width=\"30%\">");
+ ahref($fromto,"e=content;ee=profile;page=profile;id=".$from,'',true);
+ e("</td><td width=\"30%\" align=\"right\">");
  timee($time);
  e("</td></tr>");
  }
@@ -6546,7 +6635,7 @@ if($textclass){
 }
 }elseif($q==5){
  
- 
+ contenu_a();
 
  $url=("q=text send,".($textclass?$textclass:'0').",[message_to],[message_title],[message_text]");
  form_a(urlr($url),'messages');
@@ -6555,7 +6644,7 @@ if($textclass){
  br();
  tableab("{message_subject}:",input_textr("message_title",'',100,26,$style),"100%","30%");
  br();
- input_textarea("message_text",'',45,6,$style);
+ input_textarea("message_text",'',52,6,$style);
  br();
  form_sb();
  form_js('content','?e=text-messages&'.$url,array('message_to','message_title','message_text'));

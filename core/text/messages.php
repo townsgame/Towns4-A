@@ -49,7 +49,7 @@ contenu_a();
     form_js('content','?e=text-messages&'.$url,array('message_title','message_text'));
     
     //-----------------------
-    echo("<table width=\"".contentwidth."\" bgcolor=\"$col\" cellspacing=\"0\">");
+    echo("<table width=\"".(contentwidth)."\" bgcolor=\"$col\" cellspacing=\"0\">");
 
     /*echo("<tr  bgcolor=\"#444444\">");
     echo("<td height=\"\" valign=\"top\" colspan=\"6\">");
@@ -66,16 +66,18 @@ contenu_a();
                 echo("<td width=\"120\">");
                 $authorid=$from;
                 //mprofile($author);br();br();
-                $author=id2name($from);
+                $fromto=ifobject($to)?(short(id2name($from),8).nbsp.'&gt;&gt;'.nbsp.short(id2name($to),8)):short(id2name($from),8);
+                
+                
                 //imge("id_".$author."_icon","",50,50);
                 echo("<b>".tr($title)."</b>");
                 echo("</td><td width=\"60\">");
-                ahref(short($author,8),"e=content;ee=profile;page=profile;id=".$id,"",true);
-                echo("</td><td width=\"\">");
+                ahref($fromto,"e=content;ee=profile;page=profile;id=".$id,"",true);
+                echo("</td><td width=\"\" align=\"right\">");
                 timee($time);
                 echo("</td><td width=\"22\">");
                 //r($author);
-                if((logid==$authorid or useid==$authorid) and $textclass){iconp("{delete_message_prompt}","q=text delete ".$id,"delete","Smazat");}
+                if((logid==$authorid or useid==$authorid) and $textclass){iconp("{delete_message_prompt}","e=content;ee=text-messages;q=text delete ".$id,"delete","Smazat");}
                 echo("</td><td width=\"22\">");
                 echo("</td></tr><tr  bgcolor=\"#000000\"><td align=\"left\" colspan=\"6\">");
                 te($text);
@@ -86,7 +88,7 @@ contenu_a();
 }else{
 contenu_a();    
     
-    e("<table width=\"".(contentwidth)."\" cellspacing=\"0\">");
+    e("<table width=\"".(contentwidth-6)."\" cellspacing=\"0\">");
     /*e("<tr><td width=\"36%\">");
     e("Předmět");
     e("</td><td width=\"5%\">");
@@ -99,7 +101,8 @@ contenu_a();
     $i=1;foreach($texts as $tmp){$i++;
             list($id,$idle,$type,$new,$from,$to,$title,$text,$time,$timestop,$count)=$tmp;
                 //r($id,$class,$title,$time,$author,$text);
-                $author=id2name($from);
+                $fromto=ifobject($to)?(short(id2name($from),8).nbsp.'&gt;&gt;'.nbsp.short(id2name($to),8)):short(id2name($from),8);
+                
                 e("<tr bgcolor=\"#".($i%2==1?'222222':'333333')."\"><td width=\"41%\">");
                 $title=short(tr($title),30);
                 if($new and $q!=1 and $to==useid)$title=tcolorr(textbr($title),'ff7777');
@@ -107,8 +110,8 @@ contenu_a();
                 //e("</td><td width=\"5%\">");
                 if($count!=1)e('('.$count.')');
                 e("</td><td width=\"20%\">");
-                ahref(short($author,8),"e=content;ee=profile;page=profile;id=".$from,'',true);
-                e("</td><td width=\"30%\">");
+                ahref($fromto,"e=content;ee=profile;page=profile;id=".$from,'',true);
+                e("</td><td width=\"30%\" align=\"right\">");
                 timee($time);
                 e("</td></tr>");
     }

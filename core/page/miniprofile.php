@@ -102,6 +102,9 @@ if($sql and $id?ifobject($id):true){
          $functionlist=array('portal');   
     }    
         
+//Parse error: syntax error, unexpected '' in /media/towns4/towns4/core/page/miniprofile.php on line 177 
+$set=new set($set); 
+$set=$set->vals2list();   
     
 $q=1;$yes=0;
 $funcs=func2list($func);
@@ -170,7 +173,25 @@ foreach($functionlist as $qq_class){
                         //echo(nln."</a>");
                         if($yes){$brd=$iconbrd;}else{$brd=0;}
                         e(nln);
-                        border(iconr(($ahref?$ahref.';':'').($stream?"js=".x2xx($stream).';':''),$icon,$xname,$iconsize),$brd,$iconsize,$set_value,$set_key/*class*/);
+                             
+                        
+                        if(defined("a_".$class.'_cooldown')){//$fname
+                            $cooldown=$params['cooldown'][0]*$params['cooldown'][1];
+                            if(!$cooldown)$cooldown=$GLOBALS['config']['f']['default']['cooldown'];
+                            $lastused=$set['lastused_'.$fname];
+                            $time=($cooldown-time()+$lastused);           
+                            if($time>0){
+                                $countdown=$time;
+                            }
+                        }  
+                        
+                        //Parse error: syntax error, unexpected ',' in /media/towns4/towns4/core/page/miniprofile.php on line 191 
+                        border(iconr(
+                        (($countdown and $class!='attack')?'':
+                        (($ahref?$ahref.';':'').($stream?"js=".x2xx($stream).';':''))),
+                        $icon,$xname,$iconsize,NULL,$countdown),$brd,$iconsize,$set_value,$set_key,$countdown/*class*/);
+                        $countdown=0; 
+                        
                  }
         }
     }
@@ -198,9 +219,28 @@ foreach($functionlist as $qq_class){
 if($own!=useid){
     if($GLOBALS['settings']['attack_mafu']){
         list($attack_master,$attack_function,$attack_function_name,$attack_function_icon)=explode('-',$GLOBALS['settings']['attack_mafu']);
-        if(ifobject($attack_master))
-        border(iconr('e=content;ee=attack-attack;set=attack_id,'.$id.';noshit=1',$attack_function_icon,"$attack_function_name (".id2name($attack_master).")",$iconsize),0,$iconsize); 
-    
+        if(ifobject($attack_master)){
+            
+            $set=new set(sql_1data("SELECT `set` FROM [mpx]objects WHERE `id`='$attack_master'"));
+            $set=$set->vals2list();
+            $func=new func(sql_1data("SELECT `func` FROM [mpx]objects WHERE `id`='$attack_master'"));            
+            $func=$func->vals2list();                    
+            
+           if(defined('a_attack_cooldown')){//$fname
+                $cooldown=$func[$attack_function]['params']['cooldown'][0]*$func[$attack_function]['params']['cooldown'][1];
+                if(!$cooldown)$cooldown=$GLOBALS['config']['f']['default']['cooldown'];
+                $lastused=$set['lastused_'.$attack_function]; 
+                $time=($cooldown-time()+$lastused);
+                //r("$cooldown-time()+$lastused");  
+                //r($time);       
+                if($time>0){
+                    $countdown=$time;
+                }
+            }      
+            
+            border(iconr($countdown?'':'e=content;ee=attack-attack;set=attack_id,'.$id.';noshit=1',$attack_function_icon,"$attack_function_name (".id2name($attack_master).")",$iconsize,NULL,$countdown),0,$iconsize,NULL,NULL,$countdown);
+            $countdown=0;
+        }
     
     }    
     border(iconr('e=content;ee=attack-attack;set=attack_id,'.$id,'f_attack_window','{f_attack_window}',$iconsize),0,$iconsize);

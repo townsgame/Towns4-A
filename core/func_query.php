@@ -67,25 +67,68 @@ function townsfunction($query,$q){$queryp=$query;
                 $GLOBALS['ss']["aac_func"]=$GLOBALS['ss']["aac_func"][$func];
                 $GLOBALS['ss']["aac_func"]["name"]=$func;
             
-                $funcname=$GLOBALS['ss']["aac_func"]["class"];
+                $funcname=$GLOBALS['ss']['aac_func']['class'];
+                
+                //-------------COOLDOWN
+                if(defined("a_".$funcname.'_cooldown')){
+                    $cooldown=$GLOBALS['ss']['aac_func']['params']['cooldown'][0]*$GLOBALS['ss']['aac_func']['params']['cooldown'][1];
+                    if(!$cooldown)$cooldown=$GLOBALS['config']['f']['default']['cooldown'];
+                    $lastused=$GLOBALS['ss']['aac_object']->set->ifnot("lastused_$func",1);
+    
+                    //r($cooldown.' / '.$lastused);
+                }
+                //r($GLOBALS['ss']['aac_func']);
+                //r($GLOBALS['config']);
+                //-------------
+                
+                /*r($GLOBALS['ss']["aac_object"]->func->vals2list()); 
+                $a=($GLOBALS['ss']["aac_object"]->func->vals2list());     
+                $a=new func($a);
+                hr();
+                r($a->vals2list());        
+                hr();hr();*/
+                
             }
             //r($GLOBALS['ss']["aac_func"]);
             
             
             //r($GLOBALS['ss']["aac_func"]);
             //----------------
+        $funcname_=$funcname;
         $funcname=$q."_".($funcname);
         
         if(/*$func=="login" or */$GLOBALS['ss']["aac_func"] or !$noregister){
             if(function_exists($funcname)){
-                $params=str_replace(",","\",\"",$params);
-                $params="\"$params\"";
-                $params=str_replace(",\"\"","",$params);//Prázdné parametry
-                $params=str_replace("\"\",","",$params);
-                if($params=="\"\""){$params="";}
-                $funceval="$funcname($params);";
-                //r($funceval);
-                eval($funceval);
+                
+                        
+                if(!defined("a_".$funcname_.'_cooldown') or $cooldown<=(time()-$lastused)){
+                    
+                    //r("a_".$funcname_.'_cooldown');
+                    if(defined("a_".$funcname_.'_cooldown')){
+                        //r();
+                        $GLOBALS['ss']['aac_object']->set->add("lastused_".$func,time());
+                    }
+                    
+                    
+                    /*$tmp=($GLOBALS['ss']["aac_object"]->func->vals2list());
+                    $tmp[$funcname_]['params']['lastused']=time();
+                    $GLOBALS['ss']["aac_object"]->func=new func($tmp);*/
+                    
+                    
+                    $params=str_replace(",","\",\"",$params);
+                    $params="\"$params\"";
+                    $params=str_replace(",\"\"","",$params);//Prázdné parametry
+                    $params=str_replace("\"\",","",$params);
+                    if($params=="\"\""){$params="";}
+                    $funceval="$funcname($params);";
+                    //r($funceval);
+                    eval($funceval);
+                    
+                
+                }else{
+                    $GLOBALS['ss']["query_output"]->add("error",'Tuto funkci lze použít za '.timesr($cooldown-time()+$lastused).'.');
+                }
+                
             }else{
                 //r($GLOBALS['ss']["aac_func"]);
                 if($funcname!='a_')$GLOBALS['ss']["query_output"]->add("error","tato funkce je pasivní - $funcname");

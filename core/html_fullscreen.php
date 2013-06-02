@@ -289,8 +289,12 @@ if(logged()){
 }else{
 if($GLOBALS['ss']['bg']=='_'){
 
-    eval(subpage("map"));
-    
+
+//<div style="position:absolute;top:0px;left:0px;width:100%;height:100%;background-color: rgba(0,0,0,0);z-index:500;"></div>
+
+eval(subpage("map"));     
+
+
  }else{
     //print_r($GLOBALS['config']['bg']);
     //echo($GLOBALS['ss']['bg']);

@@ -208,12 +208,12 @@ function movebyr($text,$x=0,$y=0,$id="",$style=""){
 function moveby($text,$x=0,$y=0,$id="",$style=""){
     echo(movebyr($text,$x,$y,$id,$style));
 }
-function borderr($html,$brd=1,$w=10,$id="",$category=""){
+function borderr($html,$brd=1,$w=10,$id="",$category="",$countdown=0){
     if($id)$id="border_".$category."_".$id;
-    return(movebyr($html,0,0,$id,"position:absolute;width:".($w)."px;height:".($w)."px;border: ".$brd."px solid #cccccc;z_index:1000").imgr("design/iconbg.png","",$w,$w));
+    return(movebyr($html,0,0,$id,"position:absolute;width:".($w)."px;height:".($w)."px;border: ".$brd."px solid #cccccc;z-index:1000").imgr("design/iconbg.png",'',$w,$w).($countdown?movebyr(textcolorr($countdown,'dddddd'),-34+$brd,18+$brd,NULL,'z-index:2001'):''));
 }
 //<table id=\"\" width=\"$w\" height=\"$w\" style=\"position:absolute;border: ".$brd."px solid #ffffff\" cellpadding=\"0\" cellspacing=\"0\"><tr><td>$html</td></tr></table>
-function border($html,$brd=1,$w=10,$id="",$category=""){echo( borderr($html,$brd,$w,$id,$category));}
+function border($html,$brd=1,$w=10,$id="",$category="",$countdown=0){echo(borderr($html,$brd,$w,$id,$category,$countdown));}
 function borderjs($id,$sendid="",$category="",$brd=1,$q=true){
     //return("border_".$category."='#border_".$category."_".$id."';alert(border_".$category.")");
     $style_a="'".$brd."px solid #cccccc'";
@@ -278,17 +278,24 @@ function cleartmp($id){
     unlink(tmpfile2("id_$id"."_icon"));
 }
 //--------------------------------------------
-function imageurl($file,$rot=1){
-    $file2=tmpfile2($file.$rot,imgext,"image");
+function imageurl($file,$rot=1,$grey=false){
+    $file2=tmpfile2($file.','.$rot.','.$grey,imgext,"image");
     $file1="data/image/".$file;
-    if(!file_exists($file2) or filemtime($file1)>filemtime($file2) or notmpimg){
+    if(!file_exists($file2) or filemtime($file1)>filemtime($file2) or notmpimg /** or true/**/){
         if(str_replace("id_","",$file)==$file){
             //r($rot);
-            if($rot>1){
+            if($rot>1 or $grey){
                 $img=imagecreatefromstring(file_get_contents($file1));
                 if($rot==2)$img = imagerotate($img, 90, 0);
                 if($rot==3)$img = imagerotate($img, 180, 0);
                 if($rot==4)$img = imagerotate($img, 270, 0);
+                
+                if($grey){                
+                    imagefilter($img,IMG_FILTER_GRAYSCALE);
+                    imagefilter($img,IMG_FILTER_CONTRAST,40);
+                    imagefilter($img,IMG_FILTER_BRIGHTNESS,-70);
+                }                
+                
                 imagesavealpha($img,true);
                 imagepng( $img,$file2);
                 chmod($file2,0777);
@@ -363,11 +370,11 @@ function imageurl($file,$rot=1){
 //--------------------------------------------
 function imageurle($file){echo(imageurl($file));}
 //--------------------------------------------
-function imgr($file,$alt="",$width="",$height="",$rot=1,$border=0){
+function imgr($file,$alt="",$width="",$height="",$rot=1,$border=0,$grey=0){
     $alt=tr($alt,true);
     if($width){$width="width=\"$width\"";}
     if($height){$height="height=\"$height\"";}
-    $stream=imageurl($file,$rot);
+    $stream=imageurl($file,$rot,$grey);
     if($border)
         $border='style="border: '.$border.'px solid #cccccc"';
     else
@@ -377,12 +384,12 @@ function imgr($file,$alt="",$width="",$height="",$rot=1,$border=0){
     return($stream);
 }
 //--------------------------------------------
-function imge($file,$alt="",$width="",$height=""){
-    echo(imgr($file,$alt,$width,$height));
+function imge($file,$alt="",$width="",$height="",$rot=1,$border=0,$grey=0){
+    echo(imgr($file,$alt,$width,$height,$rot,$border,$grey));
 }
 //imge("id_69");
 //--------------------------------------------
-function iconr($url,$icon,$name="",$s=22,$rot=1){
+function iconr($url,$icon,$name="",$s=22,$rot=1,$grey=0){
     //$s=22;
     $file="icons/".$icon.".png";
     //r($file);
@@ -394,9 +401,9 @@ function iconr($url,$icon,$name="",$s=22,$rot=1){
     
     $a="<a $url $onclick >";
     $b="</a>";
-    return($a.imgr($file,$name,$s,$s,$rot).$b);
+    return($a.imgr($file,$name,$s,$s,$rot,NULL,$grey).$b);
 }
-function icon($url,$icon,$name="",$s=22,$rot=1){echo(iconr($url,$icon,$name,$s,$rot));}
+function icon($url,$icon,$name="",$s=22,$rot=1,$grey=0){echo(iconr($url,$icon,$name,$s,$rot,$grey));}
 //--------------------------------------------
 function iconpr($prompt,$url,$icon,$name="",$s=22){
     //$s=22;
@@ -861,7 +868,14 @@ function ahrefr($text,$url,$textd="none",$nol=true,$id=false,$data=false,$onclic
 function ahref($text,$url,$textd="none",$nol=true,$id=false,$data=false,$onclick=""){echo(ahrefr($text,$url,$textd,$nol,$id,$data,$onclick));}
 //==========================================================================================
 function ahrefpr($prompt,$text,$url,$textd="underline",$nol=false,$id="page",$data=false){
-    $onclick="pokracovat = confirm('$prompt');if(pokracovat) window.location.replace('".urlr($url)."');";
+    $tmp=urlr($url);
+    if(strpos("x".$tmp,"javascript: ")){$onclick=str_replace("javascript: ","",$tmp);$tmp="#";}    
+    
+    if($onclick){
+        $onclick="pokracovat = confirm('$prompt');if(pokracovat) ".$onclick;
+    }else{
+        $onclick="pokracovat = confirm('$prompt');if(pokracovat) window.location.replace('".urlr($url)."');";
+    }
     $html=ahrefr($text,"",$textd,$nol,$id,$data,$onclick);
     return($html);
 }
