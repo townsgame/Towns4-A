@@ -37,7 +37,7 @@ $attack_id=$GLOBALS['settings']['attack_id'];
 //$attack_function=($GLOBALS['ss']['use_object']->set->ifnot('attack_function',false));
  
 if(!$ns)window("{attack_on} ".liner_($attack_id,4,true)/*,500,300*/);
-if(!$ns)contenu_a();
+if(!$ns)contenu_a(true);
 /*/if(!$attack_id){
     form_a();
     le('attack_on');
@@ -140,6 +140,8 @@ if(!$attacked->loaded or !$attacker->loaded){error('{attack_wtf}');
     $b_at=$attacked->supportF("attack");
     $a_att=$attacker->supportF($attack_type,"total");
     $b_att=$attacked->supportF("attack","total");//r($b_att);
+    $a_cnt=$attacker->supportF($attack_type,"count");
+    $b_cnt=$attacked->supportF("attack",'count');
     $a_de=$attacker->supportF("defence");
     $b_de=$attacked->supportF("defence");
     $xeff=$attacker->supportF($attack_type,"xeff");
@@ -173,7 +175,7 @@ if(!$attacked->loaded or !$attacker->loaded){error('{attack_wtf}');
     
     //-------PRICE
     
-    list($q,$time,$a_fp2,$b_fp2,$a_tah,$b_tah,$a_atf,$b_atf)=attack_count(50,50,$a_fp,$b_fp,$a_at,$b_at,$a_de,$b_de,$a_att,$b_att);
+    list($q,$time,$a_fp2,$b_fp2,$a_tah,$b_tah,$a_atf,$b_atf)=attack_count(50,50,$a_fp,$b_fp,$a_at,$b_at,$a_cnt,$b_cnt,$a_de,$b_de,$a_att,$b_att);
     $price=use_price("attack",array("time"=>$time),$support[$attack_type]["params"],2);
     if(!test_hold($price)){$noconfirm=1;
         blue(lr('attack_error_price'));
@@ -206,9 +208,9 @@ if(!$attacked->loaded or !$attacker->loaded){error('{attack_wtf}');
     
     
     
-    vprofile($a_id,array("{life}: "=>round($a_fp), "{attack}$a_attt: "=>$a_at, "{defence}: "=>$a_de, "{distance}: "=>$a_dist));
+    vprofile($a_id,array("{life}: "=>round($a_fp), "{attack}$a_attt: "=>$a_at,"{attack_count}: "=>$a_cnt, "{defence}: "=>$a_de, "{distance}: "=>$a_dist));
     tfont('vs.',30);
-    vprofile($b_id,array("{life}: "=>round($b_fp), "{attack}$b_attt: "=>$b_at, "{defence}: "=>$b_de));
+    vprofile($b_id,array("{life}: "=>round($b_fp), "{attack}$b_attt: "=>$b_at,"{attack_count}: "=>$b_cnt, "{defence}: "=>$b_de));
 
     
     tableab_b();
@@ -217,7 +219,7 @@ if(!$attacked->loaded or !$attacker->loaded){error('{attack_wtf}');
     $qs=array(4=>0,7=>0,3=>0,6=>0,8=>0,5=>0);
     for($i=0;$i<=100;$i++){
         if($i!=50){
-            list($q,$time,$a_fp2,$b_fp2,$a_tah,$b_tah,$a_atf,$b_atf)=attack_count($i,100-$i,$a_fp,$b_fp,$a_at,$b_at,$a_de,$b_de,$a_att,$b_att);
+            list($q,$time,$a_fp2,$b_fp2,$a_tah,$b_tah,$a_atf,$b_atf)=attack_count($i,100-$i,$a_fp,$b_fp,$a_at,$b_at,$a_cnt,$b_cnt,$a_de,$b_de,$a_att,$b_att);
             $qs[$q]++;
         }
     }
@@ -227,7 +229,7 @@ if(!$attacked->loaded or !$attacker->loaded){error('{attack_wtf}');
         //$tmp=$tmp/array_sum($qs)*100;
         if($tmp)info($tmp."%: ".attack_name($q));
     }
-    list($q,$time,$a_fp2,$b_fp2,$a_tah,$b_tah,$a_atf,$b_atf)=attack_count(50,50,$a_fp,$b_fp,$a_at,$b_at,$a_de,$b_de,$a_att,$b_att);
+    list($q,$time,$a_fp2,$b_fp2,$a_tah,$b_tah,$a_atf,$b_atf)=attack_count(50,50,$a_fp,$b_fp,$a_at,$b_at,$a_cnt,$b_cnt,$a_de,$b_de,$a_att,$b_att);
     //r($a_fp2);
     if($a_fp2==0)error("{attack_warning_total_kill}");
     elseif($b_att)error("{attack_warning_total}");

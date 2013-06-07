@@ -106,7 +106,9 @@ if(!$attacked->loaded or !$attacker->loaded){error('{attack_wtf}');
  $a_at=$attacker->supportF($attack_type,"attack");
  $b_at=$attacked->supportF("attack");
  $a_att=$attacker->supportF($attack_type,"total");
- $b_att=$attacked->supportF("attack","total"); $a_de=$attacker->supportF("defence");
+ $b_att=$attacked->supportF("attack","total"); $a_cnt=$attacker->supportF($attack_type,"count");
+ $b_cnt=$attacked->supportF("attack",'count');
+ $a_de=$attacker->supportF("defence");
  $b_de=$attacked->supportF("defence");
  $xeff=$attacker->supportF($attack_type,"xeff");
  $steal=clone $attacked->hold;$steal->multiply($xeff);
@@ -134,7 +136,7 @@ if(!$attacked->loaded or !$attacker->loaded){error('{attack_wtf}');
  }
  
  
- list($q,$time,$a_fp2,$b_fp2,$a_tah,$b_tah,$a_atf,$b_atf)=attack_count(50,50,$a_fp,$b_fp,$a_at,$b_at,$a_de,$b_de,$a_att,$b_att);
+ list($q,$time,$a_fp2,$b_fp2,$a_tah,$b_tah,$a_atf,$b_atf)=attack_count(50,50,$a_fp,$b_fp,$a_at,$b_at,$a_cnt,$b_cnt,$a_de,$b_de,$a_att,$b_att);
  $price=use_price("attack",array("time"=>$time),$support[$attack_type]["params"],2);
  if(!test_hold($price)){$noconfirm=1;
  blue(lr('attack_error_price'));
@@ -161,9 +163,9 @@ if(!$attacked->loaded or !$attacker->loaded){error('{attack_wtf}');
  
  
  
- vprofile($a_id,array("{life}: "=>round($a_fp), "{attack}$a_attt: "=>$a_at, "{defence}: "=>$a_de, "{distance}: "=>$a_dist));
+ vprofile($a_id,array("{life}: "=>round($a_fp), "{attack}$a_attt: "=>$a_at,"{attack_count}: "=>$a_cnt, "{defence}: "=>$a_de, "{distance}: "=>$a_dist));
  tfont('vs.',30);
- vprofile($b_id,array("{life}: "=>round($b_fp), "{attack}$b_attt: "=>$b_at, "{defence}: "=>$b_de));
+ vprofile($b_id,array("{life}: "=>round($b_fp), "{attack}$b_attt: "=>$b_at,"{attack_count}: "=>$b_cnt, "{defence}: "=>$b_de));
 
  
  tableab_b();
@@ -172,7 +174,7 @@ if(!$attacked->loaded or !$attacker->loaded){error('{attack_wtf}');
  $qs=array(4=>0,7=>0,3=>0,6=>0,8=>0,5=>0);
  for($i=0;$i<=100;$i++){
  if($i!=50){
- list($q,$time,$a_fp2,$b_fp2,$a_tah,$b_tah,$a_atf,$b_atf)=attack_count($i,100-$i,$a_fp,$b_fp,$a_at,$b_at,$a_de,$b_de,$a_att,$b_att);
+ list($q,$time,$a_fp2,$b_fp2,$a_tah,$b_tah,$a_atf,$b_atf)=attack_count($i,100-$i,$a_fp,$b_fp,$a_at,$b_at,$a_cnt,$b_cnt,$a_de,$b_de,$a_att,$b_att);
  $qs[$q]++;
  }
  }
@@ -181,7 +183,7 @@ if(!$attacked->loaded or !$attacker->loaded){error('{attack_wtf}');
  foreach($qs as $q=>$tmp){
  if($tmp)info($tmp."%: ".attack_name($q));
  }
- list($q,$time,$a_fp2,$b_fp2,$a_tah,$b_tah,$a_atf,$b_atf)=attack_count(50,50,$a_fp,$b_fp,$a_at,$b_at,$a_de,$b_de,$a_att,$b_att);
+ list($q,$time,$a_fp2,$b_fp2,$a_tah,$b_tah,$a_atf,$b_atf)=attack_count(50,50,$a_fp,$b_fp,$a_at,$b_at,$a_cnt,$b_cnt,$a_de,$b_de,$a_att,$b_att);
  if($a_fp2==0)error("{attack_warning_total_kill}");
  elseif($b_att)error("{attack_warning_total}");
  textab("{attack_expected_a}:",$a_fp2);br();
@@ -204,6 +206,7 @@ if(!$ns)contenu_b();
 }elseif($file=='attack/func_core.php'){
 define('5f550c7d1ff68ff0f155b6f174580479',true);
 
+define('a_attack_cooldown',true);
 function a_attack($id){
  if(!$id){$GLOBALS['ss']["query_output"]->add("error","{attack_noid}");}
  elseif($id==useid){$GLOBALS['ss']["query_output"]->add("error","{attack_self}");}
@@ -223,7 +226,8 @@ function a_attack($id){
  $a_at=$GLOBALS['ss']["aac_object"]->supportF($attack_type,"attack");
  $b_at=$attacked->supportF("attack");
  $a_att=$GLOBALS['ss']["aac_object"]->supportF($attack_type,"total");
- $b_att=$attacked->supportF("attack","total"); $a_de=$GLOBALS['ss']["aac_object"]->supportF("defence");
+ $b_att=$attacked->supportF("attack","total"); $a_cnt=$GLOBALS['ss']["aac_object"]->supportF($attack_type,"count");
+ $b_cnt=$attacked->supportF("attack","count"); $a_de=$GLOBALS['ss']["aac_object"]->supportF("defence");
  $b_de=$attacked->supportF("defence");
  $xeff=$GLOBALS['ss']["aac_object"]->supportF($attack_type,"xeff");
  $steal=clone $attacked->hold;$steal->multiply($xeff);
@@ -245,7 +249,7 @@ function a_attack($id){
  }
  
  
- list($q,$time,$a_fp2,$b_fp2,$a_tah,$b_tah,$a_atf,$b_atf)=attack_count(50,50,$a_fp,$b_fp,$a_at,$b_at,$a_de,$b_de,$a_att,$b_att);
+ list($q,$time,$a_fp2,$b_fp2,$a_tah,$b_tah,$a_atf,$b_atf)=attack_count(50,50,$a_fp,$b_fp,$a_at,$b_at,$a_cnt,$b_cnt,$a_de,$b_de,$a_att,$b_att);
  $price=use_price("attack",array("time"=>$time),$support[$attack_type]["params"],2);
  if(!test_hold($price)){
  $GLOBALS['ss']["query_output"]->add("error","{attack_error_price}");
@@ -254,7 +258,7 @@ function a_attack($id){
  
  $a_seed=rand(0,100);
  $b_seed=rand(0,100);
- list($q,$time,$a_fp2,$b_fp2,$a_tah,$b_tah,$a_atf,$b_atf)=attack_count($a_seed,$b_seed,$a_fp,$b_fp,$a_at,$b_at,$a_de,$b_de,$a_att,$b_att);
+ list($q,$time,$a_fp2,$b_fp2,$a_tah,$b_tah,$a_atf,$b_atf)=attack_count($a_seed,$b_seed,$a_fp,$b_fp,$a_at,$b_at,$a_cnt,$b_cnt,$a_de,$b_de,$a_att,$b_att);
  
  
  
@@ -277,7 +281,7 @@ function a_attack($id){
  $steal->multiply(-1);
  $price=$price->textr();
  $steal=$steal->textr();
- $info=array('a_name'=>$a_name,'b_name'=>$b_name,'b_name4'=>$b_name4,'q'=>attack_name($q),'time'=>nn($time),'a_fp2'=>nn($a_fp2),'b_fp2'=>nn($b_fp2),'a_tah'=>nn($a_tah),'b_tah'=>nn($b_tah),'a_atf'=>nn($a_atf),'b_atf'=>nn($b_atf),'a_seed'=>nn($a_seed),'b_seed'=>nn($b_seed),'a_fp'=>nn($a_fp),'b_fp'=>nn($b_fp),'a_at'=>nn($a_at),'b_at'=>nn($b_at),'a_de'=>nn($a_de),'b_de'=>nn($b_de),'a_att'=>nn($a_att),'b_att'=>nn($b_att),'price'=>$price,'steal'=>$steal);
+ $info=array('a_name'=>$a_name,'b_name'=>$b_name,'b_name4'=>$b_name4,'q'=>attack_name($q),'time'=>nn($time),'a_fp2'=>nn($a_fp2),'b_fp2'=>nn($b_fp2),'a_tah'=>nn($a_tah),'b_tah'=>nn($b_tah),'a_atf'=>nn($a_atf),'b_atf'=>nn($b_atf),'a_seed'=>nn($a_seed),'b_seed'=>nn($b_seed),'a_fp'=>nn($a_fp),'b_fp'=>nn($b_fp),'a_at'=>nn($a_at),'b_at'=>nn($b_at),'a_cnt'=>nn($a_cnt),'b_cnt'=>nn($b_cnt),'a_de'=>nn($a_de),'b_de'=>nn($b_de),'a_att'=>nn($a_att),'b_att'=>nn($b_att),'price'=>$price,'steal'=>$steal);
  $info=x2xx(list2str($info));
  
  send_report(useid,$id,lr('attack_report_title',$info),lr('attack_report',$info));
@@ -286,7 +290,7 @@ function a_attack($id){
  
  }}
 }
-function attack_count($a_seed,$b_seed,$a_fp,$b_fp,$a_at,$b_at,$a_de,$b_de,$a_att,$b_att){
+function attack_count($a_seed,$b_seed,$a_fp,$b_fp,$a_at,$b_at,$a_cnt,$b_cnt,$a_de,$b_de,$a_att,$b_att){
  $a_min=1;
  $b_min=1;
  if($a_att)$b_min=0;
@@ -339,20 +343,20 @@ if($id and $GLOBALS['ss']['master']){
 <?php if($q){ ?>
 <!--==========-->
 <div style="position:absolute;"><div style="position:relative;left:-25;top:95;">
-<?php icon(js2('_rot=_rot-15;if(_rot<0)x{_rot=_rot+360;}xbuild_model_rot(_rot);'),"none","{rotate}",25); ?>
+<?php icon(js2('_rot=_rot-15;if(_rot<0)x{_rot=_rot+360;}xbuild_model_rot(_rot);'),"rotate_left","{rotate_left}",25); ?>
 </div></div>
 <!--==========-->
 <div style="position:absolute;"><div style="position:relative;left:80;top:95;">
-<?php icon(js2('_rot=_rot+15;if(_rot>=360)x{_rot=_rot-360;}xbuild_model_rot(_rot);'),"none","{rotate}",25); ?>
+<?php icon(js2('_rot=_rot+15;if(_rot>=360)x{_rot=_rot-360;}xbuild_model_rot(_rot);'),"rotate_right","{rotate_right}",25); ?>
 </div></div>
 <!--==========-->
 <?php } ?>
 <div style="position:absolute;"><div style="position:relative;left:-25;top:145;">
-<?php icon(js2($hide="\$('#create-build').css('display','none');\$('#expandarea').css('display','none')"),"none","{cancel}",25); ?>
+<?php icon(js2($hide="\$('#create-build').css('display','none');\$('#expandarea').css('display','none')"),"cancel","{cancel}",25); ?>
 </div></div>
 <!--==========-->
 <div style="position:absolute;"><div style="position:relative;left:-25;top:70;">
-<?php icon(js2(($q?$hide.',':'').$js),"none","{build}",25); ?>
+<?php icon(js2(($q?$hide.',':'').$js),"f_create_building_submit","{f_create_building_submit}",25); ?>
 </div></div>
 
 <?php
@@ -394,6 +398,7 @@ e('<div class="build_models" id="build_model_'.$rot.'" style="display:'.($rot==0
 }elseif($file=='create/func_core.php'){
 define('7fe4aa8adb8040d2c519ce8bc6a802ef',true);
 
+define('a_create_cooldown',true);
 function a_create($id,$x=0,$y=0,$rot=0){
  r("$id,$x=0,$y=0,$rot=0");
  
@@ -559,6 +564,37 @@ eval(subpage("stat2"));
 }else{
 w_close('create-unique');
 }
+
+}elseif($file=='create/upgrade.php'){
+define('90d28dcf36bec2d2e0db2fb57d0ff45f',true);
+
+e('a');
+$fields="`id`, `name`, `type`, `dev`, `fs`, `fp`, `fr`, `fx`, `fc`, `func`, `hold`, `res`, `profile`, `set`, `hard`, `own`, (SELECT `name` from ".mpx."objects as x WHERE x.`id`=".mpx."objects.`own`) as `ownname`, `in`, `ww`, `x`, `y`, `t`";
+if($_GET["id"]){
+ $id=$_GET["id"];
+}elseif($GLOBALS['get']["id"]){
+ $id=$GLOBALS['get']["id"];
+}else{
+ $id=$GLOBALS['ss']["use_object"]->set->ifnot('upgradetid',0);
+}
+
+contenu_a();
+if($id?ifobject($id):false){
+ $sql="SELECT $fields FROM ".mpx."objects WHERE id=$id";
+ $array=sql_array($sql);
+ list($id, $name, $type, $dev, $fs, $fp, $fr, $fx, $fc, $func, $hold, $res, $profile, $set, $hard, $own, $ownname, $in, $ww, $x, $y, $t)=$array[0];
+ 
+ if($own==useid or $own==logid){
+ $GLOBALS['ss']["use_object"]->set->add('upgradetid',$id);
+ if($fs==$fp){
+ }else{
+ window('Opravit budovu');
+ echo('opravit budovu'); 
+ 
+ }
+ }
+}
+contenu_b();
 
 }elseif($file=='export.php'){
 define('9b70a7fc9e97b4c6ec9d3379141420e8',true);
@@ -1192,11 +1228,11 @@ function movebyr($text,$x=0,$y=0,$id="",$style=""){
 function moveby($text,$x=0,$y=0,$id="",$style=""){
  echo(movebyr($text,$x,$y,$id,$style));
 }
-function borderr($html,$brd=1,$w=10,$id="",$category=""){
+function borderr($html,$brd=1,$w=10,$id="",$category="",$countdown=0){
  if($id)$id="border_".$category."_".$id;
- return(movebyr($html,0,0,$id,"position:absolute;width:".($w)."px;height:".($w)."px;border: ".$brd."px solid #cccccc;z_index:1000").imgr("design/iconbg.png","",$w,$w));
+ return(movebyr($html,0,0,$id,"position:absolute;width:".($w)."px;height:".($w)."px;border: ".$brd."px solid #cccccc;z-index:1000").imgr("design/iconbg.png",'',$w,$w).($countdown?movebyr(textcolorr($countdown,'dddddd'),-34+$brd,18+$brd,NULL,'z-index:2001'):''));
 }
-function border($html,$brd=1,$w=10,$id="",$category=""){echo( borderr($html,$brd,$w,$id,$category));}
+function border($html,$brd=1,$w=10,$id="",$category="",$countdown=0){echo(borderr($html,$brd,$w,$id,$category,$countdown));}
 function borderjs($id,$sendid="",$category="",$brd=1,$q=true){
  $style_a="'".$brd."px solid #cccccc'";
  $style_b="'0px solid #cccccc'";
@@ -1241,16 +1277,23 @@ function cleartmp($id){
  unlink(tmpfile2("id_$id"));
  unlink(tmpfile2("id_$id"."_icon"));
 }
-function imageurl($file,$rot=1){
- $file2=tmpfile2($file.$rot,imgext,"image");
+function imageurl($file,$rot=1,$grey=false){
+ $file2=tmpfile2($file.','.$rot.','.$grey,imgext,"image");
  $file1="data/image/".$file;
- if(!file_exists($file2) or filemtime($file1)>filemtime($file2) or notmpimg){
+ if(!file_exists($file2) or filemtime($file1)>filemtime($file2) or notmpimg ){
  if(str_replace("id_","",$file)==$file){
- if($rot>1){
+ if($rot>1 or $grey){
  $img=imagecreatefromstring(file_get_contents($file1));
  if($rot==2)$img = imagerotate($img, 90, 0);
  if($rot==3)$img = imagerotate($img, 180, 0);
  if($rot==4)$img = imagerotate($img, 270, 0);
+ 
+ if($grey){ 
+ imagefilter($img,IMG_FILTER_GRAYSCALE);
+ imagefilter($img,IMG_FILTER_CONTRAST,40);
+ imagefilter($img,IMG_FILTER_BRIGHTNESS,-70);
+ } 
+ 
  imagesavealpha($img,true);
  imagepng( $img,$file2);
  chmod($file2,0777);
@@ -1306,11 +1349,11 @@ function imageurl($file,$rot=1){
  
 }
 function imageurle($file){echo(imageurl($file));}
-function imgr($file,$alt="",$width="",$height="",$rot=1,$border=0){
+function imgr($file,$alt="",$width="",$height="",$rot=1,$border=0,$grey=0){
  $alt=tr($alt,true);
  if($width){$width="width=\"$width\"";}
  if($height){$height="height=\"$height\"";}
- $stream=imageurl($file,$rot);
+ $stream=imageurl($file,$rot,$grey);
  if($border)
  $border='style="border: '.$border.'px solid #cccccc"';
  else
@@ -1319,10 +1362,10 @@ function imgr($file,$alt="",$width="",$height="",$rot=1,$border=0){
  $stream=labelr($stream,$alt);
  return($stream);
 }
-function imge($file,$alt="",$width="",$height=""){
- echo(imgr($file,$alt,$width,$height));
+function imge($file,$alt="",$width="",$height="",$rot=1,$border=0,$grey=0){
+ echo(imgr($file,$alt,$width,$height,$rot,$border,$grey));
 }
-function iconr($url,$icon,$name="",$s=22,$rot=1){
+function iconr($url,$icon,$name="",$s=22,$rot=1,$grey=0){
  $file="icons/".$icon.".png";
  
  $tmp=urlr($url);
@@ -1332,9 +1375,9 @@ function iconr($url,$icon,$name="",$s=22,$rot=1){
  
  $a="<a $url $onclick >";
  $b="</a>";
- return($a.imgr($file,$name,$s,$s,$rot).$b);
+ return($a.imgr($file,$name,$s,$s,$rot,NULL,$grey).$b);
 }
-function icon($url,$icon,$name="",$s=22,$rot=1){echo(iconr($url,$icon,$name,$s,$rot));}
+function icon($url,$icon,$name="",$s=22,$rot=1,$grey=0){echo(iconr($url,$icon,$name,$s,$rot,$grey));}
 function iconpr($prompt,$url,$icon,$name="",$s=22){
  $file="icons/".$icon.".png";
  return(ahrefpr($prompt,imgr($file,$name,$s,$s),$url,"none","x"));
@@ -3462,20 +3505,49 @@ function townsfunction($query,$q){$queryp=$query;
  $GLOBALS['ss']["aac_func"]=$aid_object->support(); $GLOBALS['ss']["aac_func"]=$GLOBALS['ss']["aac_func"][$func];
  $GLOBALS['ss']["aac_func"]["name"]=$func;
  
- $funcname=$GLOBALS['ss']["aac_func"]["class"];
+ $funcname=$GLOBALS['ss']['aac_func']['class'];
+ 
+ if(defined("a_".$funcname.'_cooldown')){
+ $cooldown=$GLOBALS['ss']['aac_func']['params']['cooldown'][0]*$GLOBALS['ss']['aac_func']['params']['cooldown'][1];
+ if(!$cooldown)$cooldown=$GLOBALS['config']['f']['default']['cooldown'];
+ $lastused=$GLOBALS['ss']['aac_object']->set->ifnot("lastused_$func",1);
+ 
  }
  
  
+ 
+ }
+ 
+ 
+ $funcname_=$funcname;
  $funcname=$q."_".($funcname);
  
  if($GLOBALS['ss']["aac_func"] or !$noregister){
  if(function_exists($funcname)){
+ 
+ 
+ if(!defined("a_".$funcname_.'_cooldown') or $cooldown<=(time()-$lastused)){
+ 
+ if(defined("a_".$funcname_.'_cooldown')){
+ $GLOBALS['ss']['aac_object']->set->add("lastused_".$func,time());
+ }
+ 
+ 
+ 
+ 
+ 
  $params=str_replace(",","\",\"",$params);
  $params="\"$params\"";
  $params=str_replace(",\"\"","",$params); $params=str_replace("\"\",","",$params);
  if($params=="\"\""){$params="";}
  $funceval="$funcname($params);";
  eval($funceval);
+ 
+ 
+ }else{
+ $GLOBALS['ss']["query_output"]->add("error",'Tuto funkci lze použít za '.timesr($cooldown-time()+$lastused).'.');
+ }
+ 
  }else{
  if($funcname!='a_')$GLOBALS['ss']["query_output"]->add("error","tato funkce je pasivní - $funcname");
  }
@@ -4502,9 +4574,11 @@ if($_GET['e']){
 if(logged() and $_GET['e']!="none"){
 $GLOBALS['ss']["log_object"]->update();
 $GLOBALS['ss']["use_object"]->update();
+$GLOBALS['ss']["aac_object"]->update();
 
 unset($GLOBALS['ss']["log_object"]);
 unset($GLOBALS['ss']["use_object"]);
+unset($GLOBALS['ss']["aac_object"]);
 }
 if($endshow){echo($endshow);}
 
@@ -4997,16 +5071,20 @@ define('cb29fbdf22331192e378dbb50c9032ff',true);
 <span style="position:absolute;width:100%;"><span style="position:relative;left:45%;top:-77px;">
 <?php
  $iconsize=30;
- $url="e=content;ee=text-messages;id=".useid;
- 
+ $url="e=content;ee=text-messages;ref=chat;id=".useid;
  $stream='';
- $stream.=imgr("icons/f_text.png",'{messages}',$iconsize);
 
- $add1='`to`='.useid.'';
+
+ $add1='`to`='.useid.' OR `to`='.logid.'';
  $add2="`type`='message' OR `type`='report' ";
- $q=sql_1data("SELECT COUNT(1) FROM `".mpx."text` WHERE ($add1) AND ($add2)");
- $q=textbr($q);
- $stream.=movebyr($q,-27,-4,'','z-index:2000;');
+ $q=sql_1data("SELECT COUNT(1) FROM `".mpx."text` WHERE `new`=1 AND ($add1) AND ($add2)");
+ 
+ if($q){
+ $stream.=imgr("icons/f_text_new.png",'{f_text_new;'.$q.'}',$iconsize);
+ }else{
+ $stream.=imgr("icons/f_text.png",'{f_text}',$iconsize);
+ }
+ 
  ahref($stream,$url);
  ?>
 </span></span>
@@ -5880,8 +5958,7 @@ if($_GET["x"] and $_GET["y"]){
  }
  $sql="SELECT $fields FROM ".mpx."objects WHERE id=$id"; $x_=false;
 }
-
-if($sql and $id?ifobject($id):true){
+if($sql and $id?ifobject($id):false){
  $array=sql_array($sql);
  list($id, $name, $type, $dev, $fs, $fp, $fr, $fx, $fc, $func, $hold, $res, $profile, $set, $hard, $own, $ownname, $in, $ww, $x, $y, $t)=$array[0];
  if(is_numeric($name))$name=lr($type);
@@ -5891,10 +5968,11 @@ if($sql and $id?ifobject($id):true){
  }
  $GLOBALS['ss']["use_object"]->set->add('contextid',$id);
  
+ 
  e('<table border="0" width="47%"><tr height="70"><td width="50" align="left" valign="top">'); 
  mprofile($id);br(3);
  
- e('</td><td align="left" valign="top" width="160">');
+ e('</td><td align="left" valign="top" width="140">');
  
  
  
@@ -5912,7 +5990,7 @@ if($sql and $id?ifobject($id):true){
 	labele(textbr(short($name,20)),$name.'(id: '.$id.')');		imge('design/dot.png','','100%',2);
 		textab_(array(array('život:',$fp.'/'.$fs),
 	 array('pozice:','['.round($x).','.round($y).']'),
-	 array($own_)),140,70);	e('</td><td align="left" valign="top">');
+	 array($own_)),110,55);	e('</td><td align="left" valign="top">');
 	e('<table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td align="left" valign="top">'); 
 	
 	 $iconsize=35;
@@ -5923,6 +6001,8 @@ if($sql and $id?ifobject($id):true){
  $functionlist=array('portal'); 
  } 
  
+$set=new set($set); 
+$set=$set->vals2list(); 
  
 $q=1;$yes=0;
 $funcs=func2list($func);
@@ -5970,7 +6050,23 @@ foreach($functionlist as $qq_class){
  if($yes and $stream){echo("<script>$stream</script>");}
  if($yes){$brd=$iconbrd;}else{$brd=0;}
  e(nln);
- border(iconr(($ahref?$ahref.';':'').($stream?"js=".x2xx($stream).';':''),$icon,$xname,$iconsize),$brd,$iconsize,$set_value,$set_key);
+ 
+ 
+ if(defined("a_".$class.'_cooldown')){ $cooldown=$params['cooldown'][0]*$params['cooldown'][1];
+ if(!$cooldown)$cooldown=$GLOBALS['config']['f']['default']['cooldown'];
+ $lastused=$set['lastused_'.$fname];
+ $time=($cooldown-time()+$lastused); 
+ if($time>0){
+ $countdown=$time;
+ }
+ } 
+ 
+ border(iconr(
+ (($countdown and $class!='attack')?'':
+ (($ahref?$ahref.';':'').($stream?"js=".x2xx($stream).';':''))),
+ $icon,$xname,$iconsize,NULL,$countdown),$brd,$iconsize,$set_value,$set_key,$countdown);
+ $countdown=0; 
+ 
  }
  }
  }
@@ -5978,12 +6074,17 @@ foreach($functionlist as $qq_class){
  if($own==useid){ 
 
 
+ if($fs==$fp){
+ }else{
+ border(iconr('e=content;ee=create-upgrade;id='.$id,'f_repair','{f_repair}',$iconsize),0,$iconsize); 
+ }
+
  border(iconr('e=miniprofile;prompt={f_leave_prompt};q=leave '.$id,'f_leave','{f_leave}',$iconsize),0,$iconsize); 
  }elseif($own){
- border(iconr("e=content;ee=profile;id=".$own,"profile","{profile}",$iconsize),0,$iconsize);
+ border(iconr("e=content;ee=profile;id=".$own,"profile_town2","{profile_town2}",$iconsize),0,$iconsize);
  
  $ownown=sql_1data('SELECT `own` FROM [mpx]objects WHERE `id`=\''.$own.'\'');
- if($ownown)border(iconr("e=content;ee=profile;id=".$ownown,"profile","{profile}",$iconsize),0,$iconsize);
+ if($ownown)border(iconr("e=content;ee=profile;id=".$ownown,"profile_user2","{profile_user2}",$iconsize),0,$iconsize);
  }
 
 
@@ -5991,9 +6092,25 @@ foreach($functionlist as $qq_class){
 if($own!=useid){
  if($GLOBALS['settings']['attack_mafu']){
  list($attack_master,$attack_function,$attack_function_name,$attack_function_icon)=explode('-',$GLOBALS['settings']['attack_mafu']);
- if(ifobject($attack_master))
- border(iconr('e=content;ee=attack-attack;set=attack_id,'.$id.';noshit=1',$attack_function_icon,"$attack_function_name (".id2name($attack_master).")",$iconsize),0,$iconsize); 
+ if(ifobject($attack_master)){
  
+ $set=new set(sql_1data("SELECT `set` FROM [mpx]objects WHERE `id`='$attack_master'"));
+ $set=$set->vals2list();
+ $func=new func(sql_1data("SELECT `func` FROM [mpx]objects WHERE `id`='$attack_master'")); 
+ $func=$func->vals2list(); 
+ 
+ if(defined('a_attack_cooldown')){ $cooldown=$func[$attack_function]['params']['cooldown'][0]*$func[$attack_function]['params']['cooldown'][1];
+ if(!$cooldown)$cooldown=$GLOBALS['config']['f']['default']['cooldown'];
+ $lastused=$set['lastused_'.$attack_function]; 
+ $time=($cooldown-time()+$lastused);
+ if($time>0){
+ $countdown=$time;
+ }
+ } 
+ 
+ border(iconr($countdown?'':'e=content;ee=attack-attack;set=attack_id,'.$id.';noshit=1',$attack_function_icon,"$attack_function_name (".id2name($attack_master).")",$iconsize,NULL,$countdown),0,$iconsize,NULL,NULL,$countdown);
+ $countdown=0;
+ }
  
  } 
  border(iconr('e=content;ee=attack-attack;set=attack_id,'.$id,'f_attack_window','{f_attack_window}',$iconsize),0,$iconsize);
@@ -6039,16 +6156,19 @@ border(iconr("e=tabs;tab=$id;wtf=".($q?0:1).";js=".x2xx($stream),'fx_tab','{fx_t
  e(nbsp2);
  imge('design/dot.png','',2,$iconsize);
  e(nbsp2);
- icon("e=content;ee=profile;id=".useid,"profile","{profile}",$iconsize);
- icon("e=content;ee=profile;id=".logid,"profile","{profile}",$iconsize);
+ icon("e=content;ee=profile;id=".useid,"profile_town","{profile_town}",$iconsize);
+ icon("e=content;ee=profile;id=".logid,"profile_user","{profile_user}",$iconsize);
  $iconsize=22;
- e('</td><td align="left" valign="top" width="'.$iconsize.'">'); 
  
 
+ e('</td><td align="left" valign="top" width="'.$iconsize.'">'); 
+ 
+}
  icon("js=$(document).fullScreen(true);","fullscreen","{fullscreen}",$iconsize);
  br();icon("q=logout","logout","{logout}",$iconsize); 
  br();icon("e=content;ee=help;page=index",'help',"{help}",$iconsize); 
- br();icon(js2('if($(\'#expandarea\').css(\'display\')==\'block\')x{$(\'#expandarea\').css(\'display\',\'none\')}xelsex{$(\'#expandarea\').css(\'display\',\'block\')}x1'),"expandarea","{expandarea}",$iconsize);
+ br();icon(js2('if($(\'#expandarea\').css(\'display\')==\'block\')x{$(\'#expandarea\').css(\'display\',\'none\')}xelsex{$(\'#expandarea\').css(\'display\',\'block\')}x1'),"expand","{expand}",$iconsize);
+ if($sql and $id?ifobject($id):false){
  
  e('</td></tr></table>'); 
  e('</td></tr><tr><td colspan="3" align="left" valign="top">');
@@ -6058,7 +6178,8 @@ border(iconr("e=tabs;tab=$id;wtf=".($q?0:1).";js=".x2xx($stream),'fx_tab','{fx_t
 <script type="text/javascript">
 $('#map_context').html('<?php e(trim($name)); ?>');
 </script>
-<?php } 
+<?php } ?>
+<?php
 }elseif($file=='page/nonex.php'){
 define('e20412cc06ddc2a1ac84bb82d27f825e',true);
 

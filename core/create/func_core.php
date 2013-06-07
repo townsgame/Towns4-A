@@ -151,4 +151,72 @@ changemap($x,$y);
         $GLOBALS['ss']["query_output"]->add("error","{create_error_duplicite}");
     }
 }
+
+//================================================================================================================
+function a_replace($id,$x=0,$y=0,$rot=0){
+    r("$id,$x=0,$y=0,$rot=0");
+    //require(root."control/func_map.php");
+    //if(/*sql_1data("SELECT hard FROM ".mpx."map WHERE x=ROUND(".($x).") AND y=ROUND(".($y).") LIMIT 1")-0==0 or */true){
+
+$res=sql_1data("SELECT res FROM ".mpx."objects WHERE id='$id'");
+
+$rx=round($x);
+$ry=round($y);    
+    
+    if(!floatval(sql_1data("SELECT COUNT(1) FROM `".mpx."objects`  WHERE `ww`=".$GLOBALS['ss']["ww"]." AND `id`!='".$GLOBALS['ss']['aac_object']->id."' AND `x`=$rx AND `y`=$ry LIMIT 1"))){    
+    
+    $hard=hard($rx,$ry);
+    if($hard<supportF($id,'resistance','hard')){
+    
+    if(intval(sql_1data("SELECT COUNT(1) FROM ".mpx."objects WHERE own!='".useid."'AND `ww`=".$GLOBALS['ss']["ww"]." AND `id`!='".$GLOBALS['ss']['aac_object']->id."' AND POW($x-x,2)+POW($y-y,2)<=POW(collapse,2)"))==0){
+       
+    if(intval(sql_1data("SELECT COUNT(1) FROM ".mpx."objects WHERE own='".useid."' AND `ww`=".$GLOBALS['ss']["ww"].""))<=1/* and intval(sql_1data("SELECT COUNT(1) FROM ".mpx."objects WHERE own='".useid."'AND `ww`=".$GLOBALS['ss']["ww"]." AND `id`!='".$GLOBALS['ss']['aac_object']->id."' AND POW($x-x,2)+POW($y-y,2)<=POW(expand,2)"))>=1*/){
+        
+        $GLOBALS['ss']['aac_object']->x=$x;
+        $GLOBALS['ss']['aac_object']->y=$y;
+        $GLOBALS['ss']['aac_object']->res=$res.':'.$rot;
+         $GLOBALS['ss']['aac_object']->update();
+        //sql_query("UPDATE`".mpx."objects` (`id`, `name`, `type`, `dev`, `fs`, `fp`, `fr`, `fx`, `func`, `hold`, `res`, `profile`, `set`, `hard`, `expand`, `own`, `in`, `ww`, `x`, `y`, `t`) 
+        //SELECT ".nextid().", `name`, `type`, `dev`, `fs`, `fp`, `fr`, `fx`, `func`, `hold`, CONCAT('$res',':$rot'), `profile`, 'x', `hard`, `expand`,'".useid."', `in`, ".$GLOBALS['ss']["ww"].", $x, $y, ".time()." FROM `".mpx."objects` WHERE id='$id'");
+         
+        
+
+    }else{
+        define('object_build',true);
+        define('create_error','{replace_error_only}');
+        $GLOBALS['ss']["query_output"]->add("error","{replace_error_expand}");
+    }}else{
+        define('object_build',true);
+        define('create_error','{replace_error_collapse}');
+        $GLOBALS['ss']["query_output"]->add("error","{replace_error_collapse}");
+    }}else{
+        define('object_build',true);
+        //$sql="SELECT (SELECT IF(`terrain`='t1' OR `terrain`='t11',1,0) FROM `".mpx."map`  WHERE `".mpx."map`.`ww`=".$GLOBALS['ss']["ww"]." AND  `".mpx."map`.`x`=$y AND `".mpx."map`.`y`=$x)+(SELECT SUM(`".mpx."objects`. `hard`) FROM `".mpx."objects` WHERE `".mpx."objects`.`ww`=".$GLOBALS['ss']["ww"]." AND  ROUND(`".mpx."objects`.`x`)=$y AND ROUND(`".mpx."objects`.`y`)=$x)";
+        //$hard=sql_1data($sql);// WHERE `ww`=".$GLOBALS['ss']["ww"]." AND `x`=$x AND `y`=$y");
+        define('create_error','{replace_error_resistance}');
+        $GLOBALS['ss']["query_output"]->add("error","{replace_error_resistance}");
+    }}else{
+        define('object_build',true);
+        define('create_error','{replace_error_duplicite}');
+        $GLOBALS['ss']["query_output"]->add("error","{replace_error_duplicite}");
+    }
+}
+
+
+//================================================================================================================
+define('a_repair_cooldown',true);
+function a_repair(){
+
+            $price=new hold($GLOBALS['ss']["aac_object"]->fc);
+            $price->multiply($GLOBALS['ss']["aac_object"]->fp/$GLOBALS['ss']["aac_object"]->fs);
+            if($GLOBALS['ss']["use_object"]->hold->takehold($price)){
+                $GLOBALS['ss']["aac_object"]->fp=$GLOBALS['ss']["aac_object"]->fs;
+                 $GLOBALS['ss']["query_output"]->add("success","{repair_success}");
+            }else{
+                $GLOBALS['ss']["query_output"]->add("error","{repair_error_price}");
+        }
+    
+    
+}
+    
 ?>

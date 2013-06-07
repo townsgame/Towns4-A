@@ -228,6 +228,7 @@ class func{
          if(!isset($tmp['text']))$this->add('text','text');
          if(!isset($tmp['use']))$this->add('use','use');
          if(!isset($tmp['leave']))$this->add('leave','leave');
+         if(!isset($tmp['repair']))$this->add('repair','repair');
          //}
          //$emptyvals=new vals();
          //login=1;use=1;info=1;item=1;profile_edit=1;set_edit=1;move=2;message=1;image=1

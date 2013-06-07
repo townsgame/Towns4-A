@@ -23,7 +23,7 @@ while($tmp=substr2($stream,'src="','"',$i)){
 }
 
 
-
+infob(ahrefr('{help_index}','e=content;ee=help;page=index'));
 contenu_a();
 e($stream);
 contenu_b();

@@ -22,6 +22,8 @@ function a_attack($id){
         $b_at=$attacked->supportF("attack");
         $a_att=$GLOBALS['ss']["aac_object"]->supportF($attack_type,"total");
         $b_att=$attacked->supportF("attack","total");//r($b_att);
+        $a_cnt=$GLOBALS['ss']["aac_object"]->supportF($attack_type,"count");
+        $b_cnt=$attacked->supportF("attack","count");//r($b_att);
         $a_de=$GLOBALS['ss']["aac_object"]->supportF("defence");
         $b_de=$attacked->supportF("defence");
         $xeff=$GLOBALS['ss']["aac_object"]->supportF($attack_type,"xeff");
@@ -48,7 +50,7 @@ function a_attack($id){
         
         //-------PRICE
         
-        list($q,$time,$a_fp2,$b_fp2,$a_tah,$b_tah,$a_atf,$b_atf)=attack_count(50,50,$a_fp,$b_fp,$a_at,$b_at,$a_de,$b_de,$a_att,$b_att);
+        list($q,$time,$a_fp2,$b_fp2,$a_tah,$b_tah,$a_atf,$b_atf)=attack_count(50,50,$a_fp,$b_fp,$a_at,$b_at,$a_cnt,$b_cnt,$a_de,$b_de,$a_att,$b_att);
         $price=use_price("attack",array("time"=>$time),$support[$attack_type]["params"],2);
         if(!test_hold($price)){
             $GLOBALS['ss']["query_output"]->add("error","{attack_error_price}");
@@ -58,7 +60,7 @@ function a_attack($id){
         //-------
         $a_seed=rand(0,100);
         $b_seed=rand(0,100);
-        list($q,$time,$a_fp2,$b_fp2,$a_tah,$b_tah,$a_atf,$b_atf)=attack_count($a_seed,$b_seed,$a_fp,$b_fp,$a_at,$b_at,$a_de,$b_de,$a_att,$b_att);
+        list($q,$time,$a_fp2,$b_fp2,$a_tah,$b_tah,$a_atf,$b_atf)=attack_count($a_seed,$b_seed,$a_fp,$b_fp,$a_at,$b_at,$a_cnt,$b_cnt,$a_de,$b_de,$a_att,$b_att);
         
         //r('abc');
         //textab("váš konečný počet životů:",$a_fp2);
@@ -88,7 +90,7 @@ function a_attack($id){
         $steal->multiply(-1);
         $price=$price->textr();
         $steal=$steal->textr();
-        $info=array('a_name'=>$a_name,'b_name'=>$b_name,'b_name4'=>$b_name4,'q'=>attack_name($q),'time'=>nn($time),'a_fp2'=>nn($a_fp2),'b_fp2'=>nn($b_fp2),'a_tah'=>nn($a_tah),'b_tah'=>nn($b_tah),'a_atf'=>nn($a_atf),'b_atf'=>nn($b_atf),'a_seed'=>nn($a_seed),'b_seed'=>nn($b_seed),'a_fp'=>nn($a_fp),'b_fp'=>nn($b_fp),'a_at'=>nn($a_at),'b_at'=>nn($b_at),'a_de'=>nn($a_de),'b_de'=>nn($b_de),'a_att'=>nn($a_att),'b_att'=>nn($b_att),'price'=>$price,'steal'=>$steal);
+        $info=array('a_name'=>$a_name,'b_name'=>$b_name,'b_name4'=>$b_name4,'q'=>attack_name($q),'time'=>nn($time),'a_fp2'=>nn($a_fp2),'b_fp2'=>nn($b_fp2),'a_tah'=>nn($a_tah),'b_tah'=>nn($b_tah),'a_atf'=>nn($a_atf),'b_atf'=>nn($b_atf),'a_seed'=>nn($a_seed),'b_seed'=>nn($b_seed),'a_fp'=>nn($a_fp),'b_fp'=>nn($b_fp),'a_at'=>nn($a_at),'b_at'=>nn($b_at),'a_cnt'=>nn($a_cnt),'b_cnt'=>nn($b_cnt),'a_de'=>nn($a_de),'b_de'=>nn($b_de),'a_att'=>nn($a_att),'b_att'=>nn($b_att),'price'=>$price,'steal'=>$steal);
         $info=x2xx(list2str($info));
          /*le('attack_report_title',$info);
          br();
@@ -102,7 +104,7 @@ function a_attack($id){
     }}
 }
 //-------
-function attack_count($a_seed/*<0,100>*/,$b_seed,$a_fp,$b_fp,$a_at,$b_at,$a_de,$b_de,$a_att,$b_att){
+function attack_count($a_seed/*<0,100>*/,$b_seed,$a_fp,$b_fp,$a_at,$b_at,$a_cnt,$b_cnt,$a_de,$b_de,$a_att,$b_att){
     $a_min=1;
     $b_min=1;
     if($a_att)$b_min=0;

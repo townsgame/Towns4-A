@@ -53,7 +53,7 @@
                             zaloha_a=$('#create-build').css('display');
                             zaloha_e=$('#expandarea').css('display');
                             $('#map').html(vystup);
-                            if(zaloha_a=='block')build(window.build_master,window.build_id);
+                            if(zaloha_a=='block')build(window.build_master,window.build_id,window.build_func);
    							$('#expandarea').css('display',zaloha_e);
                             fff();
                         }x);

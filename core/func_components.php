@@ -70,10 +70,11 @@ function w_close($w_name){
 //----------------
 define('contentwidth',449);
 
-function contenu_a($scroll=true,$top17=true){?>
+function contenu_a($top17='',$scroll=true){?>
 <?php
-if(!$top17){
-    infob(nbsp);
+if($top17){
+    if($top17===true)$top17=nbsp;
+    infob($top17);
 }
 
 $scroll=true;
@@ -1224,7 +1225,7 @@ function profiler($id="use"){
             $stream.=("<br/>");
             
             if(logid==$id){
-                $stream.=ahrefr("Změnit heslo","e=password_edit",false);
+                $stream.=ahrefr("Změnit heslo","e=content;ee=password_edit",false);
                 $stream.=("<br/>");
             }
         }else{

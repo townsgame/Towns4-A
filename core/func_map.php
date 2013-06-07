@@ -671,6 +671,8 @@ function mapunits($gx,$gy,$xy){
 //------------------------------------------------------------------------------------------------------------PROPOJENI2 HTMLMAP
 //=============================================================
 function htmlmap($gx=false,$gy=false,$w=0,$only=false/*$width=424*/){
+            //$gx=-10;            
+            //$gy=0;
             $width=424;
     //NOCACHE//ile$file=tmpfile2("output6,".root.",$gx,$gy,".$GLOBALS['ss']["ww"],"txt","map");
     //NOCACHE//if(!file_exists($file) and !notmp){

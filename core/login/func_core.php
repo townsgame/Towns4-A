@@ -16,11 +16,25 @@ function a_register($param1){
                 $hard=sql_1data("SELECT `hard` FROM ".mpx."map where `ww`='".$GLOBALS['ss']["ww"]."' AND `x`='$x' AND `y`='$y'");
                 if(floatval($hard)<0.3)$q=true;
             }*/
-            $array=sql_array("SELECT `x`,`y` FROM ".mpx."map where `ww`='".$GLOBALS['ss']["ww"]."' AND (`terrain`='t8' OR `terrain`='t9' OR `terrain`='t12' OR `terrain`='t13') ORDER BY RAND() LIMIT 1");            
+            $file=tmpfile2("register_list","txt","text");
+            if(!file_exists($file) or unserialize(file_get_contents($file))==array()){
+                $array=sql_array("
+                SELECT `x`,`y` FROM [mpx]map where `ww`='".$GLOBALS['ss']["ww"]."' AND 
+                (`terrain`='t8' OR `terrain`='t9' OR `terrain`='t12' OR `terrain`='t13')  AND 
+                9=(SELECT COUNT(1) FROM [mpx]map AS Y where Y.`ww`='".$GLOBALS['ss']["ww"]."' AND (Y.`terrain`='t8' OR Y.`terrain`='t9' OR Y.`terrain`='t12' OR Y.`terrain`='t13') AND (Y.`x`+1>=[mpx]map.`x` AND Y.`y`+1>=[mpx]map.`y` AND Y.`x`-1<=[mpx]map.`x` AND Y.`y`-1<=[mpx]map.`y`))
+                ORDER BY
+                (SELECT COUNT(1) FROM [mpx]objects AS X where X.`ww`='".$GLOBALS['ss']["ww"]."' AND  X.`own`!='0' AND (X.`x`+5>[mpx]map.`x` AND X.`y`+5>[mpx]map.`y` AND X.`x`-5<[mpx]map.`x` AND X.`y`-5<[mpx]map.`y`))
+                ,RAND()");
+                
+            }else{
+                $array=unserialize(file_get_contents($file));    
+            }
             if($array){ 
                 $q=true;            
                 list($x,$y)=$array[0];
+                array_splice($array,0,1);
             }
+            file_put_contents2($file,serialize($array));
             if($q){
                 $set='tutorial=1';
                 $id=nextid();          
@@ -151,7 +165,7 @@ function a_logout(){
 //======================================================================================USE
 define("a_use_help","user");
 function a_use($param1){
-    echo("use($param1)");
+    //echo("use($param1)");
     $GLOBALS['ss']["use_object"] = new object($param1);
     //$GLOBALS['ss']["use_object"]->xxx();
     //$GLOBALS['ss']["query_output"]->add("1",1);

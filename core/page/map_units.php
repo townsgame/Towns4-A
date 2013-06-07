@@ -18,9 +18,11 @@ $rxp=424*2.5;//+$xxu;
 $ryp=0;//+$yyu;
 //$p=(200*0.75*((212)/375));
 $px=424/10;$py=$px/2;
-$say="(SELECT IF((`".mpx."text`.`timestop`=0 OR ".time()."<=`".mpx."text`.`timestop`),`".mpx."text`.`text`,'')  FROM `".mpx."text` WHERE `".mpx."text`.`from`=`".mpx."objects`.id AND `".mpx."text`.`type`='chat' ORDER BY `".mpx."text`.time DESC LIMIT 1)";
+$say="''";//"(SELECT IF((`".mpx."text`.`timestop`=0 OR ".time()."<=`".mpx."text`.`timestop`),`".mpx."text`.`text`,'')  FROM `".mpx."text` WHERE `".mpx."text`.`from`=`".mpx."objects`.id AND `".mpx."text`.`type`='chat' ORDER BY `".mpx."text`.time DESC LIMIT 1)";
 //$say="'ahoj'";
-foreach(sql_array("SELECT `x`,`y`,`type`,`res`,`set`,`name`,`id`,`own`,$say,expand,collapse FROM `".mpx."objects` WHERE ww=".$GLOBALS['ss']["ww"]." AND `type`='building'"/**/) as $row){//WHERE res=''//modelnamape//    
+
+$hlname=id2name($GLOBALS['config']['register_building']);
+foreach(sql_array("SELECT `x`,`y`,`type`,`res`,`set`,`name`,`id`,`own`,$say,expand,collapse FROM `[mpx]objects` WHERE ww=".$GLOBALS['ss']["ww"]." AND `type`='building' "/*"AND (`name`!='$hlname' OR (SELECT COUNT(1) FROM [mpx]objects AS X WHERE X. `own`= [mpx]objects.`own` AND X. `type`='building')>1 OR `own`='".logid."' OR `own`='".useid."')"/**/) as $row){//WHERE res=''//modelnamape//    
     $type=$row[2];    
     $res=$row[3];
     $set=$row[4];

@@ -1,4 +1,9 @@
 <?php
+window('{password_edit}');
+
+infob(ahrefr('{back}','e=content;ee=profile'));
+contenu_a();
+
 //echo(rand(1,1000));
 //print_r($_POST);
 if($_POST["oldpass"] or $_POST["newpass"] or $_POST["newpass"]){
@@ -13,7 +18,7 @@ if(xsuccess()){
   ?> 
 <script>
 setTimeout(function()x{
-    w_close('password_edit');
+    w_close('content');
 }x,3000);
 </script>
 <?php
@@ -26,7 +31,7 @@ setTimeout(function()x{
     }
 }
 if($GLOBALS['ss']["logid"]!=$GLOBALS['ss']["useid"]){
-    alert("{password_change_use_warning;".$info2["name"]."}",3);
+    //alert("{password_change_use_warning;".$info2["name"]."}",3);
 }
 //realname,gender,age,showmail,web,description
 //print_r($array);
@@ -49,8 +54,11 @@ $("#changepass").submit(function() x{
     //alert(1);
     $.post('?e=password_edit',
         x{ oldpass: $('#oldpass').val(), newpass: $('#newpass').val(), newpass2: $('#newpass2').val() }x,
-        function(vystup)x{/*alert(2);*/$('#password_edit').html(vystup);}x
+        function(vystup)x{/*alert(2);*/$('#content').html(vystup);}x
     );
     return(false);
 }x);
 </script>
+<?php
+contenu_b();
+?>

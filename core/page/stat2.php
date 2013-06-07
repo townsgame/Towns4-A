@@ -32,7 +32,7 @@ foreach($array as $row){$i++;$ii--;
     }*/
     e('<td>');
     //e($i);
-    $js=/*"w_close('window_unique');"*/"build('".$GLOBALS['ss']['master']."$master','$id');";
+    $js="w_close('content');build('".$GLOBALS['ss']['master']."$master','$id','".$GLOBALS['get']['func']."');";
     ahref('<img src="'.modelx($res).'" width="'.(70*0.75).'">',js2($js),'none',true);
     e('</td>');
     e('<td>');

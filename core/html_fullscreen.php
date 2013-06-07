@@ -59,17 +59,18 @@ if(logged()){
 
     //----------------TUTORIAL
     if($GLOBALS['ss']["log_object"]->set->val("tutorial") and !$windows['help']){
-        //$GLOBALS['ss']["page"]='tutorial1';
-        //$windows=array_merge($windows,array('content'=>array("help",1,1,contentwidth,0,array(1,1,1,1),0)));
+        $GLOBALS['ss']["page"]='tutorial1';
+        $windows=array_merge($windows,array('content'=>array("help",1,1,contentwidth,0,array(1,1,1,1),0)));
+        $GLOBALS['ss']["log_object"]->set->add("tutorial",false);
     }
     //----------------NOPASSWORD
     if(nopass and nofb){
         $GLOBALS['topinfo']='{register_nopassword}';
-        $GLOBALS['topinfo_url']='e=password_edit;'.js2('$(\'#topinfo\').css(\'display\',\'none\');');
+        $GLOBALS['topinfo_url']='e=content;ee=password_edit;'.js2('$(\'#topinfo\').css(\'display\',\'none\');');
         $windows=array_merge(
         $windows,
         array(
-            "topinfo"=>array("topinfo",0,0,'100%',0,array(0,1,1,1),1),
+            "topinfo"=>array("topinfo",'%%',-161,'103%',0,array(0,1,1,1),1),
         ));
     }
     //----------------    
@@ -197,7 +198,10 @@ if($w_name=="name")echo("</div>");
    }x);
 
 	function w_close(w_name)x{
-	    //alert(w_name);
+        if(w_name.substring(0,7)!='window_')x{ 
+            w_name='window_'+w_name;
+        }x  
+	    
         $('#'+w_name).remove();
         w_name=w_name.split("window_").join("");
         windows=windows+w_name+',none,,;';

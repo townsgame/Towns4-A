@@ -11,7 +11,7 @@ if($(\'#minimap\').css(\'display\')==\'block\')x{
     $(\'#minimap\').css(\'display\',\'none\');
 }xelsex{
     if(offset.top>$(window).height()/2)$(\'#window_topcontrol\').css(\'top\',tmp-100);
-    $(\'#minimap\').css(\'display\',\'block\');
+    /*$(\'#minimap\').css(\'display\',\'block\');*/
  }x1');
 $url2='e=content;ee=help;page=copy';
 

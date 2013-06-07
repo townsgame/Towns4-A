@@ -89,6 +89,7 @@ function hard($rx,$ry,$w=false){
     $hard=floatval($hard1)+floatval($hard2);
     return($hard);
 }
+  
 //======================================================================================
 //CONFIG
 if($_GET["w"]){

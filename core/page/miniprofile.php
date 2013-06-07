@@ -24,7 +24,7 @@ $fields="`id`, `name`, `type`, `dev`, `fs`, `fp`, `fr`, `fx`, `fc`, `func`, `hol
 if($_GET["x"] and $_GET["y"]){
     $x_=$_GET["x"]+1;
     $y_=$_GET["y"]+1;
-    $sql="SELECT $fields FROM ".mpx."objects ORDER BY ABS(x-$x_)+ABS(y-$y_) LIMIT 1";
+    $sql="SELECT $fields FROM ".mpx."objects WHERE `ww`='".$GLOBALS['ss']['ww']."' AND (`type`='building' OR `type`='tree' OR `type`='rock') ORDER BY ABS(x-$x_)+ABS(y-$y_) LIMIT 1";
 }else{
     if($_GET["contextid"]){
         $id=$_GET["contextid"];
@@ -40,7 +40,6 @@ if($_GET["x"] and $_GET["y"]){
 //--------------------------
 //echo($id.',');
 //echo($GLOBALS['hl']);
-
 if($sql and $id?ifobject($id):true){
     //echo($sql);
     $array=sql_array($sql);
@@ -61,12 +60,13 @@ if($sql and $id?ifobject($id):true){
 <div style="width:100%;height:2px;background-color:rgba(0,0,0,0);"></div> 
 <?php
     */
+ 
     //---------------------------------
     e('<table border="0" width="47%"><tr height="70"><td width="50" align="left" valign="top">'); 
     mprofile($id);br(3);
     
     //tfont(/*shortx($name,8)*/nbsp,12);
-    e('</td><td align="left" valign="top" width="160">');
+    e('</td><td align="left" valign="top" width="140">');
     
     
     
@@ -88,7 +88,7 @@ if($sql and $id?ifobject($id):true){
 	//echo('<span style="background-color: #cccccc;width:100%;height:2px;"></span>');br();
 	textab_(array(array('život:',$fp.'/'.$fs/*.'('.fs2lvl($fs,2).')'*/),
 	              array('pozice:','['.round($x).','.round($y).']'/*.(($ww!=1)?'['.$ww.']':'')*/),
-	              array($own_)),140,70);//br();           
+	              array($own_)),110,55);//br();           
 	e('</td><td align="left" valign="top">');
 	e('<table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td align="left" valign="top">'); 
 	
@@ -97,7 +97,7 @@ if($sql and $id?ifobject($id):true){
     $iconbrd=3;
     //===============================================================FUNC
     if($own==useid){
-         $functionlist=array('attack','create','teleport','portal');   
+         $functionlist=array('attack','create','teleport','portal','repair','upgrade','replace');   
     }else{
          $functionlist=array('portal');   
     }    
@@ -148,17 +148,27 @@ foreach($functionlist as $qq_class){
                         break;
                         case 'create':
                                if(is_array($func['profile']['limit']) or !$func['profile']['limit']){
-                                    $ahref='e=content;ee=create-unique;type=building;master='.$id;
+                                    $ahref='e=content;ee=create-unique;type=building;master='.$id.';func='.$fname;
                                }else{
-                                    $stream="build($id,".$func['profile']['limit'].")";
-                                    
+                                    $stream="build($id,".$func['profile']['limit'].",'$fname')";
                                }                        
                                 //$stream=("attackfunc='$name';".borderjs($name,'attack',iconbrd));
                                 //if($settings["create"]==$name)$yes=1;
                         break;
+                        case 'replace':
+                               if(intval(sql_1data("SELECT COUNT(1) FROM [mpx]objects WHERE own='".useid."' AND `ww`=".$GLOBALS['ss']["ww"]))<=1){
+                                    $stream="build($id,".$GLOBALS['config']['register_building'].",'$fname')";
+                               }
+                        break;
                         case 'teleport':
                         case 'portal':
                                $ahref=centerurl($func['profile']['id']);
+
+                        break;
+                        case 'repair':
+                           if($fs!=$fp){
+                                $ahref='e=content;ee=create-upgrade;id='.$id; 
+                           }
                         break;
                 }
                 if($stream or $ahref){
@@ -199,15 +209,24 @@ foreach($functionlist as $qq_class){
     if($own==useid){ 
 
 
-       border(iconr('e=miniprofile;prompt={f_leave_prompt};q=leave '.$id,'f_leave','{f_leave}',$iconsize),0,$iconsize); 
+       /*if($fs==$fp){
+            //border(iconr('e=miniprofile;ee=upgrade;id='.$id,'f_upgrade','{f_upgrade}',$iconsize),0,$iconsize);    
+       }else{
+            border(iconr('e=content;ee=create-upgrade;id='.$id,'f_repair','{f_repair}',$iconsize),0,$iconsize); 
+       }*/
+       if(id2name($GLOBALS['config']['register_building'])!=$name){
+            border(iconr('e=miniprofile;prompt={f_leave_prompt};q=leave '.$id,'f_leave','{f_leave}',$iconsize),0,$iconsize);
+       }else{
+            //border(iconr("build('".$GLOBALS['ss']['hl']."_replace',‎'".$GLOBALS['config']['register_building']."');",'f_leave','{f_leave}',$iconsize),0,$iconsize);
+       }
 //----------------------------------------------
         //$own_=('vlastní budova');
     }elseif($own){
         //$own_=($ownname);
-        border(iconr("e=content;ee=profile;id=".$own,"profile","{profile}",$iconsize),0,$iconsize);
+        border(iconr("e=content;ee=profile;id=".$own,"profile_town2","{profile_town2}",$iconsize),0,$iconsize);
         
         $ownown=sql_1data('SELECT `own` FROM [mpx]objects WHERE `id`=\''.$own.'\'');
-        if($ownown)border(iconr("e=content;ee=profile;id=".$ownown,"profile","{profile}",$iconsize),0,$iconsize);
+        if($ownown)border(iconr("e=content;ee=profile;id=".$ownown,"profile_user2","{profile_user2}",$iconsize),0,$iconsize);
     }/*elseif($type=='tree' or $type=='rock'){        
         //$own_=('příroda');
     }else{
@@ -254,10 +273,10 @@ border(iconr($url,'fx_center','{fx_center}',$iconsize),0,$iconsize);
 //br();
 //echo(($GLOBALS['config']['register_building']).','.id2name($GLOBALS['config']['register_building']).''.$name);
 
-$xc_=$GLOBALS['ss']["log_object"]->set->ifnot("map_xc",false);
-$yc_=$GLOBALS['ss']["log_object"]->set->ifnot("map_yc",false);
-$xx_=$GLOBALS['ss']["log_object"]->set->ifnot("map_xx",false);
-$yy_=$GLOBALS['ss']["log_object"]->set->ifnot("map_yy",false);
+$xc_=$GLOBALS['ss']["use_object"]->set->ifnot("map_xc",false);
+$yc_=$GLOBALS['ss']["use_object"]->set->ifnot("map_yc",false);
+$xx_=$GLOBALS['ss']["use_object"]->set->ifnot("map_xx",false);
+$yy_=$GLOBALS['ss']["use_object"]->set->ifnot("map_yy",false);
 //echo($xc.','.$yc.','.$xx.','.$yy);
 //if($xc===false and $yc===false and $xx===false and $yy===false)echo('hurá');   
 if($xc_===false and $yc_===false and $xx_===false and $yy_===false and id2name($GLOBALS['config']['register_building'])==$name){
@@ -301,19 +320,22 @@ border(iconr("e=tabs;tab=$id;wtf=".($q?0:1).";js=".x2xx($stream),'fx_tab','{fx_t
     imge('design/dot.png','',2,$iconsize);
     e(nbsp2);
     //tfont('|',40);
-    icon("e=content;ee=profile;id=".useid,"profile","{profile}",$iconsize);
-    icon("e=content;ee=profile;id=".logid,"profile","{profile}",$iconsize);
+    icon("e=content;ee=profile;id=".useid,"profile_town","{profile_town}",$iconsize);
+    icon("e=content;ee=profile;id=".logid,"profile_user","{profile_user}",$iconsize);
      //===============================================================
     $iconsize=22;
-    e('</td><td align="left" valign="top" width="'.$iconsize.'">');     
     
 
+    e('</td><td align="left" valign="top" width="'.$iconsize.'">');     
+    
+}
          icon("js=$(document).fullScreen(true);","fullscreen","{fullscreen}",$iconsize);
     br();icon("q=logout","logout","{logout}",$iconsize);   
     br();icon("e=content;ee=help;page=index",'help',"{help}",$iconsize); 
-    br();icon(js2('if($(\'#expandarea\').css(\'display\')==\'block\')x{$(\'#expandarea\').css(\'display\',\'none\')}xelsex{$(\'#expandarea\').css(\'display\',\'block\')}x1'),"expandarea","{expandarea}",$iconsize);
+    br();icon(js2('if($(\'#expandarea\').css(\'display\')==\'block\')x{$(\'#expandarea\').css(\'display\',\'none\')}xelsex{$(\'#expandarea\').css(\'display\',\'block\')}x1'),"expand","{expand}",$iconsize);
     //Parse error: syntax error, unexpected ')' in /media/towns4/towns4/core/page/miniprofile.php on line 263 
-    
+if($sql and $id?ifobject($id):true){
+ 
     e('</td></tr></table>'); 
     //===============================================================
     e('</td></tr><tr><td colspan="3" align="left" valign="top">');

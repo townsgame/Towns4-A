@@ -143,8 +143,8 @@ if(!defined("func_map"))require(root.core."/func_map.php");
 		setTimeout(function()x{         
         parseMapF(
 		function()x{        
-        $('#map_context').css('left',300);
-        $('#map_context').css('top',200);
+        $('#map_context').css('left',645);
+        $('#map_context').css('top',195);
         $('#map_context').css('display','block');
         $(function()x{$.get('?e=miniprofile&w=&contextid='+<?php e($GLOBALS['get']['center']); ?>, function(vystup)x{$('#miniprofile').html(vystup);}x);}x);
 		}x
@@ -172,9 +172,10 @@ if(!defined("func_map"))require(root.core."/func_map.php");
             //window.build_id=false;
             $("#create-build").css("left",(screen.width/2)-55);
             $("#create-build").css("top",(screen.height/2)-154);
-            build=function(master,id) x{//alert(master+','+id);
+            build=function(master,id,func) x{//alert(master+','+id+','+func);
                 window.build_master=master;
                 window.build_id=id;
+                window.build_func=func;
                 $("#expandarea").css("display","block");
                 $("#create-build").css("display","block");
                 $("#create-build").draggable();
@@ -194,11 +195,11 @@ if(!defined("func_map"))require(root.core."/func_map.php");
                     
                 }x);
               /*alert('?e=object_build&master='+master+'&id='+id);*/
-                $.get('?e=create-build&master='+master+'&id='+id, function(vystup)x{$('#create-build').html(vystup);}x);
+                $.get('?e=create-build&master='+master+'&func='+func+'&id='+id, function(vystup)x{$('#create-build').html(vystup);}x);
             }x
             <?php
                 if(defined('object_build')){
-                    e('build('.$GLOBALS['ss']['master'].','.$GLOBALS['ss']['object_build_id'].');');
+                    e('build('.$GLOBALS['ss']['master'].','.$GLOBALS['ss']['object_build_id'].',\''.$GLOBALS['ss']['object_build_func'].'\');');
                 }
                 if(defined('create_error')){
                     e('alert("'.create_error.'");');
