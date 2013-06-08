@@ -61,7 +61,7 @@ if(logged()){
     if($GLOBALS['ss']["log_object"]->set->val("tutorial") and !$windows['help']){
         $GLOBALS['ss']["page"]='tutorial1';
         $windows=array_merge($windows,array('content'=>array("help",1,1,contentwidth,0,array(1,1,1,1),0)));
-        $GLOBALS['ss']["log_object"]->set->add("tutorial",false);
+        $GLOBALS['ss']["log_object"]->set->delete("tutorial");
     }
     //----------------NOPASSWORD
     if(nopass and nofb){

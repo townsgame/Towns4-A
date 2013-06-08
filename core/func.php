@@ -213,9 +213,22 @@ function subjs($sub){
     if(!$ee){$ee=$dir;$dir='page';}
      ob_start();
      include(core.'/'.$dir.'/'.$ee.'.php');
-     $stream = ob_get_contents();
+     $buffer = ob_get_contents();
      ob_end_clean();
-     echo('$("#'.$sub.'").html("'.addslashes($stream).'");');
+     
+     //-------
+        $buffer=contentlang($buffer);
+        $bufferx="";
+        foreach(str_split($buffer) as $char){
+            if(strtr($char,"ěščřžýáíéúůĚŠČŘŽÝÁÍÉÚŮqwertyuiopasdfghjkl","0000000000000000000000000000000000000000000000000000000000")==$char){
+                $char=dechex(ord($char));
+                if(strlen($char)==1){ $char=("0".$char); }
+                $char="%".$char;
+            }
+            $bufferx=$bufferx.$char;
+        }     
+     //-------
+     echo('$("#'.$sub.'").html(unescape("'.($bufferx).'"));');
 }
 //---------------------------------------------------------
 function urlr($tmp){//$tmpx="&amp;tmp=".$tmp;$tmpxx="&tmp=".$tmp;
@@ -272,16 +285,21 @@ function url($tmp){
     echo(urlr($tmp));
 }
 //------------------------
-function urlx($url){
+function urlxr($url,$script=true){
     $url=urlr($url);
     //r('urlx: '.$url);
     if(strpos($url,'javascript:')!==false){
         $url=str_replace('javascript:', '', $url);
         $url=trim($url);
-        e('<script>'.$url.'</script>');
-        exit2();
+        if($script){
+            return('<script>'.$url.'</script>');
+        }else{
+            return($url);
+        }
+        
     }
 }
+function urlx($url,$script=true){e(urlxr($url,$script));if($script){exit2();}}
 //------------------------
 function js2($js){
 	return("js=".x2xx($js));

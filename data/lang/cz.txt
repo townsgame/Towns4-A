@@ -231,15 +231,15 @@ attack_steal=kořist;
 
 
 
-attack_q1=A má 0 životů;
-attack_q2=B má 0 životů;
-attack_q3=bez efektu;
-attack_q4=totální výhra;
-attack_q5=totální prohra;
-attack_q6=sebevražda;
-attack_q7=výhra;
-attack_q8=prohra;
-
+attack_q1=bez efektu;
+attack_q2=částečná výhra;
+attack_q3=částečná prohra;
+attack_q4=remíza;
+attack_q5=totální výhra;
+attack_q6=totální prohra;
+attack_q7=vzájemné zničení;
+attack_q8=obsazení;
+attack_q9=neznámý;
 
 title_attack_report=Hlášení o útoku;
 attack_report_title=Útok na [b_name4];
@@ -353,3 +353,6 @@ build_submit=Postavit;
 //replace_error_resistance=;
 //replace_error_expand=;
 //replace_error_collapse=;
+
+//q_energy=;
+//f_attack_cooldown=;

@@ -6,16 +6,15 @@
 if($GLOBALS['ss']['attack_report']){
     if($GLOBALS['get']['noshit']){
     r('noshit');    
-    w_close('attack-attack');
+    w_close('content');
     }else{
-        contenu_a();
+        contenu_a(true);
         window('{title_attack_report}'/*,400,200*/);
         te($GLOBALS['ss']['attack_report']);
         contenu_b();
     }
     unset($GLOBALS['ss']['attack_report']);
-    e('<script>refreshMap();</script>');
-    
+    e('<script>refreshMap();'.urlxr('e=miniprofile',false).'</script>');
 }else{
     //xreport();
 //==============================================================================================================

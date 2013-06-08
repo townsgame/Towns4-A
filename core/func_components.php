@@ -211,7 +211,17 @@ function moveby($text,$x=0,$y=0,$id="",$style=""){
 }
 function borderr($html,$brd=1,$w=10,$id="",$category="",$countdown=0){
     if($id)$id="border_".$category."_".$id;
-    return(movebyr($html,0,0,$id,"position:absolute;width:".($w)."px;height:".($w)."px;border: ".$brd."px solid #cccccc;z-index:1000").imgr("design/iconbg.png",'',$w,$w).($countdown?movebyr(textcolorr($countdown,'dddddd'),-34+$brd,18+$brd,NULL,'z-index:2001'):''));
+    if($countdown){
+        $md5=md5(rand(0,999999));
+        $md5js='<script>
+        setInterval(function()x{ 
+            /*alert(($("#'.$md5.'").html()));*/
+            $("#'.$md5.'").html(parseFloat($("#'.$md5.'").html())-1);
+            if(parseFloat($("#'.$md5.'").html())<=0)x{'.urlxr('e=miniprofile',false).'}x
+        }x,1000);
+        </script>';   
+    }
+    return(movebyr($html,0,0,$id,"position:absolute;width:".($w)."px;height:".($w)."px;border: ".$brd."px solid #cccccc;z-index:1000").imgr("design/iconbg.png",'',$w,$w).($countdown?movebyr(textcolorr('<span id="'.$md5.'">'.$countdown.'</span>','dddddd').$md5js,-34+$brd,18+$brd,NULL,'z-index:2001'):''));
 }
 //<table id=\"\" width=\"$w\" height=\"$w\" style=\"position:absolute;border: ".$brd."px solid #ffffff\" cellpadding=\"0\" cellspacing=\"0\"><tr><td>$html</td></tr></table>
 function border($html,$brd=1,$w=10,$id="",$category="",$countdown=0){echo(borderr($html,$brd,$w,$id,$category,$countdown));}

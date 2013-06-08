@@ -78,6 +78,7 @@ if(defined('analytics')){
     }x);
     <?php } ?>
     connectfps=2;
+    fps=37;
    /*$(document).disableSelection();*/
 </script>
 <?php

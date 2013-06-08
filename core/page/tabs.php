@@ -22,18 +22,22 @@ if($newtab){
 }
 
 //---------------------------------
+
 if($GLOBALS['config']['register_building']){
-    if($hl=sql_1data('SELECT id FROM [mpx]objects WHERE ww='.$GLOBALS['ss']['ww'].' AND own='.useid.' AND type=\'building\' and TRIM(name)=\''.id2name($GLOBALS['config']['register_building']).'\' LIMIT 1')){
-        $GLOBALS['hl']=$hl;        
-        $q=false;
-        foreach($tabs as $tab){if($tab==$hl){$q=true;}}
-        if($q==false){$tabs[count($tabs)]=$hl;
-        $newtab=$hl;}
-    }else{
-        $GLOBALS['hl']=0;   
-    }
+if($hl=sql_1data('SELECT id FROM [mpx]objects WHERE ww='.$GLOBALS['ss']['ww'].' AND own='.useid.' AND type=\'building\' and TRIM(name)=\''.id2name($GLOBALS['config']['register_building']).'\' LIMIT 1')){
+    $GLOBALS['hl']=$hl;
 }else{
-    $GLOBALS['hl']=0;   
+    $GLOBALS['hl']=0; 
+}
+}else{
+    $GLOBALS['hl']=0; 
+}
+//--------------------------
+if($GLOBALS['hl']){
+    $q=false;
+    foreach($tabs as $tab){if($tab==$hl){$q=true;}}
+    if($q==false){$tabs[count($tabs)]=$hl;
+    $newtab=$hl;}
 }
 //---------------------------------
 $q=false;$stream='';

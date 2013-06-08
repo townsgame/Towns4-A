@@ -103,11 +103,8 @@ function townsfunction($query,$q){$queryp=$query;
                         
                 if(!defined("a_".$funcname_.'_cooldown') or $cooldown<=(time()-$lastused)){
                     
-                    //r("a_".$funcname_.'_cooldown');
-                    if(defined("a_".$funcname_.'_cooldown')){
-                        //r();
-                        $GLOBALS['ss']['aac_object']->set->add("lastused_".$func,time());
-                    }
+                    //e("$funcname_($cooldown<=".(time()-$lastused).")");
+
                     
                     
                     /*$tmp=($GLOBALS['ss']["aac_object"]->func->vals2list());
@@ -123,6 +120,13 @@ function townsfunction($query,$q){$queryp=$query;
                     $funceval="$funcname($params);";
                     //r($funceval);
                     eval($funceval);
+                    
+                    if($GLOBALS['ss']["query_output"]->val("1")){
+                        if(defined("a_".$funcname_.'_cooldown')){
+                            //e($GLOBALS['ss']['aac_object']->name);
+                            $GLOBALS['ss']['aac_object']->set->add("lastused_".$func,time());
+                        }
+                    }
                     
                 
                 }else{
@@ -189,7 +193,7 @@ function use_price($func,$params,$constants=false,$mode=0){//0=take, 1=test, 2=h
     //print_r($GLOBALS['config']);
     //echo('$price='.$c1.";");br();
     eval('$price='.$c1.";");
-    //echo("$price="._move."*($distance*$_speed)*(1/$_eff);");br();
+    //echo("$price=($time*$_attack)*(1/$_eff);");br();
     $c2=$GLOBALS['config']["f"][$func]["use"]["w"];
     $count=0;
     //echo($c2);

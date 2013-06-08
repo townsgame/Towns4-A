@@ -51,7 +51,8 @@ function a_attack($id){
         //-------PRICE
         
         list($q,$time,$a_fp2,$b_fp2,$a_tah,$b_tah,$a_atf,$b_atf)=attack_count(50,50,$a_fp,$b_fp,$a_at,$b_at,$a_cnt,$b_cnt,$a_de,$b_de,$a_att,$b_att);
-        $price=use_price("attack",array("time"=>$time),$support[$attack_type]["params"],2);
+        //e($a_tah);        
+        $price=use_price("attack",array("time"=>$a_tah),$support[$attack_type]["params"],2);
         if(!test_hold($price)){
             $GLOBALS['ss']["query_output"]->add("error","{attack_error_price}");
             return;
@@ -74,7 +75,12 @@ function a_attack($id){
         $attacked->hold->take($steal);
         $steal->multiply(-1);
         use_hold($steal);
+        }else{
+            $steal->multiply(0);
+        }
+        
         //$steal->showimg();
+        //-----
         if($b_fp2==0 and $type!='user' and $type!='unit'){
             $attacked->delete();
             //Už ne//changemap($bx,$by);
@@ -83,9 +89,28 @@ function a_attack($id){
             else
                 changemap($bx,$by,true);
         }
-        }else{
-            $steal->multiply(0);
+        //-----
+        if($a_fp2==0 and $type!='user' and $type!='unit'){
+             $GLOBALS['ss']["aac_object"]->delete();
+            //Už ne//changemap($bx,$by);
+            if($GLOBALS['ss']["aac_object"]->type=='building')
+                changemap($bx,$by);//XXX
+            else
+                changemap($bx,$by,true);
+        }   
+        //-----
+        if($b_fp2==1){
+            $attacked->own=$GLOBALS['ss']["aac_object"]->own;
+            $attacked->update();
         }
+        //-----
+        /*if($a_fp2==1){
+             $GLOBALS['ss']["aac_object"]->own->$attacked->own;
+        }*/  
+        //-----
+        
+        
+        
         //--------------------------------------
         $steal->multiply(-1);
         $price=$price->textr();
@@ -98,13 +123,14 @@ function a_attack($id){
         hr();*/
         send_report(useid,$id,lr('attack_report_title',$info),lr('attack_report',$info));
         $GLOBALS['ss']['attack_report']=lr('attack_report',$info);
+        $GLOBALS['ss']["query_output"]->add("1",1);
         //--------------------------------------
     
     
     }}
 }
 //-------
-function attack_count($a_seed/*<0,100>*/,$b_seed,$a_fp,$b_fp,$a_at,$b_at,$a_cnt,$b_cnt,$a_de,$b_de,$a_att,$b_att){
+/*function attack_count($a_seed,$b_seed,$a_fp,$b_fp,$a_at,$b_at,$a_cnt,$b_cnt,$a_de,$b_de,$a_att,$b_att){
     $a_min=1;
     $b_min=1;
     if($a_att)$b_min=0;
@@ -127,6 +153,41 @@ function attack_count($a_seed/*<0,100>*/,$b_seed,$a_fp,$b_fp,$a_at,$b_at,$a_cnt,
     elseif($a_tah>$b_tah)                    {$q=7;$a_fp2=$a_fp*(1-($b_tah/$a_tah));$b_fp2=$b_min;$time=$b_tah;}
     else                                                {$q=8;$a_fp2=$a_min;$b_fp2=$b_fp*(1-($a_tah/$b_tah));$time=$a_tah;}
     if($time==-1)$time=0;
+    return(array($q,$time,$a_fp2,$b_fp2,$a_tah,$b_tah,$a_atf,$b_atf,$a_seed,$b_seed));
+}*/
+function attack_count($a_seed,$b_seed,$a_fp,$b_fp,$a_at,$b_at,$a_cnt,$b_cnt,$a_de,$b_de,$a_att,$b_att){
+    $a_min=1;
+    $b_min=1;
+    if($a_att)$b_min=0;
+    if($b_att)$a_min=0;
+    $a_atf=($a_at-$b_de)*0.01*$a_seed;
+    $b_atf=($b_at-$a_de)*0.01*$b_seed;
+    $time=0;
+    $a_tah=0;
+    $b_tah=0;
+    $a_fp2=$a_fp;
+    $b_fp2=$b_fp;
+    while(($a_fp2!=$a_min and $b_fp2!=$b_min) and (($a_cnt and $a_atf>0) or ($b_cnt and $b_atf>0))){$time++;
+        if($a_cnt and $a_fp2>0 and $a_atf>0){$b_fp2=$b_fp2-$a_atf;$a_cnt--;$a_tah++;}
+        if($b_cnt and $b_fp2>0 and $b_atf>0){$a_fp2=$a_fp2-$b_atf;$b_cnt--;$b_tah++;}
+        if($a_fp2<$a_min)$a_fp2=$a_min;
+        if($b_fp2<$b_min)$b_fp2=$b_min;
+        
+    }
+    
+    
+    
+        if($a_fp==$a_fp2 and $b_fp==$b_fp2)                                         {$q=1;}
+    elseif($a_fp2!=0 and $b_fp2!=0 and $b_fp2!=1 and ($a_fp-$a_fp2)<($b_fp-$b_fp2)) {$q=2;}
+    elseif($a_fp2!=0 and $b_fp2!=0 and $b_fp2!=1 and ($a_fp-$a_fp2)>($b_fp-$b_fp2)) {$q=3;}  
+    elseif($a_fp2!=0 and $b_fp2!=0 and $b_fp2!=1 and ($a_fp-$a_fp2)==($b_fp-$b_fp2)){$q=4;}
+    elseif($a_fp2!=0 and $b_fp2==0)                                                 {$q=5;}
+    elseif($a_fp2==0 and $b_fp2!=0 and $b_fp2!=1)                                   {$q=6;}
+    elseif($a_fp2==0 and $b_fp2==0)                                                 {$q=7;}
+    elseif($b_fp2==1)                                                               {$q=8;} 
+    else                                                                            {$q=9;}       
+    
+    
     return(array($q,$time,$a_fp2,$b_fp2,$a_tah,$b_tah,$a_atf,$b_atf));
 }
 //======================================================

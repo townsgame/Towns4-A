@@ -1,6 +1,14 @@
-<?php window("{items}","100%");/**/  ?>
+<?php
+//window("{items}","100%");
+//if($GET['e']!='aac'){
+?>
 <div style="background: rgba(30,30,30,0.9);width:1000px;" >
 <?php
     $GLOBALS['ss']['use_object']->hold->showimg(true);
 ?>
 </div>
+<?php
+//}else{
+    
+//}
+?>

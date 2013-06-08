@@ -19,6 +19,19 @@ function centerurl($id,$x='x',$y=0,$ww=1){//echo('bbb');
     //echo($url);
     return($url);
 }
+
+//--------------------------
+if(!$GLOBALS['hl']){
+if($GLOBALS['config']['register_building']){
+if($hl=sql_1data('SELECT id FROM [mpx]objects WHERE ww='.$GLOBALS['ss']['ww'].' AND own='.useid.' AND type=\'building\' and TRIM(name)=\''.id2name($GLOBALS['config']['register_building']).'\' LIMIT 1')){
+    $GLOBALS['hl']=$hl;
+}else{
+    $GLOBALS['hl']=0; 
+}
+}else{
+    $GLOBALS['hl']=0; 
+}
+}
 //--------------------------
 $fields="`id`, `name`, `type`, `dev`, `fs`, `fp`, `fr`, `fx`, `fc`, `func`, `hold`, `res`, `profile`, `set`, `hard`, `own`, (SELECT `name` from ".mpx."objects as x WHERE x.`id`=".mpx."objects.`own`) as `ownname`, `in`, `ww`, `x`, `y`, `t`";
 if($_GET["x"] and $_GET["y"]){
@@ -32,13 +45,15 @@ if($_GET["x"] and $_GET["y"]){
     }elseif($GLOBALS['get']["contextid"]){
         $id=$GLOBALS['get']["contextid"];
     }else{
+        
         $id=$GLOBALS['ss']["use_object"]->set->ifnot('contextid',$GLOBALS['hl']);
+        if(!ifobject($id))$id=$GLOBALS['hl'];
     }
     $sql=/*$id!=useid?*/"SELECT $fields FROM ".mpx."objects WHERE id=$id";//:false;
     $x_=false;
 }
 //--------------------------
-//echo($id.',');
+//echo($sql);
 //echo($GLOBALS['hl']);
 if($sql and $id?ifobject($id):true){
     //echo($sql);

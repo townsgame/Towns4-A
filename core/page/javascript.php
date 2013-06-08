@@ -1,4 +1,30 @@
 <script type="text/javascript">
+
+
+/*------------------------------base64*/
+            /*function base64_decode(s) x{
+                var e=x{}x,i,k,v=[],r='',w=String.fromCharCode;
+                var n=[[65,91],[97,123],[48,58],[43,44],[47,48]];
+            
+                for(z in n)x{for(i=n[z][0];i<n[z][1];i++)x{v.push(w(i));}x}x
+                for(i=0;i<64;i++)x{e[v[i]]=i;}x
+            
+                for(i=0;i<s.length;i+=72)x{
+                var b=0,c,x,l=0,o=s.substring(i,i+72);
+                     for(x=0;x<o.length;x++)x{
+                            c=e[o.charAt(x)];b=(b<<6)+c;l+=6;
+                            while(l>=8)x{r+=w((b>>>(l-=8))%256);}x
+                     }x
+                }x
+                var e=x{}x,i,b=0,c,x,l=0,a,r='',w=String.fromCharCode,L=s.length;
+                var A="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+                for(i=0;i<64;i++)x{e[A.charAt(i)]=i;}x
+                for(x=0;x<L;x++)x{
+                    c=e[s.charAt(x)];b=(b<<6)+c;l+=6;
+                    while(l>=8)x{((a=(b>>>(l-=8))&0xff)||(x<(L-2)))&&(r+=w(a));}x
+                }x
+                return r;
+            }x*/
 /*------------------------------parseMap*/
             xc=<?php echo($GLOBALS['xc']); ?>;
             yc=<?php echo($GLOBALS['yc']); ?>;
@@ -44,7 +70,7 @@
                     $(function()x{$.get('?e=map&xc='+xc+'&yc='+yc+'&xx='+xx+'&yy='+yy+'&i='+windows,    function(vystup)x{
                             inloading=0;freeze=0;
                             /*$( "#draglayer" ).draggable( "option", "disabled", false );
-                            //------Výřez jouu
+                            /*------Výřez jouu*/
                             /*jouu_stream=$('#jouu').html();
                             //alert(_xc+','+_yc);
                             _pxc=_xc;
@@ -99,16 +125,20 @@
         /*----------------------------------------------*/
         rvrao=false;
         setInterval(function()x{
-            if(!rvrao)x{
+            if(!rvrao/* true*/)x{
+                 /*if(rvrao)x{alert('hybaa')}x*/
                 urlpart='?e=aac&i='+windows;
-                /*urlpart='?e=map_units&output=js'+urlpart+'&i='+windows;*/
                 windows="";
-               rvrao=true;$(function()x{$.get(urlpart, function(vystup)x{rvrao=false;eval(vystup);}x);}x);
-               
+               rvrao=true;$.get(urlpart, function(vystup)x{rvrao=false;eval(vystup);}x);
+              
             }xelsex{
-                /*r(urlpart);*/
+                rvrao=false;
             }x
         }x,(connectfps*1000));
+        /*setTimeout(function()x{
+                urlpart='?e=aac&i='+windows;windows='';
+                $(function()x{$.get(urlpart, function(vystup)x{eval(vystup);}x);}x);
+        }x,(connectfps*1000));*/
         /*----------------------------------------------*/
 
         /*---------CHAT CONFIG*/

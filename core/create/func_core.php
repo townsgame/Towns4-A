@@ -124,8 +124,8 @@ define('object_build',true);
 }
 changemap($x,$y);
 //==============================
-
-
+$GLOBALS['ss']["query_output"]->add("1",1);
+    
          }else{
             define('object_build',true);
             define('create_error','{create_error_price}');
@@ -180,7 +180,7 @@ $ry=round($y);
         //SELECT ".nextid().", `name`, `type`, `dev`, `fs`, `fp`, `fr`, `fx`, `func`, `hold`, CONCAT('$res',':$rot'), `profile`, 'x', `hard`, `expand`,'".useid."', `in`, ".$GLOBALS['ss']["ww"].", $x, $y, ".time()." FROM `".mpx."objects` WHERE id='$id'");
          
         
-
+        $GLOBALS['ss']["query_output"]->add("1",1);
     }else{
         define('object_build',true);
         define('create_error','{replace_error_only}');
@@ -212,6 +212,7 @@ function a_repair(){
             if($GLOBALS['ss']["use_object"]->hold->takehold($price)){
                 $GLOBALS['ss']["aac_object"]->fp=$GLOBALS['ss']["aac_object"]->fs;
                  $GLOBALS['ss']["query_output"]->add("success","{repair_success}");
+                 $GLOBALS['ss']["query_output"]->add("1",1);
             }else{
                 $GLOBALS['ss']["query_output"]->add("error","{repair_error_price}");
         }

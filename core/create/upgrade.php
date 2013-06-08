@@ -33,6 +33,7 @@ if(xsuccess()){
 setTimeout(function()x{
     w_close('content');
 }x,3000);
+<?php urlx('e=miniprofile',false); ?>
 </script>
 <?php
 }
