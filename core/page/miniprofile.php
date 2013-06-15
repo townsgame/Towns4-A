@@ -47,8 +47,8 @@ if($_GET["x"] and $_GET["y"]){
     }else{
         
         $id=$GLOBALS['ss']["use_object"]->set->ifnot('contextid',$GLOBALS['hl']);
-        if(!ifobject($id))$id=$GLOBALS['hl'];
     }
+    if(!ifobject($id))$id=$GLOBALS['hl'];
     $sql=/*$id!=useid?*/"SELECT $fields FROM ".mpx."objects WHERE id=$id";//:false;
     $x_=false;
 }
@@ -81,7 +81,7 @@ if($sql and $id?ifobject($id):true){
     mprofile($id);br(3);
     
     //tfont(/*shortx($name,8)*/nbsp,12);
-    e('</td><td align="left" valign="top" width="140">');
+    e('</td><td align="left" valign="top" width="110">');
     
     
     
@@ -89,7 +89,7 @@ if($sql and $id?ifobject($id):true){
     if($own==useid){ 
             $own_=('vlastní budova');
     }elseif($own){
-        $own_='budova města '.($ownname);
+        $own_='město '.($ownname);
     }elseif($type=='tree' or $type=='rock'){        
         $own_=('příroda');
     }else{
@@ -103,7 +103,7 @@ if($sql and $id?ifobject($id):true){
 	//echo('<span style="background-color: #cccccc;width:100%;height:2px;"></span>');br();
 	textab_(array(array('život:',$fp.'/'.$fs/*.'('.fs2lvl($fs,2).')'*/),
 	              array('pozice:','['.round($x).','.round($y).']'/*.(($ww!=1)?'['.$ww.']':'')*/),
-	              array($own_)),110,55);//br();           
+	              array($own_)),90,55,13);//br();           
 	e('</td><td align="left" valign="top">');
 	e('<table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td align="left" valign="top">'); 
 	
@@ -112,7 +112,7 @@ if($sql and $id?ifobject($id):true){
     $iconbrd=3;
     //===============================================================FUNC
     if($own==useid){
-         $functionlist=array('attack','create','teleport','portal','repair','upgrade','replace');   
+         $functionlist=array('attack','create','teleport','portal','repair','upgrade','replace','change');   
     }else{
          $functionlist=array('portal');   
     }    
@@ -147,18 +147,20 @@ foreach($functionlist as $qq_class){
                                 if($settings["move"]==$movefunc)$yes=1;
                         break;*/
                         case 'attack':
-                                //$ahref='e=attack-attack;function='.$fname.';master='.$id;
-                                $set_key='attack_mafu';
-                                $set_value=$id.'-'.$fname;
-                                $set_value2=$id.'-'.$fname.'-'.$xname.'-'.$icon;
-                                //echo($set_value2);
-                                $stream=($set_key."='$set_value2".'\';'.borderjs($set_value,$set_value2,$set_key,$iconbrd));
-                                //echo('('.$GLOBALS['settings'][$set_key].'='.$set_value2.')');
-                                list($a,$b)=explode('-',$GLOBALS['settings'][$set_key]);                             
-                                if($a.'-'.$b==$set_value)$yes=1;
-                                //echo($yes);
-                                //r($GLOBALS['settings'][$set],$fname);
-                                //r($stream);
+                                //if(id2name($GLOBALS['config']['register_building'])!=$name){
+                                    //$ahref='e=attack-attack;function='.$fname.';master='.$id;
+                                    $set_key='attack_mafu';
+                                    $set_value=$id.'-'.$fname;
+                                    $set_value2=$id.'-'.$fname.'-'.$xname.'-'.$icon;
+                                    //echo($set_value2);
+                                    $stream=($set_key."='$set_value2".'\';'.borderjs($set_value,$set_value2,$set_key,$iconbrd));
+                                    //echo('('.$GLOBALS['settings'][$set_key].'='.$set_value2.')');
+                                    list($a,$b)=explode('-',$GLOBALS['settings'][$set_key]);                             
+                                    if($a.'-'.$b==$set_value)$yes=1;
+                                    //echo($yes);
+                                    //r($GLOBALS['settings'][$set],$fname);
+                                    //r($stream);
+                                //}
                                 
                         break;
                         case 'create':
@@ -185,6 +187,9 @@ foreach($functionlist as $qq_class){
                                 $ahref='e=content;ee=create-upgrade;id='.$id; 
                            }
                         break;
+                        case 'change':
+                           $ahref='e=content;ee=hold-change;id='.$id; 
+                        break;
                 }
                 if($stream or $ahref){
 
@@ -199,6 +204,7 @@ foreach($functionlist as $qq_class){
                         if($yes){$brd=$iconbrd;}else{$brd=0;}
                         e(nln);
                              
+                                              
                         
                         if(defined("a_".$class.'_cooldown')){//$fname
                             $cooldown=$params['cooldown'][0]*$params['cooldown'][1];
@@ -216,6 +222,7 @@ foreach($functionlist as $qq_class){
                         (($ahref?$ahref.';':'').($stream?"js=".x2xx($stream).';':''))),
                         $icon,$xname,$iconsize,NULL,$countdown),$brd,$iconsize,$set_value,$set_key,$countdown/*class*/);
                         $countdown=0; 
+                        
                         
                  }
         }
@@ -251,6 +258,7 @@ foreach($functionlist as $qq_class){
 
 
 if($own!=useid){
+    if(id2name($GLOBALS['config']['register_building'])!=$name){ 
     if($GLOBALS['settings']['attack_mafu']){
         list($attack_master,$attack_function,$attack_function_name,$attack_function_icon)=explode('-',$GLOBALS['settings']['attack_mafu']);
         if(ifobject($attack_master)){
@@ -260,24 +268,32 @@ if($own!=useid){
             $func=new func(sql_1data("SELECT `func` FROM [mpx]objects WHERE `id`='$attack_master'"));            
             $func=$func->vals2list();                    
             
-           if(defined('a_attack_cooldown')){//$fname
-                $cooldown=$func[$attack_function]['params']['cooldown'][0]*$func[$attack_function]['params']['cooldown'][1];
-                if(!$cooldown)$cooldown=$GLOBALS['config']['f']['default']['cooldown'];
-                $lastused=$set['lastused_'.$attack_function]; 
-                $time=($cooldown-time()+$lastused);
-                //r("$cooldown-time()+$lastused");  
-                //r($time);       
-                if($time>0){
-                    $countdown=$time;
-                }
-            }      
             
-            border(iconr($countdown?'':'e=content;ee=attack-attack;set=attack_id,'.$id.';noshit=1',$attack_function_icon,"$attack_function_name (".id2name($attack_master).")",$iconsize,NULL,$countdown),0,$iconsize,NULL,NULL,$countdown);
-            $countdown=0;
+           //e($name.'aaa');
+           
+               if(defined('a_attack_cooldown')){//$fname
+                    $cooldown=$func[$attack_function]['params']['cooldown'][0]*$func[$attack_function]['params']['cooldown'][1];
+                    if(!$cooldown)$cooldown=$GLOBALS['config']['f']['default']['cooldown'];
+                    $lastused=$set['lastused_'.$attack_function]; 
+                    $time=($cooldown-time()+$lastused);
+                    //r("$cooldown-time()+$lastused");  
+                    //r($time);       
+                    if($time>0){
+                        $countdown=$time;
+                    }
+   
+                
+                border(iconr($countdown?'':'e=content;ee=attack-attack;set=attack_id,'.$id.';noshit=1',$attack_function_icon,"$attack_function_name (".id2name($attack_master).")",$iconsize,NULL,$countdown),0,$iconsize,NULL,NULL,$countdown);
+                $countdown=0;
+            }
+            
+            
+            
         }
     
     }    
     border(iconr('e=content;ee=attack-attack;set=attack_id,'.$id,'f_attack_window','{f_attack_window}',$iconsize),0,$iconsize);
+    }
 }
 
 //r('xc='.(-(($y-1)/10)+(($x-1)/10)).';yc='.((($y-1)/10)+(($x-1)/10)));
@@ -333,19 +349,19 @@ border(iconr("e=tabs;tab=$id;wtf=".($q?0:1).";js=".x2xx($stream),'fx_tab','{fx_t
     
     e(nbsp2);
     imge('design/dot.png','',2,$iconsize);
-    e(nbsp2);
+    e(nbsp2);//br();
     //tfont('|',40);
     icon("e=content;ee=profile;id=".useid,"profile_town","{profile_town}",$iconsize);
     icon("e=content;ee=profile;id=".logid,"profile_user","{profile_user}",$iconsize);
      //===============================================================
-    $iconsize=22;
+    $iconsize=24;
     
 
     e('</td><td align="left" valign="top" width="'.$iconsize.'">');     
     
 }
-         icon("js=$(document).fullScreen(true);","fullscreen","{fullscreen}",$iconsize);
-    br();icon("q=logout","logout","{logout}",$iconsize);   
+         //icon("js=$(document).fullScreen(true);","fullscreen","{fullscreen}",$iconsize);br();
+         icon("q=logout","logout","{logout}",$iconsize);   
     br();icon("e=content;ee=help;page=index",'help',"{help}",$iconsize); 
     br();icon(js2('if($(\'#expandarea\').css(\'display\')==\'block\')x{$(\'#expandarea\').css(\'display\',\'none\')}xelsex{$(\'#expandarea\').css(\'display\',\'block\')}x1'),"expand","{expand}",$iconsize);
     //Parse error: syntax error, unexpected ')' in /media/towns4/towns4/core/page/miniprofile.php on line 263 

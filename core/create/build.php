@@ -11,11 +11,16 @@ $GLOBALS['ss']["object_build_func"]=$func;
 if(!$GLOBALS['ss']["master"] and $_GET["master"])$GLOBALS['ss']["master"]=$_GET["master"];
 
 if($id and $GLOBALS['ss']['master']){//e(1);
+?>
+<script type="text/javascript">
+    _rot=0;
+</script>
+<?php
     $object_build=new object($id);
     $res=$object_build->res;
     //model($res,$s=1,$rot=0,$slnko=1,$ciary=1,$zburane=0,$hore=0)
     //r($res);
-    $js="\$.get('?e=map&q=".$GLOBALS['ss']['master'].".".$GLOBALS['ss']["object_build_func"]." $id,'+build_x+','+build_y+','+_rot, function(vystup){\$('#map').html(vystup);})";
+    $js="\$.get('?e=map&q=".$GLOBALS['ss']['master'].".".$GLOBALS['ss']["object_build_func"]." $id,'+build_x+','+build_y+','+_rot, function(vystup)x{\$('#map').html(vystup);}x)";
 
     if(substr($res,0,1)!='{' and (substr($res,0,1)!='(' or strpos($res,'1.png'))){$q=true;}else{$q=false;}
     if(strpos($res,'1.png')){$qq=true;}else{$qq=false;}
@@ -57,7 +62,7 @@ if($qq)$rotx=($rotx/15)+1;
     $modelurl=modelx($res.':'.$rotx);
     list($width, $height) = getimagesize($modelurl);
 
-if($rot==0 and (-$height+157)){e('<img src="'.imageurl('design/blank.png').'" border="0"  width="82" height="'.(-$height+157).'"><br/>');}
+//if($rot==0 and (-$height+157)){e('<img src="'.imageurl('design/blank.png').'" border="0"  width="82" height="'.(-$height+157).'"><br/>');}
 e('<div class="build_models" id="build_model_'.$rot.'" style="display:'.($rot==0?'block':'none').';"><img src="'.$modelurl.'" width="'.(110*0.75).'"></div>');
 }
 ?>
@@ -72,9 +77,9 @@ e('<div class="build_models" id="build_model_'.$rot.'" style="display:'.($rot==0
     $(document).bind('mousewheel', function(event, delta)x{
     
         if(delta > 0) x{
-            _rot=_rot-15;if(_rot<0)x{_rot=_rot+<?php e($angle); ?>;}xbuild_model_rot(_rot);    
+            _rot=_rot-15;if(_rot<0)x{_rot=_rot-(-<?php e($angle); ?>);}xbuild_model_rot(_rot);    
         }xelsex{
-            _rot=_rot+15;if(_rot>=<?php e($angle); ?>)x{_rot=_rot-<?php e($angle); ?>;}xbuild_model_rot(_rot);    
+            _rot=_rot-(-15);if(_rot>=<?php e($angle); ?>)x{_rot=_rot-<?php e($angle); ?>;}xbuild_model_rot(_rot);    
         }x
     
     

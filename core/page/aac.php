@@ -5,8 +5,8 @@
 		e('window.location.replace(\'?q=logout\');');
 	}else{
 ?>
-if(!document.nochatref)x{<?php /*subjs('chat_text');*/ ?>;$("#chatscroll").scrollTop(10000);}x
-<?php /*subjs('surkey');*/$GLOBALS['ss']['use_object']->hold->showjs(); ?>
+if(!document.nochatref)x{<?php subjs('chat_text');/**/ ?>;$("#chatscroll").scrollTop(10000);}x
+<?php subjs('surkey');/*$GLOBALS['ss']['use_object']->hold->showjs();*/ ?>
 <?php subjs('chat_aac'); ?>
 <?php /*
 setTimeout(function()x{

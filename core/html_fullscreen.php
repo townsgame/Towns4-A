@@ -39,9 +39,9 @@ if(logged()){
         $windows[$w_name][5]=array(1,1,1,1);
     }
     //----------------
-    $windows['chat']=array("chat",0,-120,"103%",130,array(0,1,1,1),2);
-    $windows['tabs']=array("tabs","%%",-141,"103%",0,array(0,1,1,1),1);
-    $windows['miniprofile']=array("miniprofile","%%",-120,"103%",130,array(0,1,1,1),1);
+    $windows['chat']=array("chat",0,-107,"103%",130,array(0,1,1,1),2);
+    $windows['tabs']=array("tabs","%%",-141+13,"103%",0,array(0,1,1,1),1);
+    $windows['miniprofile']=array("miniprofile","%%",/*-120*/-107,"103%",130,array(0,1,1,1),1);
     $windows['surkey']=array("surkey","%%",-25,0,0,array(0,1,1,1),1);
 
     if($windows['topcontrol']){
@@ -70,7 +70,7 @@ if(logged()){
         $windows=array_merge(
         $windows,
         array(
-            "topinfo"=>array("topinfo",'%%',-161,'103%',0,array(0,1,1,1),1),
+            "topinfo"=>array("topinfo",'%%',-161+13,'103%',0,array(0,1,1,1),1),
         ));
     }
     //----------------    

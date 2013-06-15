@@ -4,7 +4,7 @@
  $stream='';
 
 
- $add1='`to`='.useid.' OR `to`='.logid.'';
+ $add1='`to`='.useid.'';//' OR `to`='.logid.'';
  $add2="`type`='message' OR `type`='report' ";
  $q=sql_1data("SELECT COUNT(1) FROM `".mpx."text` WHERE `new`=1 AND ($add1) AND ($add2)");
  //$q=textbr($q);
@@ -13,6 +13,7 @@
  
  if($q){
     $stream.=imgr("icons/f_text_new.png",'{f_text_new;'.$q.'}',$iconsize);
+    echo($q);
  }else{
     $stream.=imgr("icons/f_text.png",'{f_text}',$iconsize);
  }

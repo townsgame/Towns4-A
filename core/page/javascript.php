@@ -135,41 +135,33 @@
                 rvrao=false;
             }x
         }x,(connectfps*1000));
+        
+        
+        chating=false;
         /*setTimeout(function()x{
                 urlpart='?e=aac&i='+windows;windows='';
                 $(function()x{$.get(urlpart, function(vystup)x{eval(vystup);}x);}x);
         }x,(connectfps*1000));*/
         /*----------------------------------------------*/
 
-        /*---------CHAT CONFIG*/
+        /*---------CHAT CONFIG
         chating=false;
-        /*---------KEYPRESS CHAT*/
+        /*---------KEYPRESS CHAT*
         $(document).keypress(function(e) x{
-            /*alert(e.which);
-            //---------ENTER*/
             if ( e.which == 13 ) x{
                 if(chating==false)x{
                     chating=true;
                     $('#say').focus();
                 }xelsex{
-                    /*alert("focusout");*/
                     chating=false;
                     $('#say').blur();
                 }x
-               /* if ($('#saylayer').css('display') == 'none')x{
-                    
-                    //$('#saylayer').css('display','block');
-                    $('#say').focus();
-                }xelsex{
-                    //$('#saylayer').css('display','none');
-                }x*/
             }x
         }x);
-        /*---------CHAT*/
+        ---------CHAT
         
         document.chatsubmit=function() x{
-            //e.preventDefault();
-            //alert('hovno');                        
+                     
             chating=false;
             
             say=$('#say').val();
@@ -183,13 +175,12 @@
                 }x
                 
                 htmlplus=$('#chat_new').html();
-                /*alert(htmlplus);*/
                 htmlplus=htmlplus.split('[text]').join(say);
                 $('#chat_text').html($('#chat_text').html()+htmlplus);              
 				$("#chatscroll").scrollTop(10000);                
                 
                 document.nochatref=true;
-                $(function()x{$.get('?s=<?php e(ssid); ?>e=map_chat&q='+q, function(vystup)x{document.nochatref=false;/*$('#map_chat').html(vystup);$('#loading').css('visibility','hidden');*/}x);$('#loading').css('visibility','visible');}x);
+                $(function()x{$.get('?s=<?php e(ssid); ?>e=map_chat&q='+q, function(vystup)x{document.nochatref=false;}x);$('#loading').css('visibility','visible');}x);
             }x
             say=$('#say').val("");
      
@@ -199,7 +190,7 @@
         }x
         
         
-        $('#form_chat').submit(document.chatsubmit);        
+        $('#form_chat').submit(document.chatsubmit);     */   
         
         /*===========================================================================*/
         /*---------KEYDOWN*/
@@ -207,11 +198,12 @@
         key_down=false;
         key_left=false;
         key_right=false;
+        key_count=0;
         /*-----*/
         $(document).keydown(function(e) x{
             /*alert(e.which);
             //---------UP,DOWN,LEFT,RIGHT
-            //alert(e.which);*/
+            alert(e.which);*/
             if(chating==false)x{
                 if ( e.which ==82) x{parseMap()/*firstload=4;*/}x
                 /*if ( e.which ==84) x{parseMap()}x*/
@@ -219,6 +211,12 @@
                 if ( e.which ==83) x{key_down=true;/*firstload=1;*/}x
                 if ( e.which ==65) x{key_left=true;/*firstload=1;*/}x
                 if ( e.which ==68) x{key_right=true;/*firstload=1;*/}x
+                
+                if ( e.which ==38) x{key_up=true;/*firstload=1;*/}x
+                if ( e.which ==40) x{key_down=true;/*firstload=1;*/}x
+                if ( e.which ==37) x{key_left=true;/*firstload=1;*/}x
+                if ( e.which ==39) x{key_right=true;/*firstload=1;*/}x              
+                
             }x
             /*---------*/
         }x);  
@@ -253,9 +251,25 @@
                     act=(act_tmp-act_tmpp)/1000;
                 }x
                 /*----------------------------------------?*/
+                if(key_count==0)x{
+                    actx=1;
+                }xelsex{
+                    actx=key_count;
+                    key_count=key_count/Math.pow(1620,act);
+                    if(key_count<0.0001)x{
+                        key_up=false;
+                        key_down=false;
+                        key_left=false;
+                        key_right=false;
+                        key_count=0; 
+                    }x
+                }x
+               
+                /*-----------------*/
+                
                 xx=parseFloat($('#draglayer').css("left"));
                 yy=parseFloat($('#draglayer').css("top"));
-                d=207*act;q=false;
+                d=207*act*actx;q=false;
                 xxp=xx;
                 yyp=yy;
                 if ( key_up==true    ) x{yy=yy+d;q=true;}x

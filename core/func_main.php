@@ -306,6 +306,7 @@ function sql_query($q,$w=false){
     if($w==1){r($q);}
     if($w==2){echo($q);}
     $response=$GLOBALS['pdo']->exec($q);
+    //$err=($response->errorInfo());if($err=$err[2] and debug)e($err);
     //$error=mysql_error();
     /*if($error and debug){
         echo($q."<br>".$error."<br>");
@@ -320,6 +321,7 @@ function sql_1data($q,$w=false){
     //$result=sql_query($q);
     $response= $GLOBALS['pdo']->prepare($q);
     $response->execute();
+    $err=($response->errorInfo());if($err=$err[2] and debug)e($err);
     $response = $response->fetchAll();
     //print_r($response);
     while(is_array($response))$response=$response[0];
@@ -333,8 +335,9 @@ function sql_array($q,$w=false){
     if($w==2){echo($q);}
     $array= $GLOBALS['pdo']->prepare($q);
     $array->execute();
+    $err=($array->errorInfo());if($err=$err[2] and debug)e($err);
     $array = $array->fetchAll();
-   return($array);
+    return($array);
 }
 //--------------------------------------------
 function sql_csv($q,$w=false){
@@ -343,6 +346,7 @@ function sql_csv($q,$w=false){
     if($w==2){echo($q);}
     $array= $GLOBALS['pdo']->prepare($q);
     $array->execute();
+    $err=($array->errorInfo());if($err=$err[2] and debug)e($err);
     $array = $array->fetchAll();
     //r($array);
     $array=array2csv($array);
