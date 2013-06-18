@@ -14,6 +14,7 @@ eval(subpage("chat_aac"));
  ?>
 </span></span>
 
+<?php /*
 <form id="form_chat" name="form_chat" onsubmit="return document.chatsubmit();"><!--  method="post"action=""?q=chat [say]-->
     <table border="0" width="50%"><tr><td>
     <input type="text" id="say" name="say" maxlength="160" style="width:100%;height:22px;color: #cccccc;border: 2px solid #000000; background-color: rgba(0,0,0,1);"/>
@@ -21,4 +22,5 @@ eval(subpage("chat_aac"));
     <input type="submit" value=">" style="width:22px;height:22px;color: #cccccc;border: 2px solid #000000; background-color: #000000"/>
     </td></tr></table>
 </form>
-
+*/
+?>

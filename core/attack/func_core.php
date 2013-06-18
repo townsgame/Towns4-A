@@ -14,8 +14,11 @@ function a_attack($id){
         $type=$attacked->type;
         //-------
         $a_name=lr($GLOBALS['ss']["aac_object"]->type).' '.$GLOBALS['ss']["aac_object"]->name;
+        $a_name_=$GLOBALS['ss']["aac_object"]->name;
         $b_name=lr($type).' '.$attacked->name;
+        $b_name_=$attacked->name;
         $b_name4=lr($type,4).' '.$attacked->name;
+        $attackname=lr('attack_'.$type.'2');
         $a_fp=$GLOBALS['ss']["aac_object"]->getFP();
         $b_fp=$attacked->getFP();
         $a_at=$GLOBALS['ss']["aac_object"]->supportF($attack_type,"attack");
@@ -90,7 +93,7 @@ function a_attack($id){
                 changemap($bx,$by,true);
         }
         //-----
-        if($a_fp2==0 and $type!='user' and $type!='unit'){
+        if($a_fp==0 and $type!='user' and $type!='unit' and (id2name($GLOBALS['config']['register_building'])!=$GLOBALS['ss']["aac_object"]->name)){
              $GLOBALS['ss']["aac_object"]->delete();
             //Už ne//changemap($bx,$by);
             if($GLOBALS['ss']["aac_object"]->type=='building')
@@ -101,8 +104,8 @@ function a_attack($id){
         //-----
         if($b_fp2==1){
             $attacked->own=$GLOBALS['ss']["aac_object"]->own;
-            $attacked->update();
         }
+        $attacked->update();
         //-----
         /*if($a_fp2==1){
              $GLOBALS['ss']["aac_object"]->own->$attacked->own;
@@ -115,13 +118,13 @@ function a_attack($id){
         $steal->multiply(-1);
         $price=$price->textr();
         $steal=$steal->textr();
-        $info=array('a_name'=>$a_name,'b_name'=>$b_name,'b_name4'=>$b_name4,'q'=>attack_name($q),'time'=>nn($time),'a_fp2'=>nn($a_fp2),'b_fp2'=>nn($b_fp2),'a_tah'=>nn($a_tah),'b_tah'=>nn($b_tah),'a_atf'=>nn($a_atf),'b_atf'=>nn($b_atf),'a_seed'=>nn($a_seed),'b_seed'=>nn($b_seed),'a_fp'=>nn($a_fp),'b_fp'=>nn($b_fp),'a_at'=>nn($a_at),'b_at'=>nn($b_at),'a_cnt'=>nn($a_cnt),'b_cnt'=>nn($b_cnt),'a_de'=>nn($a_de),'b_de'=>nn($b_de),'a_att'=>nn($a_att),'b_att'=>nn($b_att),'price'=>$price,'steal'=>$steal);
+        $info=array('a_name'=>$a_name,'a_name_'=>$a_name_,'b_name'=>$b_name,'b_name_'=>$b_name_,'b_name4'=>$b_name4,'attackname'=>$attackname,'q'=>attack_name($q),'time'=>nn($time),'a_fp2'=>nn($a_fp2),'b_fp2'=>nn($b_fp2),'a_tah'=>nn($a_tah),'b_tah'=>nn($b_tah),'a_atf'=>nn($a_atf),'b_atf'=>nn($b_atf),'a_seed'=>nn($a_seed),'b_seed'=>nn($b_seed),'a_fp'=>nn($a_fp),'b_fp'=>nn($b_fp),'a_at'=>nn($a_at),'b_at'=>nn($b_at),'a_cnt'=>nn($a_cnt),'b_cnt'=>nn($b_cnt),'a_de'=>nn($a_de),'b_de'=>nn($b_de),'a_att'=>nn($a_att),'b_att'=>nn($b_att),'price'=>$price,'steal'=>$steal);
         $info=x2xx(list2str($info));
          /*le('attack_report_title',$info);
          br();
         le('attack_report',$info);
         hr();*/
-        send_report(useid,$id,lr('attack_report_title',$info),lr('attack_report',$info));
+        send_report(useid,$id,lr('attack_report_title_q'.$q,$info),lr('attack_report',$info));
         $GLOBALS['ss']['attack_report']=lr('attack_report',$info);
         $GLOBALS['ss']["query_output"]->add("1",1);
         //--------------------------------------

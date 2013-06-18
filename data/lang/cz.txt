@@ -164,11 +164,15 @@ f_attack_distance=vzdálenost;
 f_attack_total=totální útok;
 f_attack_on=zaútočit na;
 
-res_energy=energie;
+//res_energy=energie;
 res_fuel=palivo;
 res_stone=kámen;
 res_wood=dřevo;
 res_iron=železo;
+res_fuel2=paliva;
+res_stone2=kamene;
+res_wood2=dřeva;
+res_iron2=železa;
 
 res_no={null};
 
@@ -202,10 +206,6 @@ f_defence_defence=Obrana;
 
 
 attack_on=Útok na;
-attack_user=Zaútočit;
-attack_building=Zbořit;
-attack_tree=Pokácet;
-attack_rock=Vytěžit;
 
 attack_wtf=Chyba: Pravděpodobně už útok proběhl a hlášení máte ve zprávách.;
 attack_unknown=Chyba: Neexistující cíl;
@@ -229,7 +229,15 @@ attack_expected_b=soupeřův k. počet životů;
 attack_price=cena;
 attack_steal=kořist;
 
+attack_user=Zaútočit;
+attack_building=Zbořit;
+attack_tree=Pokácet;
+attack_rock=Vytěžit;
 
+attack_user2=Zaútočil;
+attack_building2=Zbořil;
+attack_tree2=Pokácel;
+attack_rock2=Vytěžil;
 
 attack_q1=bez efektu;
 attack_q2=částečná výhra;
@@ -241,8 +249,18 @@ attack_q7=vzájemné zničení;
 attack_q8=obsazení;
 attack_q9=neznámý;
 
+//[a_name_],[a_name],[b_name],[b_name4],[q],[time],[a_fp2],[b_fp2],[a_tah],[b_tah],[a_atf],[b_atf],[a_seed],[b_seed],[a_fp],[b_fp],[a_at],[b_at],[a_de],[b_de],[a_att],[b_att],[price],[steal];
+
 title_attack_report=Hlášení o útoku;
 attack_report_title=Útok na [b_name4];
+attack_report_title_q1=[[a_name_]] Útok na [b_name_];
+attack_report_title_q2=[[a_name_]] Poškodil [b_name_];
+attack_report_title_q3=[[a_name_]] Útok na [b_name_];
+attack_report_title_q4=[[a_name_]] Útok na [b_name_];
+attack_report_title_q5=[[a_name_]] [attackname] [b_name_];
+attack_report_title_q6=[[a_name_]] Útok na [b_name_];
+attack_report_title_q7=[[a_name_]] Útok na [b_name_];
+attack_report_title_q8=[[a_name_]] Obsadil [b_name_];
 
 attack_report=<table border="0" width="100%"><tr><td width="50%" align="left" valign="top">
 <b><u>[a_name]</u></b><br/>
@@ -265,13 +283,22 @@ Kořist: [steal]
 </td><tr>
 </tr></table>;
 
-//[a_name],[b_name],[q],[time],[a_fp2],[b_fp2],[a_tah],[b_tah],[a_atf],[b_atf],[a_seed],[b_seed],[a_fp],[b_fp],[a_at],[b_at],[a_de],[b_de],[a_att],[b_att],[price],[steal];
-
 
 create_building=Postavit budovu;
 unique_from=[0];
 title_build=Postavit budovu;
 build_submit=Postavit;
+
+f_change=Obchod;
+change_from=Vyměnit;
+change_count=Množství;
+change_title=Obchod;
+change_fromto=za;
+change_error_nocount=Nedostatečné množství k výměně!;
+change_error_same=Zadejte dvě různé suroviny!;
+change_error_price=Nedostatek zdrojů!;
+change_success=Převedeno [2] {res_[0]2} na [3] {res_[1]2}.;
+
 
 
 /*------------------------------------*/
@@ -356,3 +383,6 @@ build_submit=Postavit;
 
 //q_energy=;
 //f_attack_cooldown=;
+
+
+

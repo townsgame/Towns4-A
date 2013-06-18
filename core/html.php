@@ -73,7 +73,7 @@ if(defined('analytics')){
     <?php if(!debug){ ?>
     $(document).ready(function()x{
        $(document).bind("contextmenu",function(e)x{
-              //return false;
+              return false;
        }x);
     }x);
     <?php } ?>

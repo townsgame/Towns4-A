@@ -12,6 +12,12 @@ if($GLOBALS['get']["page"]){
     $GLOBALS['ss']["page"]=$GLOBALS['get']["page"];
 }
 
+
+if(!file_exists(root.'data/help/'.$GLOBALS['ss']["lang"].'/'.$GLOBALS['ss']["page"].'.html')){
+    $GLOBALS['ss']["page"]="index";
+}
+
+
 $stream=file_get_contents(root.'data/help/'.$GLOBALS['ss']["lang"].'/'.$GLOBALS['ss']["page"].'.html');
 
 $stream=substr2($stream,'<title>','</title>',0,'<script>$("#window_title_content").html("[]");</script>',false);
@@ -22,9 +28,12 @@ while($tmp=substr2($stream,'src="','"',$i)){
     $i++;
 }
 
-
-infob(ahrefr('{help_index}','e=content;ee=help;page=index'));
-contenu_a();
-e($stream);
-contenu_b();
+if(!$GLOBALS['nowidth']){
+    infob(ahrefr('{help_index}','e=content;ee=help;page=index'));
+    contenu_a();
+    e($stream);
+    contenu_b();
+}else{
+    e($stream);
+}
 ?>

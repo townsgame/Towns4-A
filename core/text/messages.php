@@ -20,7 +20,8 @@ if(!$textclass){
     $tmp=$textclass;
 }
 
-
+//$max=sql_1data('SELECT COUNT(1) FROM [mpx]text WHERE `to`='.logid.' OR `from`='.logid.' OR `to`='.useid.' OR `from`='.useid.' OR `to`=0');
+//$GLOBALS['limit']=limit(array('content',"messages"),'messages'.$q.$tmp,16,$max);
 $response=xquery("text","list",$tmp);//`id` ,`idle` ,`type` ,`from` ,`to` ,`title` ,`text` ,`time` ,`timestop`
 //r($tmp);
 $texts=$response["list"];

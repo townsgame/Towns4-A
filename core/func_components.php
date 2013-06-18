@@ -184,21 +184,22 @@ function textabr($a,$b,$width=300,$width2=200){
 }
 function textab($a,$b,$width=300,$width2=200){echo( textabr($a,$b,$width,$width2));}
 //--------------------------------------------
-function textabr_($array,$width=300,$width2=200){
+function textabr_($array,$width=300,$width2=200,$font=false){
     $al=" align=\"left\"  valign=\"top\"";
-    $stream='<table width=\"$width\" $al>';
+    $stream='<table width=\"$width\" $al  border="0" cellpadding="0" cellspacing="0">';
     foreach($array as $tmp){list($a,$b)=$tmp;
         if($b!=''){
-            $stream.=("<tr><td width=\"$width2\" $al><b>".tr($a)."</b></td><td $al>".tr($b)."</td></tr>");
+            $stream.=("<tr><td width=\"$width2\" $al><b>".($font?tfontr($a,$font):tr($a))."</b></td><td $al>".($font?tfontr($b,$font):tr($b))."</td></tr>");
         }else{
-            $stream.=("<tr><td width=\"$width2\" $al colspan=\"2\"><b>".tr($a)."</b></tr>");
+            $stream.=("<tr><td width=\"$width2\" $al colspan=\"2\"><b>".($font?tfontr($a,$font):tr($a))."</b></tr>");
         }
     }
         
     $stream.='</table>';
+    //if($font)$stream=tfontr($stream,$font);
     return($stream);
 }
-function textab_($array,$width=300,$width2=200){echo( textabr_($array,$width,$width2));}
+function textab_($array,$width=300,$width2=200,$font=false){echo( textabr_($array,$width,$width2,$font));}
 //--------------------------------------------
 /*function blockr($w){
     return(imgr("design/none.png",$w,$w));
@@ -537,14 +538,14 @@ $("#<?php e($GLOBALS['formid']); ?>").submit(function() x{
 <?php
 }
 //--------------------------------------------
-function input_textr($name,$value=false,$max=100,$cols="",$style=''){
+function input_textr($name,$value=false,$max=100,$cols="",$style='border: 2px solid #000000; background-color: #eeeeee'){
     //echo(xsuccess());
     if(!$value and !xsuccess())$value=$_POST[$name];
     $value=tr($value,true);
     $stream="<input type=\"input\" name=\"$name\" id=\"$name\" value=\"$value\" size=\"$cols\"  maxlength=\"$max\" style=\"$style\"/>";
     return($stream);
 }
-function input_text($name,$value=1,$max=100,$cols="",$style=''){echo(input_textr($name,$value,$max,$cols));}
+function input_text($name,$value=1,$max=100,$cols="",$style='border: 2px solid #000000; background-color: #eeeeee'){echo(input_textr($name,$value,$max,$cols));}
 //--------------------------------------------
 function input_passr($name,$value=''){
     $stream="<input type=\"password\" name=\"$name\" id=\"$name\" value=\"$value\" />";
@@ -563,6 +564,7 @@ function input_textarear($name,$value='',$cols="",$rows="",$style=''){
 function input_textarea($name,$value='',$cols="",$rows="",$style=''){echo(input_textarear($name,$value,$cols,$rows,$style));}
 //--------------------------------------------
 function input_checkboxr($name,$value){
+    if(!$value and !xsuccess())$value=$_POST[$name];
     if($value){$ch="checked=\"checked\"";}else{$ch="";}
     $stream="<input type=\"checkbox\" name=\"$name\" $ch />";
     return($stream);
@@ -570,7 +572,8 @@ function input_checkboxr($name,$value){
 function input_checkbox($name,$value){echo(input_checkboxr($name,$value));}
 //--------------------------------------------
 function input_selectr($name,$value,$values){
-    $stream="<select name=\"$name\">";
+    if(!$value and !xsuccess())$value=$_POST[$name];
+    $stream="<select name=\"$name\" id=\"$name\">";
     //print_r($values);
     foreach($values as $a=>$b){
         //echo($a);

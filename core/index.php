@@ -98,6 +98,7 @@ require(root.core."/login/func_core.php");
 require(root.core."/create/func_core.php");
 require(root.core."/attack/func_core.php");
 require(root.core."/text/func_core.php");
+require(root.core."/hold/func_core.php");
 //die('hovno');
 //--------------------------------------------
 define("single", true);

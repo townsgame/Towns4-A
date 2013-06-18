@@ -10,7 +10,7 @@ function a_text($action,$idle,$to="",$title="",$text=""){
         if($idle and $idle!='new' and $idle!='public' and $idle!='report'){
             $add1='`to`='.logid.' OR `from`='.logid.' OR `to`='.useid.' OR `from`='.useid.' OR `to`=0';
             $add2="`type`='message' OR `type`='report' ";
-            $array=sql_array("SELECT `id` ,`idle` ,`type` ,`new` ,`from` ,`to` ,`title` ,`text` ,`time` ,`timestop` FROM `".mpx."text` WHERE `idle`='$idle' AND ($add1) AND ($add2) ORDER BY `time` DESC",1);
+            $array=sql_array("SELECT `id` ,`idle` ,`type` ,`new` ,`from` ,`to` ,`title` ,`text` ,`time` ,`timestop` FROM `".mpx."text` WHERE `idle`='$idle' AND ($add1) AND ($add2) ORDER BY `time` DESC ".($GLOBALS['limit']?'LIMIT '.$GLOBALS['limit']:'')."",1);
             if($array[0][3]==1){
                 r('notnew');
                 $add1='`to`='.logid.' OR `to`='.useid.'';
@@ -22,7 +22,7 @@ function a_text($action,$idle,$to="",$title="",$text=""){
             if($idle=='new'){$add3='`new`=1 AND (`from`!='.useid.' AND `from`!='.logid.')';$add2.=" OR `type`='report'";/*$add3='`time`>'.(time()-(3600*24*7));*/}else{$add3='1';}
             if($idle=='public'){$add1='`to`=0';}
             if($idle=='report'){$add2="`type`='report'";}
-            $array=sql_array("SELECT `id` ,`idle` ,`type` ,`new` ,`from` ,`to` ,`title` ,`text` ,MAX(`time`) ,`timestop`, COUNT(`idle`) FROM `".mpx."text` WHERE ($add1) AND ($add2) AND ($add3) GROUP BY `idle` ORDER BY `time` DESC",1);
+            $array=sql_array("SELECT `id` ,`idle` ,`type` ,`new` ,`from` ,`to` ,`title` ,`text` ,MAX(`time`) ,`timestop`, COUNT(`idle`) FROM `".mpx."text` WHERE ($add1) AND ($add2) AND ($add3) GROUP BY `idle` ORDER BY `time` DESC ".($GLOBALS['limit']?'LIMIT '.$GLOBALS['limit']:'')."",1);
             //print_r($array);            
             $GLOBALS['ss']["query_output"]->add("list",$array);
         }

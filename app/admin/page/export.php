@@ -58,7 +58,7 @@ foreach(sql_array('SELECT `id`, `idle`, `type`, `new`, `from`, `to`, `title`, `t
 $stream.="</text>".$nln;
 //-----------------------------------------LOGIN
 $stream.="<login>".$nln;
-foreach(sql_array('SELECT `id`, `method`, `key`, `text`, `time_create`, `time_change`, `time_use` FROM `'.mpx.'text` WHERE 1 '.$limit) as $row){
+foreach(sql_array('SELECT `id`, `method`, `key`, `text`, `time_create`, `time_change`, `time_use` FROM `'.mpx.'login` WHERE 1 '.$limit) as $row){
 	list($id, $method, $key, $text, $time_create, $time_change, $time_use)=$row;
 	$text=htmlspecialchars($text);
 	$stream.="<row id=\"$id\" method=\"$method\" key=\"$key\" text=\"$text\" time_create=\"$time_create\" time_change=\"$time_change\" time_use=\"$time_use\"/>".$nln;
@@ -68,6 +68,11 @@ $stream.="</login>".$nln;
 //-----------------------------------------OBJECTS
 foreach(sql_array('SELECT `id`, `name`, `type`, `dev`, `fs`, `fp`, `fr`, `fx`, `fc`, `func`, `hold`, `res`, `profile`, `set`, `hard`, `expand`, `collapse`, `own`, `in`, `ww`, `x`, `y`, `t` FROM `'.mpx.'objects` WHERE 1 '.$limit) as $row){
 	list($id,$name,$type,$dev,$fs,$fp,$fr,$fx,$fc,$func,$hold,$res,$profile,$set,$hard,$expand,$collapse,$own,$in,$ww,$x,$y,$t)=$row;
+	$set=htmlspecialchars($set);
+	$profile=htmlspecialchars($profile);
+	$func=htmlspecialchars($func);
+	$res=htmlspecialchars($res);
+
 	$stream.="<object id=\"$id\">".$nln;
 
 	$stream.="<param key=\"name\" value=\"$name\"/>".$nln;

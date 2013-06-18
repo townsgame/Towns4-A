@@ -215,30 +215,32 @@ if(!defined("func_map"))require(root.core."/func_map.php");
 </div></div>
  onmousedown="alert(1)" onmouseup="alert(2)" onmouseout=""
 onclick="key_up=true" onmouseup="key_up=false" onmouseout="key_up=false"
+
+ onmousedown="key_left=true" onmouseup="key_left=false" onmouseout="key_left=false"
 */ ?>
 
 <?php if(logged()){ ?>
 <div style="position:absolute;top:0px;left:0px;width:100%;height:27px;z-index:550;">
-<a onmousedown="key_up=true" onmouseup="key_up=false" onmouseout="key_up=false">
+<a onclick="key_up=true;key_count=key_count+2;">
 <img src="<?php imageurle('design/blank.png'); ?>" id="navigation_up" border="0" alt="<?php le('navigation_up'); ?>" title="<?php le('navigation_up'); ?>" width="100%" height="100%">
 </a>
 </div>
 
 <div style="position:absolute;top:0px;left:0px;width:27px;height:100%;z-index:550;">
-<a onmousedown="key_left=true" onmouseup="key_left=false" onmouseout="key_left=false">
+<a onclick="key_left=true;key_count=key_count+2;">
 <img src="<?php imageurle('design/blank.png'); ?>" id="navigation_left" border="0" alt="<?php le('navigation_left'); ?>" title="<?php le('navigation_left'); ?>" width="100%" height="100%">
 </a>
 </div>
 
 <div style="position:absolute;top:100%;left:0px;width:100%;height:47px;z-index:550;">
 <div style="position:relative;top:-163px;left:0px;width:100%;height:100%;">
-<a onmousedown="key_down=true" onmouseup="key_down=false" onmouseout="key_down=false">
+<a onclick="key_down=true;key_count=key_count+2;">
 <img src="<?php imageurle('design/blank.png'); ?>" id="navigation_down" border="0" alt="<?php le('navigation_down'); ?>" title="<?php le('navigation_down'); ?>" width="100%" height="100%">
 </a>
 </div></div>
 
 <div style="position:absolute;top:0px;left:100%;width:27px;height:100%;z-index:550;">
-<a onmousedown="key_right=true" onmouseup="key_right=false" onmouseout="key_right=false">
+<a onclick="key_right=true;key_count=key_count+2;">
 <div style="position:relative;top:0px;left:-27px;width:100%;height:100%;">
 <img src="<?php imageurle('design/blank.png'); ?>" id="navigation_right" border="0" alt="<?php le('navigation_right'); ?>" title="<?php le('navigation_right'); ?>" width="100%" height="100%">
 </a>

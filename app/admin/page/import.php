@@ -7,12 +7,14 @@ if($_POST['filename']){
 	if(file_exists(adminroot.'files/'.$_POST['filename'].'.xml')){
 		ini_set('memory_limit', '-1');
 		ini_set("max_execution_time","1000");
+		//echo(htmlspecialchars(file_get_contents(adminroot.'files/'.$_POST['filename'].'.xml')));
 		$xml = json_decode(json_encode((array) simplexml_load_file(adminroot.'files/'.$_POST['filename'].'.xml')), 1);
+		//print_r($xml);
 		//r($xml);
 		//$xml=$xml['world'];
 		//===============================================CONFIG
 		$file=root."world/".w.".txt";
-		$content=file_get_contents($file).nln;
+		$content='';//file_get_contents($file).nln;
 		foreach($xml['config']['param'] as $row){
 			//print_r($row);hr();
 			$row=$row['@attributes'];
@@ -20,7 +22,13 @@ if($_POST['filename']){
 			$content.=nln.$row['key'].'='.$row['value'].';';	
 		}
 		file_put_contents($file,$content);
-		//print_r($xml['config']);
+		//===============================================CLEAR
+		sql_query('DROP TABLE `'.mpx.'map`;');
+		sql_query('DROP TABLE `'.mpx.'text`;');
+		sql_query('DROP TABLE `'.mpx.'objects`;');
+		sql_query('DROP TABLE `'.mpx.'memory`;');
+		sql_query('DROP TABLE `'.mpx.'login`;');
+		emptydir(root.cache);
 		//===============================================TABLES
 		$sql=file_get_contents(adminroot.'sql/create_map.sql');
 		$sql=str_replace('[mpx]',mpx,$sql);
@@ -50,7 +58,7 @@ if($_POST['filename']){
 		//===============================================LOGIN
 		foreach($xml['login']['row'] as $row){
 			$row=$row['@attributes'];
-			sql_query("INSERT INTO `".mpx."login` (`id`, `method`, `key`, `text`, `time_create`, `time_change`, `time_use`) VALUES ('".($row['id'])."', '".($row['method'])."', '".($row['key'])."', '".(addslashes($row['text']))."', '".($row['time_create']).", '".($row['time_change'])."', '".($row['time_use'])."'');");
+			sql_query("INSERT INTO `".mpx."login` (`id`, `method`, `key`, `text`, `time_create`, `time_change`, `time_use`) VALUES ('".($row['id'])."', '".($row['method'])."', '".($row['key'])."', '".(addslashes($row['text']))."', '".($row['time_create'])."', '".($row['time_change'])."', '".($row['time_use'])."');");
 		}
 		//===============================================OBJECTS
 		foreach($xml['object'] as $row){

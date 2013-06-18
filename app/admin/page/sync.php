@@ -25,7 +25,7 @@ if($_POST['master']){
 		sql_query('DROP TABLE `'.mpx.'memory`;');
 		sql_query('DROP TABLE `'.mpx.'login`;');
 		//unlink(root.'world/'.w.'.txt');
-		unlink(root.cache);
+		emptydir(root.cache);
 
 
 		ini_set('memory_limit', '-1');
