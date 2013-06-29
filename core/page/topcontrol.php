@@ -30,7 +30,7 @@ e('</td></tr></table>');
 
 
 if(!defined("func_map"))require(root.core."/func_map.php");
-ahref('<img id="minimap" style="display:none;" src="'.worldmap(300,50).'" width="200"/>',$url);
+//ahref('<img id="minimap" style="display:none;" src="'.worldmap(300,50).'" width="200"/>',$url);
 
  ?>
 <!--

@@ -6,7 +6,7 @@ $index='index.php';
 error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED ^ E_WARNING );
 //-------
 $push_slave='http://test.towns.cz/';
-$push_pass='aaa';
+$push_pass='attlvuamhb';
 //===========================================================================================================================================
 //==================================
 function post_request($url, $data, $session='') {

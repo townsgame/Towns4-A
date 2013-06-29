@@ -66,8 +66,10 @@ class vals{
     }
     //--------------------------------------------
      function vals2str($conf=false){
+        //r(1);
         $tmp=array();$i=0;
-        foreach($this->vals as $a=>$b){//r($b);
+        foreach($this->vals as $a=>$b){
+            if(is_object($b))$b=$b->vals2str();
             if(is_array($b)){
                 $ii=0;while($b[$ii]){$b[$ii]=x2xx($b[$ii]);$ii=$ii+1;}
                 $b=join(",",$b);
@@ -140,13 +142,13 @@ print_r($tmp->vals2list());
 if($tmp->val("aa")){echo("hurá");}*/
 //--------------------------------------------
 function str2list($tmp){
-    $tmp=new vals($tmp);
+    if(!is_object($tmp))$tmp=new vals($tmp);
     $tmp=$tmp->vals2list();
     return($tmp);
 }
 //--------------------------------------------
 function list2str($tmp){
-    $tmp=new vals($tmp);
+    if(!is_object($tmp))$tmp=new vals($tmp);
     $tmp=$tmp->vals2str();
     return($tmp);
 }
@@ -256,6 +258,38 @@ class func{
         //rn($this->funcs->vals2str());
         //r($this->funcs->vals2list());
     }
+        //--------------------------------------------
+    function addF($name,$key,$value,$wtf='params'){
+        //r($this->vals2list());
+        $func=$this->funcs->val($name);       
+        if(!$func){
+            $class=str_replace(array(0,1,2,3,4,5,6,7,8,9),'',$name);
+            $this->add($name,$class);
+            $func=$this->funcs->val($name);
+            $func=new vals($func);  
+        }
+        //r(gettype($func));
+        //r($func);
+        
+        //r(1);
+        $params=new vals($func->val($wtf));
+        //r(2);
+        if($wtf=='params')$value=array(floatval($value),1);
+        $params->add($key,$value);
+        //$params->add($key,1);
+        //r(3);        
+        $params=$params->vals2str();
+        if($wtf=='profile')$params=str_replace('[2]',',',$params);        
+        
+        $func->delete($wtf);
+        $func->add($wtf,$params);
+        
+        
+        $this->funcs->delete($name);
+        $this->funcs->add($name,$func);
+        //r(4);
+    }
+    //--------------------------------------------
     function delete($func){$this->funcs->delete($func);}
     //--------------------------------------------
      function vals2str(){
@@ -269,12 +303,17 @@ class func{
     }
     //--------------------------------------------
     function vals2list(){
-         //r($this->funcs->vals2str());
+        //r('vals2list');
+        //r($this->funcs->vals2str());
         $return=$this->funcs->vals2list();
+        //r(1);
         //r($return["login"]);
         foreach($return as $i=>$tmp){
             //r($return[$i]);
+            //r(gettype($return[$i]));
             $return[$i]=str2list($return[$i]);//funkce
+            //r(2);
+            
             //$return[$i][1]=str2list($return[$i][1]);//
             $return[$i]["params"]=str2list($return[$i]["params"]);//params
             foreach($return[$i]["params"] as $key=>$value){
@@ -434,12 +473,12 @@ class hold extends vals{
         }
         //echo("--></script>");/**/
     }
-    function showimg($q=false){
-        echo("<table width=\"0\" valign=\"middle\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\"><tr>");
+    function showimg($q=false,$notable=false){
+        if(!$notable)echo("<table width=\"0\" valign=\"middle\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\"><tr>");
         foreach($this->vals as $key=>$value){//hu buc bud
-            if($key and $value)echo("<td>".imgr("icons/res_$key.png","{res_$key}",15,15)."<span id=\"res_".($q?$key:'no')."\">".ir($value)."</span>".nbsp3."</td>");
+            if($key and $value)echo((!$notable?'<td>':'').imgr("icons/res_$key.png","{res_$key}",15,15)."<span id=\"res_".($q?$key:'no')."\">".ir($value)."</span>".(!$notable?nbsp3.'</td>':' '));
         }
-        echo("</tr></table>");
+        if(!$notable)echo("</tr></table>");
     }
     function test($a,$b){
         //r($a,$b);
@@ -488,10 +527,10 @@ class hold extends vals{
     }
 }
    
-function showhold($hold){
+function showhold($hold,$cols=false){
     //e($hold);
     $hold=new hold($hold);
-    $hold->showimg();
+    $hold->showimg(NULL,$cols);
     unset($hold);
 }
 

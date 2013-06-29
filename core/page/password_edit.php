@@ -11,6 +11,7 @@ if($_POST["oldpass"] or $_POST["newpass"] or $_POST["newpass"]){
 	//alert("{password_change}",1);
 	//echo("<hr>");
 	//r('hovno');
+	   
 	   xreport();
         xquery('login',$GLOBALS['ss']["logid"],'towns',$_POST["oldpass"]?$_POST["oldpass"]:$_POST["newpass"],$_POST["newpass"],$_POST["newpass2"]);
         
@@ -24,7 +25,7 @@ setTimeout(function()x{
 <?php
 }
         
-        
+        //alert("chobot",2);
         xreport();
     }else{
         alert("{password_change_no_error}",2);

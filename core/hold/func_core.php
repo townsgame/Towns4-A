@@ -1,5 +1,5 @@
 <?php
-define('a_change_cooldown',true);
+//define('a_change_cooldown',true);
 function a_change($from,$to,$count){//e("$from,$to,$count");
     $count=intval($count);
     if(!$count or $count<2){

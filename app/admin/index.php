@@ -21,6 +21,7 @@ require2("func_vals.php");
 require2("func_object.php");
 require2("func_main.php");
 require2("memory.php");
+//require2("output.php");
 }
 
 ini_set("max_execution_time","1000");
@@ -67,8 +68,11 @@ a:active {
 
 <?php
 //=============================================================================
+
+//echo('('.trim(file_get_contents(adminroot.'password')).')');
 if(file_exists(adminroot.'password')){
-//echo('('.file_get_contents('password').')');
+
+
 if($_POST["password_new"]){
 	if($_POST["password_new"]==trim(file_get_contents(adminroot.'password'))){
 		$GLOBALS['ss']["logged_new"]=true;
@@ -77,17 +81,32 @@ if($_POST["password_new"]){
 		//echo($_POST["password_new"].'-'.file_get_contents(adminroot.'password'));
 	}
 }
-if($_GET["logout"]){/*$GLOBALS['ss']=array();*/$GLOBALS['ss']["logged_new"]=false;}
+if($_GET["logout"]){$GLOBALS['ss']["logged_new"]=false;}
 if($GLOBALS['ss']["logged_new"]!=true){
 ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Towns4Admin - přihlášení</title>
+</head>
+
+<body>
+
+
 <form name="login" method="POST" action="?">
+<b>Towns4Admin</b> - přihlášení<br>
 <b>Heslo:</b><input type="password" name="password_new" value="" />
 <input type="submit" value="OK" />
 </form>
+
+</body>
+</html>
 <?php
 exit2();
 }
 }
+require2("output.php");
 //=============================================================================
 //if($_GET["world"])$GLOBALS['ss']["world"]=$_GET["world"];
 //if($GLOBALS['ss']["world"]){
@@ -142,6 +161,8 @@ $links=array(
 'adminer'=>'Adminer',
 'config'=>'Config',
 'object'=>'Object',
+'users'=>'Users',
+'registermap'=>'RegisterMap',
 'service'=>'Service',
 //'createuser'=>'CreateUser',
 //'patchmap'=>'PatchMap',

@@ -792,7 +792,7 @@ function terraincolor($terrain){
     return(array($r,$g,$b));
 }
 //-----------------------
-function worldmap($width=500,$minsize=0,$w=false){
+function worldmap($width=500,$minsize=0,$w=false,$top=false,$worldmap_red=false){
     if(!$w){
         $w=$GLOBALS['ss']["ww"];
         $mapsize=mapsize;
@@ -808,7 +808,8 @@ function worldmap($width=500,$minsize=0,$w=false){
         } 
     }
     
-    $outimg=tmpfile2("worldmap,$width,$w,$minsize".t_,"png","map");
+    
+    $outimg=tmpfile2("worldmap,$width,$w,$minsize".($worldmap_red?serialize($worldmap_red):'').t_,"png","map");
     if(!file_exists($outimg)/** or true/**/){
         
         if($mapsize<$minsize){   
@@ -852,6 +853,17 @@ function worldmap($width=500,$minsize=0,$w=false){
             }
             $limit+=500;
         }
+        //-------------------------------------------------------
+        if($worldmap_red){
+            $red=imagecolorallocate($img, 255,0,0);   
+            foreach($worldmap_red as $row){
+                list($x,$y)=$row;
+                $xx=($x-$y)/($mapsize*2)*($width/$kk)+($width/2);
+                $yy=($x+$y)/($mapsize*2)*($height/$kk)+(($height-($height/$kk))/2);
+                imagefilledellipse($img, round($xx), round($yy), $radius, ceil($radius/gr), $red);
+            }
+        }
+        //-------------------------------------------------------
         //imagefilter($img, IMG_FILTER_COLORIZE,9,0,5);
         imagefilter($img, IMG_FILTER_CONTRAST,-5);
         imagesavealpha($img, true);

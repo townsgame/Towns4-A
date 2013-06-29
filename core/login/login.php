@@ -21,6 +21,18 @@ Vítejte na stránkách nové online hry.
 <br/>
 
 </div>
+
+<?php
+if(defined('countdown') and countdown-time()>0){$disabled='disabled';
+?>
+<div style="background:#222222;" >{countdown} <?php timese(countdown-time()); ?></div>
+<?php
+}else{
+    $disabled='';
+}
+?>
+
+
 <br/>
 
 

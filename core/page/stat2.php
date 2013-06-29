@@ -8,7 +8,7 @@ $max=sql_1data("SELECT COUNT(1) FROM `".mpx."objects` WHERE ".$GLOBALS['where'])
 $limit=limit("stat2",$GLOBALS['where'],102,$max);
 
 
-$array=sql_array("SELECT `id`,`name`,`type`,`dev`,`fs`,`fp`,`fr`,`fx`,`fc`,`res`,`own`,`in`,`x`,`y`,`ww` FROM `".mpx."objects` WHERE ".$GLOBALS['where']." ORDER BY $order DESC LIMIT $limit");
+$array=sql_array("SELECT `id`,`name`,`type`,`dev`,`fs`,`fp`,`fr`,`fx`,`fc`,`res`,`profile`,`own`,`in`,`x`,`y`,`ww` FROM `".mpx."objects` WHERE ".$GLOBALS['where']." ORDER BY $order DESC LIMIT $limit");
 
 contenu_a();
 
@@ -21,7 +21,9 @@ $i=$GLOBALS['ss']['ord'];
 $onrow=3;
 $ii=$onrow;
 foreach($array as $row){$i++;$ii--;
-    list($id,$name,$type,$dev,$fs,$fp,$fr,$fx,$fc,$res,$own,$in,$x,$y,$ww)=$row;
+    list($id,$name,$type,$dev,$fs,$fp,$fr,$fx,$fc,$res,$profile,$own,$in,$x,$y,$ww)=$row;
+    $profile=new profile($profile);
+    $description=trim($profile->val('description'));
     /*$hline=ahrefr(textcolorr(lr($type),$dev)." ".tr($name,true),"e=content;ee=profile;id=$id","none","x");
     $in=xyr($x,$y);
     $lvl=fs2lvl($fs);
@@ -30,7 +32,7 @@ foreach($array as $row){$i++;$ii--;
     }else{
         $fpfs=round($fp).'/'.round($fs);
     }*/
-    e('<td>');
+    e('<td width="'.intval($contentwidth/$onrow).'">');
     //e($i);
     $js="w_close('content');build('".$GLOBALS['ss']['master']."$master','$id','".$GLOBALS['get']['func']."');";
     ahref('<img src="'.modelx($res).'" width="'.(70*0.75).'">',js2($js),'none',true);
@@ -38,7 +40,12 @@ foreach($array as $row){$i++;$ii--;
     e('<td>');
     //e($i);
     ahref($name,'e=content;ee=profile;id='.$id,'none',true);
-    showhold($fc);
+    br();
+    showhold($fc,true);
+    if($description){
+        br();
+        e($description);   
+    }
     e('</td>');
     if($ii==0){e('</tr><tr>');$ii=$onrow;}
     /*if($ww==0){

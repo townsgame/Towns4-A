@@ -32,7 +32,13 @@ function a_attack($id){
         $xeff=$GLOBALS['ss']["aac_object"]->supportF($attack_type,"xeff");
         $steal=clone $attacked->hold;$steal->multiply($xeff);
         
-        
+        //-------LIMIT
+        $limit=$GLOBALS['ss']["aac_object"]->func->profile($attack_type,'limit');
+        if($limit and $limit!=$attacked->type){
+            $GLOBALS['ss']["query_output"]->add("error","{attack_limit_$limit}");
+            return;
+        } 
+      
         //-------NON SAME WORLD
         if($GLOBALS['ss']["aac_object"]->ww!=$attacked->ww){
             $GLOBALS['ss']["query_output"]->add("error","{attack_error_ww}");

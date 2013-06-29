@@ -92,15 +92,19 @@ class object{
             }
         }else{
             //r($id);
-            sql_query("INSERT INTO `".mpx."objects` (`id`, `type`, `fp`, `fs`, `dev`, `name`, `func`, `set`, `res`, `profile`, `hold`, `own`, `hard`, `expand`, `collapse`, `ww`,`in`, `t`, `x`, `y`) VALUES (NULL, 'hybrid', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,'1', NULL, NULL, '0', '0')");
-            $this->id=sql_1data("SELECT LAST_INSERT_ID()");
-            echo("creating ".$this->id);
+            $id=nextid();
+            $name='object '.$id;
+            sql_query("INSERT INTO `".mpx."objects` (`id`,`name`, `type`, `fp`, `fs`, `dev`, `func`, `set`, `res`, `profile`, `hold`, `own`, `hard`, `expand`, `collapse`, `ww`,`in`, `t`, `x`, `y`) VALUES ('$id','$name', 'hybrid', '', '', NULL, NULL, NULL,NULL, NULL, NULL, NULL, 0, 0, 0,'1', NULL, NULL, '0', '0')",1);
+            //$this->id=sql_1data("SELECT LAST_INSERT_ID()");
+            $this->id=$id;
+            $this->name=$name;
+            r("creating ".$this->id);
             $this->loaded=true;
             $this->type="";
             $this->fp="";
             $this->fs="";
             $this->dev="";
-            $this->name="untitled_".$this->id;
+            //$this->name="untitled_".$this->id;
             //$this->password="";
             $this->func=new func();
             $this->set=new set();
@@ -137,7 +141,9 @@ class object{
             $stream.=",".$this->dev;
             $stream.=",".$this->name;
             //$stream.=",".$this->password;
+            //r(1);
             $stream.=",".$this->func->vals2str();
+            //r(2);            
             $stream.=",".$this->set->vals2str();
             $stream.=",".$this->res;
             $stream.=",".$this->profile->vals2str();
@@ -305,7 +311,7 @@ class object{
                 `x` =  '".($this->x)."',
                 `y` =  '".($this->y)."'
                 WHERE  id ='".($this->id)."'");
-                //echo($query);
+                r($query);
                 //r("t");
                 sql_query($query);
                 //r("t");

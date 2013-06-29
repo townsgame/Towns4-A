@@ -218,8 +218,11 @@ function a_attack($id){
  $attacked=new object($id);
  $type=$attacked->type;
  $a_name=lr($GLOBALS['ss']["aac_object"]->type).' '.$GLOBALS['ss']["aac_object"]->name;
+ $a_name_=$GLOBALS['ss']["aac_object"]->name;
  $b_name=lr($type).' '.$attacked->name;
+ $b_name_=$attacked->name;
  $b_name4=lr($type,4).' '.$attacked->name;
+ $attackname=lr('attack_'.$type.'2');
  $a_fp=$GLOBALS['ss']["aac_object"]->getFP();
  $b_fp=$attacked->getFP();
  $a_at=$GLOBALS['ss']["aac_object"]->supportF($attack_type,"attack");
@@ -231,6 +234,11 @@ function a_attack($id){
  $xeff=$GLOBALS['ss']["aac_object"]->supportF($attack_type,"xeff");
  $steal=clone $attacked->hold;$steal->multiply($xeff);
  
+ $limit=$GLOBALS['ss']["aac_object"]->func->profile($attack_type,'limit');
+ if($limit and $limit!=$attacked->type){
+ $GLOBALS['ss']["query_output"]->add("error","{attack_limit_$limit}");
+ return;
+ } 
  
  if($GLOBALS['ss']["aac_object"]->ww!=$attacked->ww){
  $GLOBALS['ss']["query_output"]->add("error","{attack_error_ww}");
@@ -295,10 +303,10 @@ function a_attack($id){
  $steal->multiply(-1);
  $price=$price->textr();
  $steal=$steal->textr();
- $info=array('a_name'=>$a_name,'b_name'=>$b_name,'b_name4'=>$b_name4,'q'=>attack_name($q),'time'=>nn($time),'a_fp2'=>nn($a_fp2),'b_fp2'=>nn($b_fp2),'a_tah'=>nn($a_tah),'b_tah'=>nn($b_tah),'a_atf'=>nn($a_atf),'b_atf'=>nn($b_atf),'a_seed'=>nn($a_seed),'b_seed'=>nn($b_seed),'a_fp'=>nn($a_fp),'b_fp'=>nn($b_fp),'a_at'=>nn($a_at),'b_at'=>nn($b_at),'a_cnt'=>nn($a_cnt),'b_cnt'=>nn($b_cnt),'a_de'=>nn($a_de),'b_de'=>nn($b_de),'a_att'=>nn($a_att),'b_att'=>nn($b_att),'price'=>$price,'steal'=>$steal);
+ $info=array('a_name'=>$a_name,'a_name_'=>$a_name_,'b_name'=>$b_name,'b_name_'=>$b_name_,'b_name4'=>$b_name4,'attackname'=>$attackname,'q'=>attack_name($q),'time'=>nn($time),'a_fp2'=>nn($a_fp2),'b_fp2'=>nn($b_fp2),'a_tah'=>nn($a_tah),'b_tah'=>nn($b_tah),'a_atf'=>nn($a_atf),'b_atf'=>nn($b_atf),'a_seed'=>nn($a_seed),'b_seed'=>nn($b_seed),'a_fp'=>nn($a_fp),'b_fp'=>nn($b_fp),'a_at'=>nn($a_at),'b_at'=>nn($b_at),'a_cnt'=>nn($a_cnt),'b_cnt'=>nn($b_cnt),'a_de'=>nn($a_de),'b_de'=>nn($b_de),'a_att'=>nn($a_att),'b_att'=>nn($b_att),'price'=>$price,'steal'=>$steal);
  $info=x2xx(list2str($info));
  
- send_report(useid,$id,lr('attack_report_title',$info),lr('attack_report',$info));
+ send_report(useid,$id,lr('attack_report_title_q'.$q,$info),lr('attack_report',$info));
  $GLOBALS['ss']['attack_report']=lr('attack_report',$info);
  $GLOBALS['ss']["query_output"]->add("1",1);
  
@@ -361,9 +369,14 @@ $GLOBALS['ss']["object_build_func"]=$func;
 
 if(!$GLOBALS['ss']["master"] and $_GET["master"])$GLOBALS['ss']["master"]=$_GET["master"];
 
-if($id and $GLOBALS['ss']['master']){ $object_build=new object($id);
+if($id and $GLOBALS['ss']['master']){?>
+<script type="text/javascript">
+ _rot=0;
+</script>
+<?php
+ $object_build=new object($id);
  $res=$object_build->res;
- $js="\$.get('?e=map&q=".$GLOBALS['ss']['master'].".".$GLOBALS['ss']["object_build_func"]." $id,'+build_x+','+build_y+','+_rot, function(vystup){\$('#map').html(vystup);})";
+ $js="\$.get('?e=map&q=".$GLOBALS['ss']['master'].".".$GLOBALS['ss']["object_build_func"]." $id,'+build_x+','+build_y+','+_rot, function(vystup)x{\$('#map').html(vystup);}x)";
 
  if(substr($res,0,1)!='{' and (substr($res,0,1)!='(' or strpos($res,'1.png'))){$q=true;}else{$q=false;}
  if(strpos($res,'1.png')){$qq=true;}else{$qq=false;}
@@ -1336,21 +1349,21 @@ function textabr($a,$b,$width=300,$width2=200){
  return(tableabr("<b>".tr($a)."</b>",tr($b),$width,$width2));
 }
 function textab($a,$b,$width=300,$width2=200){echo( textabr($a,$b,$width,$width2));}
-function textabr_($array,$width=300,$width2=200){
+function textabr_($array,$width=300,$width2=200,$font=false){
  $al=" align=\"left\" valign=\"top\"";
- $stream='<table width=\"$width\" $al>';
+ $stream='<table width=\"$width\" $al border="0" cellpadding="0" cellspacing="0">';
  foreach($array as $tmp){list($a,$b)=$tmp;
  if($b!=''){
- $stream.=("<tr><td width=\"$width2\" $al><b>".tr($a)."</b></td><td $al>".tr($b)."</td></tr>");
+ $stream.=("<tr><td width=\"$width2\" $al><b>".($font?tfontr($a,$font):tr($a))."</b></td><td $al>".($font?tfontr($b,$font):tr($b))."</td></tr>");
  }else{
- $stream.=("<tr><td width=\"$width2\" $al colspan=\"2\"><b>".tr($a)."</b></tr>");
+ $stream.=("<tr><td width=\"$width2\" $al colspan=\"2\"><b>".($font?tfontr($a,$font):tr($a))."</b></tr>");
  }
  }
  
  $stream.='</table>';
  return($stream);
 }
-function textab_($array,$width=300,$width2=200){echo( textabr_($array,$width,$width2));}
+function textab_($array,$width=300,$width2=200,$font=false){echo( textabr_($array,$width,$width2,$font));}
 
 function movebyr($text,$x=0,$y=0,$id="",$style=""){
  return("<span id=\"$id\" style=\"position:absolute;$style\"><span style=\"position:relative;left:$x;top:$y;\">".$text."</span></span>");
@@ -1609,13 +1622,13 @@ $("#<?php e($GLOBALS['formid']); ?>").submit(function() x{
 </script>
 <?php
 }
-function input_textr($name,$value=false,$max=100,$cols="",$style=''){
+function input_textr($name,$value=false,$max=100,$cols="",$style='border: 2px solid #000000; background-color: #eeeeee'){
  if(!$value and !xsuccess())$value=$_POST[$name];
  $value=tr($value,true);
  $stream="<input type=\"input\" name=\"$name\" id=\"$name\" value=\"$value\" size=\"$cols\" maxlength=\"$max\" style=\"$style\"/>";
  return($stream);
 }
-function input_text($name,$value=1,$max=100,$cols="",$style=''){echo(input_textr($name,$value,$max,$cols));}
+function input_text($name,$value=1,$max=100,$cols="",$style='border: 2px solid #000000; background-color: #eeeeee'){echo(input_textr($name,$value,$max,$cols));}
 function input_passr($name,$value=''){
  $stream="<input type=\"password\" name=\"$name\" id=\"$name\" value=\"$value\" />";
  return($stream);
@@ -1631,13 +1644,15 @@ function input_textarear($name,$value='',$cols="",$rows="",$style=''){
 }
 function input_textarea($name,$value='',$cols="",$rows="",$style=''){echo(input_textarear($name,$value,$cols,$rows,$style));}
 function input_checkboxr($name,$value){
+ if(!$value and !xsuccess())$value=$_POST[$name];
  if($value){$ch="checked=\"checked\"";}else{$ch="";}
  $stream="<input type=\"checkbox\" name=\"$name\" $ch />";
  return($stream);
 }
 function input_checkbox($name,$value){echo(input_checkboxr($name,$value));}
 function input_selectr($name,$value,$values){
- $stream="<select name=\"$name\">";
+ if(!$value and !xsuccess())$value=$_POST[$name];
+ $stream="<select name=\"$name\" id=\"$name\">";
  foreach($values as $a=>$b){
  if($a==$value){$ch="selected=\"selected\"";}else{$ch="";}
  $stream.="<option value=\"$a\" $ch >$b</option>";
@@ -2535,6 +2550,7 @@ function sql_1data($q,$w=false){
  if($w==2){echo($q);}
  $response= $GLOBALS['pdo']->prepare($q);
  $response->execute();
+ $err=($response->errorInfo());if($err=$err[2] and debug)e($err);
  $response = $response->fetchAll();
  while(is_array($response))$response=$response[0];
  return($response);
@@ -2545,6 +2561,7 @@ function sql_array($q,$w=false){
  if($w==2){echo($q);}
  $array= $GLOBALS['pdo']->prepare($q);
  $array->execute();
+ $err=($array->errorInfo());if($err=$err[2] and debug)e($err);
  $array = $array->fetchAll();
  return($array);
 }
@@ -2554,6 +2571,7 @@ function sql_csv($q,$w=false){
  if($w==2){echo($q);}
  $array= $GLOBALS['pdo']->prepare($q);
  $array->execute();
+ $err=($array->errorInfo());if($err=$err[2] and debug)e($err);
  $array = $array->fetchAll();
  $array=array2csv($array);
  return($array);
@@ -3096,7 +3114,7 @@ function terraincolor($terrain){
  imagedestroy($tmp);
  return(array($r,$g,$b));
 }
-function worldmap($width=500,$minsize=0,$w=false){
+function worldmap($width=500,$minsize=0,$w=false,$top=false,$worldmap_red=false){
  if(!$w){
  $w=$GLOBALS['ss']["ww"];
  $mapsize=mapsize;
@@ -3112,7 +3130,8 @@ function worldmap($width=500,$minsize=0,$w=false){
  } 
  }
  
- $outimg=tmpfile2("worldmap,$width,$w,$minsize".t_,"png","map");
+ 
+ $outimg=tmpfile2("worldmap,$width,$w,$minsize".($worldmap_red?serialize($worldmap_red):'').t_,"png","map");
  if(!file_exists($outimg)){
  
  if($mapsize<$minsize){ 
@@ -3151,6 +3170,15 @@ function worldmap($width=500,$minsize=0,$w=false){
  
  }
  $limit+=500;
+ }
+ if($worldmap_red){
+ $red=imagecolorallocate($img, 255,0,0); 
+ foreach($worldmap_red as $row){
+ list($x,$y)=$row;
+ $xx=($x-$y)/($mapsize*2)*($width/$kk)+($width/2);
+ $yy=($x+$y)/($mapsize*2)*($height/$kk)+(($height-($height/$kk))/2);
+ imagefilledellipse($img, round($xx), round($yy), $radius, ceil($radius/gr), $red);
+ }
  }
  imagefilter($img, IMG_FILTER_CONTRAST,-5);
  imagesavealpha($img, true);
@@ -3219,15 +3247,17 @@ class object{
  return(false);
  }
  }else{
- sql_query("INSERT INTO `".mpx."objects` (`id`, `type`, `fp`, `fs`, `dev`, `name`, `func`, `set`, `res`, `profile`, `hold`, `own`, `hard`, `expand`, `collapse`, `ww`,`in`, `t`, `x`, `y`) VALUES (NULL, 'hybrid', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,'1', NULL, NULL, '0', '0')");
- $this->id=sql_1data("SELECT LAST_INSERT_ID()");
- echo("creating ".$this->id);
+ $id=nextid();
+ $name='object '.$id;
+ sql_query("INSERT INTO `".mpx."objects` (`id`,`name`, `type`, `fp`, `fs`, `dev`, `func`, `set`, `res`, `profile`, `hold`, `own`, `hard`, `expand`, `collapse`, `ww`,`in`, `t`, `x`, `y`) VALUES ('$id','$name', 'hybrid', '', '', NULL, NULL, NULL,NULL, NULL, NULL, NULL, 0, 0, 0,'1', NULL, NULL, '0', '0')",1);
+ $this->id=$id;
+ $this->name=$name;
+ r("creating ".$this->id);
  $this->loaded=true;
  $this->type="";
  $this->fp="";
  $this->fs="";
  $this->dev="";
- $this->name="untitled_".$this->id;
  $this->func=new func();
  $this->set=new set();
  $this->res="";
@@ -3361,6 +3391,7 @@ class object{
  `x` = '".($this->x)."',
  `y` = '".($this->y)."'
  WHERE id ='".($this->id)."'");
+ r($query);
  sql_query($query);
  }
  }
@@ -3880,7 +3911,9 @@ class vals{
  }
  function vals2str($conf=false){
  $tmp=array();$i=0;
- foreach($this->vals as $a=>$b){ if(is_array($b)){
+ foreach($this->vals as $a=>$b){
+ if(is_object($b))$b=$b->vals2str();
+ if(is_array($b)){
  $ii=0;while($b[$ii]){$b[$ii]=x2xx($b[$ii]);$ii=$ii+1;}
  $b=join(",",$b);
  }else{
@@ -3931,12 +3964,12 @@ class vals{
 }
 
 function str2list($tmp){
- $tmp=new vals($tmp);
+ if(!is_object($tmp))$tmp=new vals($tmp);
  $tmp=$tmp->vals2list();
  return($tmp);
 }
 function list2str($tmp){
- $tmp=new vals($tmp);
+ if(!is_object($tmp))$tmp=new vals($tmp);
  $tmp=$tmp->vals2str();
  return($tmp);
 }
@@ -3983,6 +4016,28 @@ class func{
  $this->funcs->add($name,$func);
  $this->funcs->sort();
  }
+ function addF($name,$key,$value,$wtf='params'){
+ $func=$this->funcs->val($name); 
+ if(!$func){
+ $class=str_replace(array(0,1,2,3,4,5,6,7,8,9),'',$name);
+ $this->add($name,$class);
+ $func=$this->funcs->val($name);
+ $func=new vals($func); 
+ }
+ 
+ $params=new vals($func->val($wtf));
+ if($wtf=='params')$value=array(floatval($value),1);
+ $params->add($key,$value);
+ $params=$params->vals2str();
+ if($wtf=='profile')$params=str_replace('[2]',',',$params); 
+ 
+ $func->delete($wtf);
+ $func->add($wtf,$params);
+ 
+ 
+ $this->funcs->delete($name);
+ $this->funcs->add($name,$func);
+ }
  function delete($func){$this->funcs->delete($func);}
  function vals2str(){
  $return=$this->funcs->vals2str();
@@ -3995,7 +4050,8 @@ class func{
  function vals2list(){
  $return=$this->funcs->vals2list();
  foreach($return as $i=>$tmp){
- $return[$i]=str2list($return[$i]); $return[$i]["params"]=str2list($return[$i]["params"]); foreach($return[$i]["params"] as $key=>$value){
+ $return[$i]=str2list($return[$i]); 
+ $return[$i]["params"]=str2list($return[$i]["params"]); foreach($return[$i]["params"] as $key=>$value){
  if(!$return[$i]["params"][$key][0]){$return[$i]["params"][$key][0]=0;}
  if(!$return[$i]["params"][$key][1]){$return[$i]["params"][$key][1]=1;}
  }
@@ -4098,11 +4154,11 @@ class hold extends vals{
  foreach($this->vals as $key=>$value){ echo("countdownto('res_$key',$value); ");
  }
  }
- function showimg($q=false){
- echo("<table width=\"0\" valign=\"middle\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\"><tr>");
- foreach($this->vals as $key=>$value){ if($key and $value)echo("<td>".imgr("icons/res_$key.png","{res_$key}",15,15)."<span id=\"res_".($q?$key:'no')."\">".ir($value)."</span>".nbsp3."</td>");
+ function showimg($q=false,$notable=false){
+ if(!$notable)echo("<table width=\"0\" valign=\"middle\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\"><tr>");
+ foreach($this->vals as $key=>$value){ if($key and $value)echo((!$notable?'<td>':'').imgr("icons/res_$key.png","{res_$key}",15,15)."<span id=\"res_".($q?$key:'no')."\">".ir($value)."</span>".(!$notable?nbsp3.'</td>':' '));
  }
- echo("</tr></table>");
+ if(!$notable)echo("</tr></table>");
  }
  function test($a,$b){
  $b=round($b);
@@ -4146,15 +4202,87 @@ class hold extends vals{
  }
 }
  
-function showhold($hold){
+function showhold($hold,$cols=false){
  $hold=new hold($hold);
- $hold->showimg();
+ $hold->showimg(NULL,$cols);
  unset($hold);
 }
 
 
 
 
+}elseif($file=='hold/change.php'){
+define('a9d010ddc06fa4f02f4702fa521c28d2',true);
+
+r($GLOBALS['get']["id"]);
+if($_GET["id"]){
+ $id=$_GET["id"];
+}elseif($GLOBALS['get']["id"]){
+ $id=$GLOBALS['get']["id"];
+}else{
+ $id=$GLOBALS['ss']["use_object"]->set->ifnot('changeid',0);
+}
+
+
+if(ifobject($id)){
+ $GLOBALS['ss']["use_object"]->set->add('changeid',$id); 
+ 
+$object= new object($id);
+$eff=$object->supportF('change','eff');
+$surkey=array('fuel'=>'Palivo',
+ 'wood'=>'Dřevo',
+ 'stone'=>'Kámen',
+ 'iron'=>'Železo'
+);
+window('{change_title}');
+infob($object->name." (efektivita: ".round(100*$eff)."%)");
+contenu_a();
+ 
+ $url=("q=$id.change [change_from],[change_to],[change_count]");
+ form_a(urlr($url),'change');
+ 
+ input_select('change_from',NULL,$surkey);
+ textb(nbsp3.'{change_fromto}'.nbsp3);
+ input_select('change_to',NULL,$surkey);br();
+ textb('{change_count}: ');
+ input_text('change_count',100,15,7);br();
+ 
+ 
+ form_sb();
+ form_js('content','?e=hold-change&'.$url,array('change_to','change_from','change_count'));
+
+contenu_b();
+}
+
+}elseif($file=='hold/func_core.php'){
+define('cecf8a4a76240ab4ef08d8bdfb3151a9',true);
+
+function a_change($from,$to,$count){ $count=intval($count);
+ if(!$count or $count<2){
+ $GLOBALS['ss']["query_output"]->add("error","{change_error_nocount}");
+ return;
+ }
+ if($from==$to){
+ $GLOBALS['ss']["query_output"]->add("error","{change_error_same}");
+ return;
+ }
+ 
+ $eff=$GLOBALS['ss']["aac_object"]->supportF('change','eff');
+
+ $price=new hold($from.'='.$count);
+ if(!use_hold($price)){
+ $GLOBALS['ss']["query_output"]->add("error","{change_error_price}");
+ return;
+ }
+ 
+ $GLOBALS['ss']["use_object"]->hold->add($to,floor($count*$eff));
+ 
+ $GLOBALS['ss']["query_output"]->add("success","{change_success;$from;$to;$count;".floor($count*$eff)."}");
+ $GLOBALS['ss']["query_output"]->add("1",1);
+}
+ 
+?>
+<?php
 }elseif($file=='html.php'){
 define('86d3ab5d343827998b44d7b9616ec817',true);
 ?><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -4230,7 +4358,7 @@ if(defined('analytics')){
  <?php if(!debug){ ?>
  $(document).ready(function()x{
  $(document).bind("contextmenu",function(e)x{
- //return false;
+ return false;
  }x);
  }x);
  <?php } ?>
@@ -4285,9 +4413,9 @@ if(logged()){
  $windows[$w_name][2]=$w_y;
  $windows[$w_name][5]=array(1,1,1,1);
  }
- $windows['chat']=array("chat",0,-120,"103%",130,array(0,1,1,1),2);
- $windows['tabs']=array("tabs","%%",-141,"103%",0,array(0,1,1,1),1);
- $windows['miniprofile']=array("miniprofile","%%",-120,"103%",130,array(0,1,1,1),1);
+ $windows['chat']=array("chat",0,-107,"103%",130,array(0,1,1,1),2);
+ $windows['tabs']=array("tabs","%%",-141+13,"103%",0,array(0,1,1,1),1);
+ $windows['miniprofile']=array("miniprofile","%%",-107,"103%",130,array(0,1,1,1),1);
  $windows['surkey']=array("surkey","%%",-25,0,0,array(0,1,1,1),1);
 
  if($windows['topcontrol']){
@@ -4312,7 +4440,7 @@ if(logged()){
  $windows=array_merge(
  $windows,
  array(
- "topinfo"=>array("topinfo",'%%',-161,'103%',0,array(0,1,1,1),1),
+ "topinfo"=>array("topinfo",'%%',-161+13,'103%',0,array(0,1,1,1),1),
  ));
  }
  
@@ -4587,6 +4715,7 @@ require2(root.core."/login/func_core.php");
 require2(root.core."/create/func_core.php");
 require2(root.core."/attack/func_core.php");
 require2(root.core."/text/func_core.php");
+require2(root.core."/hold/func_core.php");
 define("single", true);
 $GLOBALS['ss']["url"]=url;
 t("start");
@@ -4845,6 +4974,7 @@ define('c0cbbba873d76fdaf3cc747407dc3fae',true);
 
 define("a_register_help","user");
 function a_register($param1){
+ if(defined('countdown') and countdown-time()>0){return;}
  if(!defined('register_block')){
  if(!($error=name_error($param1))){
  if(defined('register_user') and defined('register_building') and ifobject(register_user) and ifobject(register_building)){
@@ -4880,7 +5010,10 @@ function a_register($param1){
  sql_query("INSERT INTO ".mpx."objects (`id`,`name` ,$rows, `set`, `own`, `in`, `ww`, `x`, `y`, `t`) SELECT '$id3',`name`,$rows,`set`, '$id2', '0', '".$GLOBALS['ss']["ww"]."', '$x', '$y', '".time()."' FROM ".mpx."objects WHERE id='".register_building."';");
  
  $GLOBALS['ss']["query_output"]->add("1",1);
- $GLOBALS['ss']["log_object"]=new object($id); 
+ $GLOBALS['ss']["log_object"]=new object($id);
+ $GLOBALS['ss']["log_object"]->func->delete('login');
+ $GLOBALS['ss']["log_object"]->func->add('login','login');
+ $GLOBALS['ss']["log_object"]->update(); 
  $GLOBALS['ss']["logid"]=$GLOBALS['ss']["log_object"]->id;
  a_use($id2);
  }else{
@@ -4997,10 +5130,15 @@ define('e3e5ccce584caef4131b14b26ad284a5',true);
 <td align="left"><input type="input" name="login_username" id="login_username" value="<?php echo($_POST["login_username"]) ?>" size="17" style="border: 2px solid #000000; background-color: #eeeeee"/></td>
 </tr><tr>
 <td><b>{login_password}:</b></td><td align="left"><input type="password" name="login_password" value="" size="17" style="border: 2px solid #000000; background-color: #eeeeee"/></td>
-</tr><tr>
-<td colspan="2"><?php input_checkbox("login_permanent",$post["login_permanent"]); ?> {login_permanent}</td><tr>
+</tr>
+<!--
+<tr>
+<td colspan="2"><?php input_checkbox("login_permanent",$post["login_permanent"]); ?> {login_permanent}</td></tr>-->
+<tr>
 <td colspan="2"><input type="submit" value="{login_ok}" /></td></tr>
-</tr></table></form>
+</tr>
+
+</table></form>
 
 <?php
 if(defined('fb_appid') and defined('fb_secret'))
@@ -5032,6 +5170,18 @@ Vítejte na stránkách nové online hry.
 <br/>
 
 </div>
+
+<?php
+if(defined('countdown') and countdown-time()>0){$disabled='disabled';
+?>
+<div style="background:#222222;" >{countdown} <?php timese(countdown-time()); ?></div>
+<?php
+}else{
+ $disabled='';
+}
+?>
+
+
 <br/>
 
 
@@ -5058,11 +5208,13 @@ if($q==1){
 <?php
 }elseif($file=='login/reg_form.php'){
 define('6fdf16550e867252a5cf5d691d0efb7d',true);
-?><form id="register" name="register" method="POST" action="<?php url("q=register [register_username];login_try=1"); ?>">
+ if(defined('countdown') and countdown-time()>0){}else{ ?>
+
+<form id="register" name="register" method="POST" action="<?php url("q=register [register_username];login_try=1"); ?>">
 <table width="100%">
 <tr>
 <td width="10"><b>{register_username}:</b></td>
-<td align="left"><input type="input" name="register_username" id="register_username" value="<?php echo($_POST["register_username"]) ?>" size="17" style="border: 2px solid #000000; background-color: #eeeeee"/></td>
+<td align="left"><input <?php e($disabled); ?> type="input" name="register_username" id="register_username" value="<?php echo($_POST["register_username"]) ?>" size="17" style="border: 2px solid #000000; background-color: #eeeeee"/></td>
 </tr>
 <td colspan="2"><input type="submit" value="{register_ok}" /></td></tr>
 </tr></table></form>
@@ -5076,7 +5228,9 @@ eval(subpage('login-fb_login'));
 
 <script type="text/javascript">
 document.register.register_username.focus();
-</script><?php
+</script>
+
+<?php } 
 }elseif($file=='memory.php'){
 define('0771de71faecdd8dcf91d13520e9b79a',true);
 
@@ -5219,7 +5373,7 @@ define('2ce2a494fa19ae4f715b45355cf5d216',true);
 		e('window.location.replace(\'?q=logout\');');
 	}else{
 ?>
-if(!document.nochatref)x{;$("#chatscroll").scrollTop(10000);}x
+if(!document.nochatref)x{<?php subjs('chat_text'); ?>;$("#chatscroll").scrollTop(10000);}x
 <?php subjs('surkey'); ?>
 <?php subjs('chat_aac'); ?>
 
@@ -5242,15 +5396,8 @@ eval(subpage("chat_aac"));
  ?>
 </span></span>
 
-<form id="form_chat" name="form_chat" onsubmit="return document.chatsubmit();"><!-- method="post"action=""?q=chat [say]-->
- <table border="0" width="50%"><tr><td>
- <input type="text" id="say" name="say" maxlength="160" style="width:100%;height:22px;color: #cccccc;border: 2px solid #000000; background-color: rgba(0,0,0,1);"/>
- </td><td>
- <input type="submit" value=">" style="width:22px;height:22px;color: #cccccc;border: 2px solid #000000; background-color: #000000"/>
- </td></tr></table>
-</form>
+<?php 
 
-<?php
 }elseif($file=='page/chat_aac.php'){
 define('2c72b5a795c9c57a812094e5b56dfb27',true);
 
@@ -5276,22 +5423,20 @@ if(debug)echo(rand(1111,9999));
 define('f2f84c634311cde905e8f5701118e095',true);
 
 if(logged()){
- $stream="";
- $sql="SELECT `id`,`from`,`from` ,`to`,`text`,`time` FROM `".mpx."text` WHERE (`to`='' OR `to`='".useid."') AND `type`='chat' ORDER BY time DESC LIMIT 29";
+ $stream='';
+ $sql="SELECT `id`,`type`,`from`,`to`,`title`,`text`,`time` FROM `".mpx."text` WHERE (`to`='' OR `to`='".useid."' OR `from`='".useid."' OR `to`='".logid."' OR `from`='".logid."') AND (`type`='report') ORDER BY time DESC LIMIT 7";
  $array=sql_array($sql);
  if(count($array)<5)br(5-count($array));
  foreach($array as $row){
- $from=$row[1];
- $fromname=$row[3];
- $to=$row[3];
- $text=$row[4];
- $time=$row[5];
- 
+ list($id,$type,$from,$to,$title,$text,$time)=$row;
+ if($type=='chat'){
  $stream="[".timer($time)."][".liner($from)."]:".nbsp.tr($text).br.$stream;
+ }elseif($type=='report'){
+ $stream="[".timer($time)."][".liner($from)."]:".nbsp.tr($title).br.$stream;
  }
- $stream='<span id="chat_new" style="display:none;">['.timer(time())."][".liner(logid)."]:".nbsp.'[text]'.br.'</span>'.$stream;
+ }
  echo($stream);
-}else{
+ }else{
  refresh();
 }
 ?>
@@ -5415,8 +5560,16 @@ while($tmp=substr2($stream,'src="','"',$i)){
  $i++;
 }
 
+$i=0;
+while($tmp=substr2($stream,'href="','"',$i)){
+ $stream=substr2($stream,'href="','"',$i,urlr('e=content;ee=help;page='.$tmp));
+ $i++;
+}
+$stream=str_replace('href="javascript:','href="#" onclick="',$stream);
+
+
 if(!$GLOBALS['nowidth']){
- infob(ahrefr('{help_index}','e=content;ee=help;page=index'));
+ infob(ahrefr('{help_list}','e=content;ee=help;page=list'));
  contenu_a();
  e($stream);
  contenu_b();
@@ -5539,59 +5692,7 @@ define('0a3815f83fdbee016668aaeb58b65b73',true);
  }x,(connectfps*1000));
  
  
-
- 
  chating=false;
- 
- $(document).keypress(function(e) x{
- 
- if ( e.which == 13 ) x{
- if(chating==false)x{
- chating=true;
- $('#say').focus();
- }xelsex{
- 
- chating=false;
- $('#say').blur();
- }x
- 
- }x
- }x);
- 
- 
- document.chatsubmit=function() x{
- //e.preventDefault();
- //alert('hovno'); 
- chating=false;
- 
- say=$('#say').val();
- if(say)x{
- ch=say.substring(0, 1);
- if(ch==":" || ch==";")x{
- q=say.substring(1);
- }xelsex{
- q='chat [say]&say='+say;
- $('#objectchat<?php echo(useid); ?>').html(say);
- }x
- 
- htmlplus=$('#chat_new').html();
- 
- htmlplus=htmlplus.split('[text]').join(say);
- $('#chat_text').html($('#chat_text').html()+htmlplus); 
-				$("#chatscroll").scrollTop(10000); 
- 
- document.nochatref=true;
- $(function()x{$.get('?s=<?php e(ssid); ?>e=map_chat&q='+q, function(vystup)x{document.nochatref=false;}x);$('#loading').css('visibility','visible');}x);
- }x
- say=$('#say').val("");
- 
- 
- return false;
- 
- }x
- 
- 
- $('#form_chat').submit(document.chatsubmit); 
  
  
  
@@ -5634,7 +5735,7 @@ define('0a3815f83fdbee016668aaeb58b65b73',true);
  accuy=0;
  
  act_tmp=0;
- setInterval(function() x{http://test.towns.cz/tmp/world1/model/184/0/285224.png
+ setInterval(function() x{
  if(document.activeElement.tagName=='BODY')x{
  
  act_tmpp=act_tmp;
@@ -6008,7 +6109,7 @@ require2_once(root.core."/func_map.php");
  $rxp=424*2.5;$ryp=0;$px=424/10;$py=$px/2;
 $say="''";
 $hlname=id2name($GLOBALS['config']['register_building']);
-foreach(sql_array("SELECT `x`,`y`,`type`,`res`,`set`,`name`,`id`,`own`,$say,expand,collapse FROM `[mpx]objects` WHERE ww=".$GLOBALS['ss']["ww"]." AND `type`='building' AND (`name`!='$hlname' OR (SELECT COUNT(1) FROM [mpx]objects AS X WHERE X. `own`= [mpx]objects.`own` AND X. `type`='building')>1 OR `own`='".logid."' OR `own`='".useid."')") as $row){ $type=$row[2]; 
+foreach(sql_array("SELECT `x`,`y`,`type`,`res`,`set`,`name`,`id`,`own`,$say,expand,collapse FROM `[mpx]objects` WHERE ww=".$GLOBALS['ss']["ww"]." AND `type`='building'") as $row){ $type=$row[2]; 
  $res=$row[3];
  $set=$row[4];
  $name=trim($row[5]);
@@ -6200,14 +6301,14 @@ if($sql and $id?ifobject($id):true){
  e('<table border="0" width="47%"><tr height="70"><td width="50" align="left" valign="top">'); 
  mprofile($id);br(3);
  
- e('</td><td align="left" valign="top" width="140">');
+ e('</td><td align="left" valign="top" width="110">');
  
  
  
  if($own==useid){ 
  $own_=('vlastní budova');
  }elseif($own){
- $own_='budova města '.($ownname);
+ $own_='město '.($ownname);
  }elseif($type=='tree' or $type=='rock'){ 
  $own_=('příroda');
  }else{
@@ -6218,13 +6319,13 @@ if($sql and $id?ifobject($id):true){
 	labele(textbr(short($name,20)),$name.'(id: '.$id.')');		imge('design/dot.png','','100%',2);
 		textab_(array(array('život:',$fp.'/'.$fs),
 	 array('pozice:','['.round($x).','.round($y).']'),
-	 array($own_)),110,55);	e('</td><td align="left" valign="top">');
+	 array($own_)),90,55,13);	e('</td><td align="left" valign="top">');
 	e('<table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td align="left" valign="top">'); 
 	
 	 $iconsize=35;
  $iconbrd=3;
  if($own==useid){
- $functionlist=array('attack','create','teleport','portal','repair','upgrade','replace'); 
+ $functionlist=array('attack','create','teleport','portal','repair','upgrade','replace','change'); 
  }else{
  $functionlist=array('portal'); 
  } 
@@ -6280,6 +6381,9 @@ foreach($functionlist as $qq_class){
  if($fs!=$fp){
  $ahref='e=content;ee=create-upgrade;id='.$id; 
  }
+ break;
+ case 'change':
+ $ahref='e=content;ee=hold-change;id='.$id; 
  break;
  }
  if($stream or $ahref){
@@ -6402,17 +6506,15 @@ border(iconr("e=tabs;tab=$id;wtf=".($q?0:1).";js=".x2xx($stream),'fx_tab','{fx_t
  
  e(nbsp2);
  imge('design/dot.png','',2,$iconsize);
- e(nbsp2);
- icon("e=content;ee=profile;id=".useid,"profile_town","{profile_town}",$iconsize);
+ e(nbsp2); icon("e=content;ee=profile;id=".useid,"profile_town","{profile_town}",$iconsize);
  icon("e=content;ee=profile;id=".logid,"profile_user","{profile_user}",$iconsize);
- $iconsize=22;
+ $iconsize=24;
  
 
  e('</td><td align="left" valign="top" width="'.$iconsize.'">'); 
  
 }
- icon("js=$(document).fullScreen(true);","fullscreen","{fullscreen}",$iconsize);
- br();icon("q=logout","logout","{logout}",$iconsize); 
+ icon("q=logout","logout","{logout}",$iconsize); 
  br();icon("e=content;ee=help;page=index",'help',"{help}",$iconsize); 
  br();icon(js2('if($(\'#expandarea\').css(\'display\')==\'block\')x{$(\'#expandarea\').css(\'display\',\'none\')}xelsex{$(\'#expandarea\').css(\'display\',\'block\')}x1'),"expand","{expand}",$iconsize);
  if($sql and $id?ifobject($id):true){
@@ -6444,7 +6546,8 @@ contenu_a();
 
 if($_POST["oldpass"] or $_POST["newpass"] or $_POST["newpass"]){
  if($post["newpass"]){
-				 xreport();
+				 
+	 xreport();
  xquery('login',$GLOBALS['ss']["logid"],'towns',$_POST["oldpass"]?$_POST["oldpass"]:$_POST["newpass"],$_POST["newpass"],$_POST["newpass2"]);
  
 if(xsuccess()){
@@ -6456,7 +6559,6 @@ setTimeout(function()x{
 </script>
 <?php
 }
- 
  
  xreport();
  }else{
@@ -6683,7 +6785,7 @@ $max=sql_1data("SELECT COUNT(1) FROM `".mpx."objects` WHERE ".$GLOBALS['where'])
 $limit=limit("stat2",$GLOBALS['where'],102,$max);
 
 
-$array=sql_array("SELECT `id`,`name`,`type`,`dev`,`fs`,`fp`,`fr`,`fx`,`fc`,`res`,`own`,`in`,`x`,`y`,`ww` FROM `".mpx."objects` WHERE ".$GLOBALS['where']." ORDER BY $order DESC LIMIT $limit");
+$array=sql_array("SELECT `id`,`name`,`type`,`dev`,`fs`,`fp`,`fr`,`fx`,`fc`,`res`,`profile`,`own`,`in`,`x`,`y`,`ww` FROM `".mpx."objects` WHERE ".$GLOBALS['where']." ORDER BY $order DESC LIMIT $limit");
 
 contenu_a();
 
@@ -6696,15 +6798,22 @@ $i=$GLOBALS['ss']['ord'];
 $onrow=3;
 $ii=$onrow;
 foreach($array as $row){$i++;$ii--;
- list($id,$name,$type,$dev,$fs,$fp,$fr,$fx,$fc,$res,$own,$in,$x,$y,$ww)=$row;
+ list($id,$name,$type,$dev,$fs,$fp,$fr,$fx,$fc,$res,$profile,$own,$in,$x,$y,$ww)=$row;
+ $profile=new profile($profile);
+ $description=trim($profile->val('description'));
  
- e('<td>');
+ e('<td width="'.intval($contentwidth/$onrow).'">');
  $js="w_close('content');build('".$GLOBALS['ss']['master']."$master','$id','".$GLOBALS['get']['func']."');";
  ahref('<img src="'.modelx($res).'" width="'.(70*0.75).'">',js2($js),'none',true);
  e('</td>');
  e('<td>');
  ahref($name,'e=content;ee=profile;id='.$id,'none',true);
- showhold($fc);
+ br();
+ showhold($fc,true);
+ if($description){
+ br();
+ e($description); 
+ }
  e('</td>');
  if($ii==0){e('</tr><tr>');$ii=$onrow;}
  
@@ -6826,7 +6935,6 @@ e('</td></tr></table>');
 
 
 if(!defined("func_map"))require2(root.core."/func_map.php");
-ahref('<img id="minimap" style="display:none;" src="'.worldmap(300,50).'" width="200"/>',$url);
 
  ?>
 <!--

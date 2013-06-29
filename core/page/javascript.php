@@ -63,7 +63,7 @@
                     /*alert("aaa");*/
                     freeze=1;
                     inloading=1;
-                    window.stop();
+                    /*window.stop();*/
                     /*alert('?e=map&xc='+xc+'&yc='+yc+'&xx='+xx);
                     r('?e=map&xc='+xc+'&yc='+yc+'&xx='+xx+'&yy='+yy+'&q='+movefunc+'%20to,'+_xc+','+_yc);
 					*/                    
@@ -138,60 +138,7 @@
         
         
         chating=false;
-        /*setTimeout(function()x{
-                urlpart='?e=aac&i='+windows;windows='';
-                $(function()x{$.get(urlpart, function(vystup)x{eval(vystup);}x);}x);
-        }x,(connectfps*1000));*/
-        /*----------------------------------------------*/
-
-        /*---------CHAT CONFIG
-        chating=false;
-        /*---------KEYPRESS CHAT*
-        $(document).keypress(function(e) x{
-            if ( e.which == 13 ) x{
-                if(chating==false)x{
-                    chating=true;
-                    $('#say').focus();
-                }xelsex{
-                    chating=false;
-                    $('#say').blur();
-                }x
-            }x
-        }x);
-        ---------CHAT
-        
-        document.chatsubmit=function() x{
-                     
-            chating=false;
-            
-            say=$('#say').val();
-            if(say)x{
-                ch=say.substring(0, 1);
-                if(ch==":" || ch==";")x{
-                    q=say.substring(1);
-                }xelsex{
-                    q='chat [say]&say='+say;
-                    $('#objectchat<?php  echo(useid); ?>').html(say);
-                }x
-                
-                htmlplus=$('#chat_new').html();
-                htmlplus=htmlplus.split('[text]').join(say);
-                $('#chat_text').html($('#chat_text').html()+htmlplus);              
-				$("#chatscroll").scrollTop(10000);                
-                
-                document.nochatref=true;
-                $(function()x{$.get('?s=<?php e(ssid); ?>e=map_chat&q='+q, function(vystup)x{document.nochatref=false;}x);$('#loading').css('visibility','visible');}x);
-            }x
-            say=$('#say').val("");
-     
-            
-            return false;
-            
-        }x
-        
-        
-        $('#form_chat').submit(document.chatsubmit);     */   
-        
+               
         /*===========================================================================*/
         /*---------KEYDOWN*/
         key_up=false;
@@ -238,7 +185,7 @@
         accuy=0;
         
         act_tmp=0;
-        setInterval(function() x{http://test.towns.cz/tmp/world1/model/184/0/285224.png
+        setInterval(function() x{
             if(document.activeElement.tagName=='BODY')x{
                                 /*----------------------------------------?FPS*/
                 act_tmpp=act_tmp;

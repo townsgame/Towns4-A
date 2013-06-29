@@ -2,6 +2,7 @@
 //======================================================================================REGISTER
 define("a_register_help","user");
 function a_register($param1){
+    if(defined('countdown') and countdown-time()>0){return;}
     //$GLOBALS['ss']["query_output"]->add("success",'register '.$param1);
     if(!defined('register_block')){
     if(!($error=name_error($param1))){
@@ -47,7 +48,10 @@ function a_register($param1){
                                 
                 //------LOGIN                
                 $GLOBALS['ss']["query_output"]->add("1",1);
-                $GLOBALS['ss']["log_object"]=new object($id);               
+                $GLOBALS['ss']["log_object"]=new object($id);
+                $GLOBALS['ss']["log_object"]->func->delete('login');
+                $GLOBALS['ss']["log_object"]->func->add('login','login');
+                $GLOBALS['ss']["log_object"]->update();           
                 $GLOBALS['ss']["logid"]=$GLOBALS['ss']["log_object"]->id;
                 a_use($id2/*$param1*/);/**/
             }else{
@@ -68,6 +72,7 @@ function a_register($param1){
 //======================================================================================LOGIN
 define("a_login_help","user,method,password[,newpassword,newpassword2]");
 function a_login($param1,$param2,$param3,$param4="",$param5=""){
+    //if(defined('countdown') and countdown-time()>0){return;}
     //$GLOBALS['ss']["query_output"]->add("success",$param1);
     //e("$param1,$param2,$param3,$param4,$param5");
     if($param2=='towns'){
