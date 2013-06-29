@@ -1,0 +1,60 @@
+
+      <object name="d0dd" type="building">
+      <param key="res" value="[32,38,1][68,38,1][68,61,1][32,61,1][32,38,1][68,38,1][68,38,43][32,38,43][68,38,1][68,43,1][68,43,43][68,38,43][68,61,1][68,56,1][68,56,43][68,61,43][68,43,31][68,56,31][68,56,1][68,43,1][68,43,31][68,56,31][68,56,43][68,43,43][32,61,1][32,61,43][68,61,43][68,61,1][32,38,1][32,61,1][32,61,43][32,38,43][68,38,42][68,61,42][68,50,68][32,38,42][32,61,42][32,50,68][32,38,42][32,50,68][68,50,68][68,38,42][32,61,42][32,50,68][68,50,68][68,61,42]:1,2,3,4;5,6,7,8;9,10,11,12;13,14,15,16;17,18,19,20;21,22,23,24;25,26,27,28;29,30,31,32;33,34,35;36,37,38;39,40,41,42;43,44,45,46:089f68,089f68,089f68,089f68,e5ff1c,089f68,089f68,089f68,2d2a62,2d2a62,2d2a62,2d2a62" />
+      <param key="xres" value="a%3A11%3A%7Bs%3A8%3A%22amount_1%22%3Bi%3A42%3Bs%3A9%3A%22amount_11%22%3Bi%3A26%3Bs%3A8%3A%22amount_2%22%3Bi%3A36%3Bs%3A9%3A%22amount_21%22%3Bi%3A30%3Bs%3A8%3A%22amount_3%22%3Bi%3A23%3Bs%3A9%3A%22amount_22%22%3Bi%3A13%3Bs%3A4%3A%22roof%22%3Bi%3A0%3Bs%3A10%3A%22cube_color%22%3Bs%3A6%3A%22089F68%22%3Bs%3A10%3A%22cone_color%22%3Bs%3A6%3A%222D2A62%22%3Bs%3A9%3A%22doorcolor%22%3Bs%3A6%3A%22E5FF1C%22%3Bs%3A4%3A%22door%22%3Bi%3A1%3B%7D" />
+      <profile>
+      	<param key="description" value="s" />
+      	<param key="author" value="Prema-" />
+      </profile>
+      <func>
+      	<attack class="attack">
+      		<params>
+      			<param key="attack" value="9" />
+            <param key="distance" value="6" />
+            <param key="cooldown" value="3" />
+            <param key="count" value="2" />
+            <param key="total" value="0" />
+      		</params>
+      		<profile>
+      			<param key="name" value="dfsdfsdfd" />
+      			<param key="icon" value="(23).jpg" />
+      			<param key="description" value="Fuck tay love" />
+      		</profile>
+      	</attack>
+      	<defence class="defence">
+      		<params>
+      			<param key="defence" value="8" />
+      		</params>
+      		<profile>
+      		</profile>
+      	</defence>
+      	<expand class="expand">
+      		<params>
+      			<param key="distance" value="7" />
+      		</params>
+      		<profile>
+      		</profile>
+      	</expand>
+      	<collapse class="collapse">
+      		<params>
+      			<param key="distance" value="5" />
+      		</params>
+      		<profile>
+      		</profile>
+      	</collapse>
+      	<hard class="hard">
+      		<params>
+      			<param key="hard" value="2" />
+      		</params>
+      		<profile>
+      		</profile>
+      	</hard>
+      	<resistance class="resistance">
+      		<params>
+      			<param key="hard" value="8" />
+      		</params>
+      		<profile>
+      		</profile>
+      	</resistance>
+      </func>
+      </object>
