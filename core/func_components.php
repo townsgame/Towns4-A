@@ -4,7 +4,7 @@ function refresh($url=""){
 echo('<script language="javascript">
     window.location.replace("'.urlr($url).'");
     </script>');
-}
+}//aaa
 function reloc(){
     if(!debug or true){
     header("location: ".url);
@@ -58,15 +58,16 @@ function window($title=0,$width=0,$height=0,$window='content'){
         }*/
 }
 
-function w_close($w_name){
-    r('w_close');
+function w_close($w_name,$tt=false){
+    r('w_close_'.$w_name);
         echo("<script type=\"text/javascript\">
         \$(document).ready(function()x{
         setTimeout(function()x{w_close('window_$w_name');}x,100);
+        ".($tt?"setTimeout(function()x{w_close('window_$w_name');}x,110);":'')."
         }x);
         </script>");
 }
-
+//1114415007, 973151688
 //----------------
 define('contentwidth',449);
 
@@ -144,7 +145,7 @@ function tr($i,$nonl2br=false){
     if(!$nonl2br){
         $i=nl2br($i);
         $i=str_replace(nln,'<br>',$i);
-        $i=str_replace(' ',nbsp,$i);
+        //$i=str_replace(' ',nbsp,$i);// Tohle je na p*ču
         $i=smiles($i);
     }
     //$i=str_replace("<br />","<br>",$i);
@@ -312,6 +313,9 @@ function imageurl($file,$rot=1,$grey=false){
                 imagepng( $img,$file2);
                 chmod($file2,0777);
             }else{
+            	if(!file_exists($file1)){
+            		$file1="data/image/design/blank.png";
+            	}
                 copy($file1,$file2);
                 chmod($file2,0777);
             }
@@ -472,9 +476,13 @@ function functionholder($name,$inner,$x=0,$y=0,$br=0){$px=$x;
     echo($stream);
 }
 //--------------------------------------------
-function iprofile($id,$width=50){//r($id);
-    ahref(imgr("id_$id"."_icon","",$width,$width),"e=content;ee=profile;id=$id","none",'x');
+function iprofiler($id,$width=50,$border=0){//r($id);
+    return(ahrefr(imgr("id_$id"."_icon","",$width,$width,1,$border),"e=content;ee=profile;id=$id","none",'x'));
 }
+function iprofile($id,$width=50,$border=0){//r($id);
+    e(iprofiler($id,$width,$border));
+}
+//--------------------------------------------
 function vprofile($id,$values=array()){//r($id);
     tableab_a(200,50);
     iprofile($id);
