@@ -20,10 +20,30 @@ if(!defined("func_map"))require(root.core."/func_map.php");
         $xx=$GLOBALS['ss']["use_object"]->set->ifnot("map_xx",0);
         $yy=$GLOBALS['ss']["use_object"]->set->ifnot("map_yy",0);    
     }else{
-        $xc=1;
-        $yc=1;
+        //$xc=1;
+        //$yc=1;
         $xx=0;
-        $yy=0;    
+        $yy=0;
+        /*
+        $ym=ceil(mapsize/5);//-1;
+        $xm=ceil((mapsize/5-1)/2);
+        $q=1.85;
+        
+        $xc=rand(ceil(-$xm/$q),floor($xm/$q));
+        $yc=rand(ceil($ym*((1/$q)/2)),floor($ym*((1/$q)*1.5)));
+        */
+    
+    $array=sql_array('SELECT x,y FROM [mpx]objects WHERE ww='.ww.' AND type=\'building\' AND own!=\'\' AND own!=\'\' ORDER BY RAND() LIMIT 1 ');
+    list($x,$y)= $array[0];
+    //echo("$x,$y");
+    $tmp=3;
+    $xc=(-(($y-1)/10)+(($x-1)/10));
+    $yc=((($y-1)/10)+(($x-1)/10));
+    $xx=(($xc-intval($xc))*-414);
+    $yy=(($yc-intval($yc)+$tmp)*-211);
+    $xc=intval($xc)+1;
+    $yc=intval($yc)-$tmp+2;
+        
     }
     
     //if($GLOBALS['ss']["get"]["xc"]!=""){$GLOBALS['ss']["map_xc"]=$GLOBALS['ss']["get"]["xc"];}
@@ -288,8 +308,8 @@ for($y=$yc; $y<=$ym+$yc; $y++){
     for ($x=-$xm+$xc; $x<=$xm+$xc; $x++) {
         $ad=(dnln.'<td width="424" height="211">');$stream1.=$ad;$stream2.=$ad;
         //r("$x,$y");
-        $stream1.=htmlmap($x,$y,1);
-        $stream2.=htmlmap($x,$y,2);
+        $stream1.=htmlmap($x,$y,1,NULL,$y-$yc/**/);
+        $stream2.=htmlmap($x,$y,2,NULL,$y-$yc/**/);
         $ad=("</td>");$stream1.=$ad;$stream2.=$ad;
     }
     $ad=("</tr>");$stream1.=$ad;$stream2.=$ad;
@@ -297,12 +317,12 @@ for($y=$yc; $y<=$ym+$yc; $y++){
 $ad=("</table>");$stream1.=$ad;$stream2.=$ad;/**/
 //-------------------------------
 
-e('<div style="position:absolute;width:0px;height:0px;"><div style="position:relative;top:0px;left:0px;z-index:100;">'.$stream1.'</div></div>');
-e('<div style="position:absolute;width:0px;height:0px;"><div style="position:relative;top:0px;left:0px;z-index:200;">');
+e('<div style="position:absolute;width:0px;height:0px;"><div style="position:relative;top:'.htmlbgc.'px;left:0px;z-index:100;">'.$stream1.'</div></div>');
+e('<div style="position:absolute;width:0px;height:0px;"><div style="position:relative;top:'.htmlbgc.'px;left:0px;z-index:200;">');
 eval(subpage('map_units'));
 e('</div></div>');
-e('<div style="position:absolute;width:0px;height:0px;"><div style="position:relative;top:0px;left:0px;z-index:300;">'.$stream2.'</div></div>');
-e('<div style="position:absolute;width:0px;height:0px;"><div style="position:relative;top:0px;left:0px;z-index:400;">'.$GLOBALS['units_stream'].'</div></div>');
+e('<div style="position:absolute;width:0px;height:0px;"><div style="position:relative;top:'.htmlunitc.'px;left:0px;z-index:300;">'.$stream2.'</div></div>');
+e('<div style="position:absolute;width:0px;height:0px;"><div style="position:relative;top:'.htmlunitc.'px;left:0px;z-index:400;">'.$GLOBALS['units_stream'].'</div></div>');
 
 /*echo('<script type="text/javascript">'.nln);
 $d=17;
