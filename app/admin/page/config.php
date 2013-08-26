@@ -1,3 +1,5 @@
+<?php ob_end_flush(); ?>
+
 <h3>Konfigurace </h3>
 <b>Upozornění: </b>Nesprávná konfigurace může poškodit celý svět <?php echo(w); ?> a jeho podsvěty!<br />
 <?php

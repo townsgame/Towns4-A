@@ -21,7 +21,12 @@ require2("func_vals.php");
 require2("func_object.php");
 require2("func_main.php");
 require2("memory.php");
-//require2("output.php");
+$GLOBALS['ss']["lang"]='cz';
+
+/*if($GLOBALS['ss']["page"]!='config' and $GLOBALS['ss']["page"]!='unique' and $GLOBALS['ss']["page"]!'lang'){
+	require2("output.php");
+}*/
+
 }
 
 ini_set("max_execution_time","1000");
@@ -83,6 +88,8 @@ if($_POST["password_new"]){
 }
 if($_GET["logout"]){$GLOBALS['ss']["logged_new"]=false;}
 if($GLOBALS['ss']["logged_new"]!=true){
+
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -106,6 +113,7 @@ if($GLOBALS['ss']["logged_new"]!=true){
 exit2();
 }
 }
+
 require2("output.php");
 //=============================================================================
 //if($_GET["world"])$GLOBALS['ss']["world"]=$_GET["world"];
@@ -115,10 +123,12 @@ require2("output.php");
 	if(file_exists($worldfile)){require2("func.php");require2_once("func_components.php");}
 	$GLOBALS['ss']["url"]=url;
 //}
+
 //----------------
 if($_GET["page"])$GLOBALS['ss']["page"]=$_GET["page"];
 if($_POST["page"])$GLOBALS['ss']["page"]=$_POST["page"];
 //--------------------------------------------
+
 ?>
 <table width="100%" height="100%" border="0" cellpadding="3" cellspacing="0" bgcolor="#CCCCCC">
   <tr>
@@ -160,6 +170,8 @@ $links=array(
 'none'=>'Úvod',
 'adminer'=>'Adminer',
 'config'=>'Config',
+'unique'=>'Unique',
+'lang'=>'Lang',
 'object'=>'Object',
 'users'=>'Users',
 'registermap'=>'RegisterMap',

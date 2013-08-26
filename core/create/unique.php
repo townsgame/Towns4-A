@@ -12,8 +12,11 @@ infob(lr('unique_from',$object->name));
 $maxfs=$object->supportF('create','maxfs');
 $func=$object->func->vals2list();
 $limit=$func['create']['profile']['limit'];
-$limit='(id='.implode(' OR id=',$limit).')';
-
+if(is_array($limit)){
+	$limit='(id='.implode(' OR id=',$limit).')';
+}else{
+	$limit='(id='.$limit.')';
+}
 $GLOBALS['where']="own=0 AND ww=0 AND fs<=".$maxfs.' AND '.$limit;
 
 

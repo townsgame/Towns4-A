@@ -7,8 +7,15 @@ $q=$GLOBALS['ss']['submenu'];
 r('textclass: '.$textclass);
 
 
-if($q==1 || $q==2 || $q==3 || $q==4){//r($q);
+/*if($q==1){//r($q);
 //===========================================================
+contenu_a();    
+
+e('aaaa');
+
+contenu_b();    
+//===========================================================
+}else*/if($q==1 || $q==2 || $q==3 || $q==4){
 
 //$textclass=$GLOBALS['get']['textclass'];
 //sg("textclass");
@@ -41,7 +48,7 @@ contenu_a();
     //input_text("title",1,100,30);
     //br();
     $style='border: 2px solid #222222; background-color: #CCCCCC';
-    tableab("{message_subject}:",input_textr("message_title",'',100,26,$style),"100%","30%");
+    tableab("{message_subject}:",input_textr("message_title",'-',100,26,$style),"100%","30%");
     br();
     input_textarea("message_text",'',45,6,$style);
     br();
@@ -81,7 +88,10 @@ contenu_a();
                 if((logid==$authorid or useid==$authorid) and $textclass){iconp("{delete_message_prompt}","e=content;ee=text-messages;q=text delete ".$id,"delete","Smazat");}
                 echo("</td><td width=\"22\">");
                 echo("</td></tr><tr  bgcolor=\"#000000\"><td align=\"left\" colspan=\"6\">");
+               // e('<div style="width:'.(contentwidth-6).';overflow:none;">');
                 te($text);
+                //(str_replace(nbsp,' ',tr$text));
+                //e('</div>');
                 echo("<br><br></td></tr>");
             }
     }

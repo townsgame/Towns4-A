@@ -224,8 +224,9 @@ class func{
          if(!isset($tmp['chat']))$this->add('chat','chat');
          if(!isset($tmp['info']))$this->add('info','info');
          if(!isset($tmp['logout']))$this->add('logout','logout');
-         if(!isset($tmp['profile_edit']))$this->add('','');
-         if(!isset($tmp['set_edit']))$this->add('profile_edit','profile_edit');
+         if(!isset($tmp['login']))$this->add('login','login');
+         if(!isset($tmp['profile_edit']))$this->add('profile_edit','profile_edit');
+         if(!isset($tmp['set_edit']))$this->add('set_edit','set_edit');
          if(!isset($tmp['stat']))$this->add('stat','stat');
          if(!isset($tmp['text']))$this->add('text','text');
          if(!isset($tmp['use']))$this->add('use','use');
@@ -476,7 +477,7 @@ class hold extends vals{
     function showimg($q=false,$notable=false){
         if(!$notable)echo("<table width=\"0\" valign=\"middle\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\"><tr>");
         foreach($this->vals as $key=>$value){//hu buc bud
-            if($key and $value)echo((!$notable?'<td>':'').imgr("icons/res_$key.png","{res_$key}",15,15)."<span id=\"res_".($q?$key:'no')."\">".ir($value)."</span>".(!$notable?nbsp3.'</td>':' '));
+            if($key and !is_numeric($key) and $value)echo((!$notable?'<td>':'').imgr("icons/res_$key.png","{res_$key}",15,15)."<span id=\"res_".($q?$key:'no')."\">".ir($value)."</span>".(!$notable?nbsp3.'</td>':' '));
         }
         if(!$notable)echo("</tr></table>");
     }

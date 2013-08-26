@@ -198,6 +198,9 @@ if($w_name=="name")echo("</div>");
    }x);
 
 	function w_close(w_name)x{
+        <?php if(debug){ ?>
+        alert(w_name);
+        <?php } ?>
         if(w_name.substring(0,7)!='window_')x{ 
             w_name='window_'+w_name;
         }x  

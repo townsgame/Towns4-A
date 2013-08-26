@@ -11,7 +11,7 @@ countdown=Hra bude spuštěna za;
 
 config_error=chyba konfigurace;
 
-
+//Systémové příkazy
 left_sessiondestroy=Nové;
 left_refresh=Obnovit;
 left_logout=Odhlásit se;
@@ -68,6 +68,7 @@ register_block_error=Registrace je zablokovaná.;
 
 
 password_change_no_error=Musíte zadat heslo!;
+//password_change_no_error=Zadej heslo pyčo!;
 password_change_use_warning=Heslo se bude měnit pro přihlášeného uživatele [0].;
 /*------------------------------------*/
 
@@ -216,7 +217,7 @@ attack_self=Nemůžete útočit sami na sebe.;
 
 attack_lock=Útok na jiné uživatele je zamčený.;
 
-attack_error_distance=Nejdříve budete muset k jednotce dojít alespoň na [0] políček.;
+attack_error_distance=Nejdříve se budete muset dostat k budově alespoň na [0] políček.;
 attack_error_price=Nedostatek zdrojů k útoku!;
 attack_error_ww=Cíl není na stejné mapě.;
 
@@ -439,3 +440,23 @@ f_attack_statue=Obsadit;
 
 
 
+
+create_error_price=Nedostatek zdrojů!;
+attack_limit_rock=Pomocí této funkce můžete těžit pouze skály!;
+attack_limit_tree=Pomocí této funkce můžete těžit pouze stromy!;
+res_1=?;
+
+delete_message_prompt=Opravdu chcete tuto zprávu smazat?;
+attack_no_tree=Není žádný strom v okolí, který by se dal pokácet!;
+attack_no_rock=Není žádná skála v okolí, která by se dala vytěžit!;
+create_error_duplicite=Na tomto místě už něco stojí!;
+f_repair=Opravit;
+repair_success=Budova je opravená!;
+profile_town2=Nepřátelské město;
+profile_user2=;
+
+dtree=Vývojový strom;
+
+
+
+//create_error_expand=;

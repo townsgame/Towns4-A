@@ -76,7 +76,7 @@ function a_login($param1,$param2,$param3,$param4="",$param5=""){
     //$GLOBALS['ss']["query_output"]->add("success",$param1);
     //e("$param1,$param2,$param3,$param4,$param5");
     if($param2=='towns'){
-        $GLOBALS['ss']["log_object"] = new object($param1);
+        $GLOBALS['ss']["log_object"] = new object(NULL,"type='user' AND (id='$param1' OR name='$param1')");
         $pass=sql_1data('SELECT `key` FROM `[mpx]login` WHERE `id`=\''.($GLOBALS['ss']["log_object"]->id).'\' AND `method`=\'towns\' LIMIT 1');
         if($pass==md5($param3) or !$pass){
             if(!$param4 and !$param5 and !$param6)$GLOBALS['ss']["query_output"]->add("1",1);
