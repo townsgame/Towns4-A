@@ -87,6 +87,19 @@ if($_POST['filename']){
 
 			$object->update();
 
+			if($id==register_building){
+				$objectx=new object($object->id);
+				$reg_name=$objectx->name;
+				$reg_func=$objectx->func->vals2str();
+				$reg_fs=$objectx->fs;
+				//$reg_fp=$object->fp;
+				$reg_fr=$objectx->fr;
+				$reg_fc=$objectx->fc;
+				$reg_fx=$objectx->fx;
+				$reg_hard=$objectx->hard;
+				$reg_expand=$objectx->expand_;
+				$reg_collapse=$objectx->collapse_;
+			}
 
 			if($id and $object->id!=$id){
 				sql_query('DELETE FROM [mpx]objects WHERE id='.$id,1);
@@ -108,6 +121,11 @@ if($_POST['filename']){
 		}
 
 		br();
+		if($reg_name){
+			sql_query("UPDATE [mpx]objects SET func='$reg_func', fs='$reg_fs', fp='$reg_fs', fr='$reg_fr', fc='$reg_fc', fx='$reg_fx', hard='$reg_hard', expand='$reg_expand', collapse='$reg_collapse' WHERE name='$reg_name'",2);
+
+		}
+
 
 		sql_query("UPDATE [mpx]objects SET fp=fs WHERE ww='0'");
 	}else{

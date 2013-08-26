@@ -443,23 +443,52 @@ function x2xx($text){//,$vals_a=vals_a,$vals_b=vals_b
 }
 //--------------------------------------------
  function smiles($text){
-     $stream="";
+    //---------objects 
+    $stream="";
     $text=str_replace("**","[star]",$text);
-    $array=explode("\*",$text);
+    $array=explode("*",$text);
     $i=-1;
     foreach($array as $part){$i++;
         if($i%2){
             //$stream=$stream.$part;
-            list($img,$width)=explode("\[star\]",$part);
+            list($img,$width)=explode("[star]",$part);
             $img=x2xx($img);
-            if(!$width){$width="100%";}
+            if(!$width){$width=/*"100%"*/false;}
             //echo($img."<br>");
-            $stream=$stream.imgr("id_".$img,$img,$width);
+            if(substr($img,0,1)!='%'){
+                $img=name2id($img);
+                $stream=$stream.iprofiler($img);//mprofile($img).br.br;//imgr("id_".$img."_icon",$img,$width);
+            }else{
+                $img=substr($img,1);
+                $img=name2id($img);
+                $stream=$stream.iprofiler($img,45,2);
+            }
         }else{
             $stream=$stream.$part;
         }
     } /**/
     $stream=str_replace("[star]","*",$stream);
+    //---------dtree
+    $stream=str_replace("%0%",imgr('dtree/x0001.png','{dtree}',50),$stream);
+    $stream=str_replace("%1%",imgr('dtree/x0002.png','{dtree}',50),$stream);
+    $stream=str_replace("%2%",imgr('dtree/x0003.png','{dtree}',50),$stream);
+    $stream=str_replace("%3%",imgr('dtree/x0004.png','{dtree}',50),$stream);
+    $stream=str_replace("%4%",imgr('dtree/x0005.png','{dtree}',50),$stream);
+    $stream=str_replace("%5%",imgr('dtree/x0006.png','{dtree}',50),$stream);
+    $stream=str_replace("%6%",imgr('dtree/x0007.png','{dtree}',50),$stream);
+    $stream=str_replace("%7%",imgr('dtree/x0008.png','{dtree}',50),$stream);
+    $stream=str_replace("%8%",imgr('dtree/x0009.png','{dtree}',50),$stream);
+    $stream=str_replace("%9%",imgr('dtree/x0010.png','{dtree}',50),$stream);
+    $stream=str_replace("%10%",imgr('dtree/x0011.png','{dtree}',50),$stream);
+    $stream=str_replace("%11%",imgr('dtree/x0012.png','{dtree}',50),$stream);
+    $stream=str_replace("%12%",imgr('dtree/x0013.png','{dtree}',50),$stream);
+    $stream=str_replace("%13%",imgr('dtree/x0014.png','{dtree}',50),$stream);
+    $stream=str_replace("%14%",imgr('dtree/x0015.png','{dtree}',50),$stream);
+    $stream=str_replace("%15%",imgr('dtree/x0016.png','{dtree}',50),$stream);
+    
+    //---------smiles
+    //zatím není
+    //---------
     return($stream);
 }
 //r(xx2x("own2=2[comma]hybrid[comma]0.000[comma]0.000[comma][comma]qw[comma][comma]login[equate]1[semicolon]use[equate]1[semicolon]info[equate]1[semicolon]profile_edit[equate]1[semicolon]set_edit[equate]1[comma][comma][comma]realname[equate]Beze JmĂ©na[semicolon]gender[equate]m[semicolon]age[equate][semicolon]mail[equate]@[semicolon]showmail[equate][semicolon]web[equate]www.towns.cz[semicolon]description[equate]asdaszdas[semicolon]join[equate][comma][equate]0[comma]1[comma]0[comma]1314648565[comma]0[comma]0;in=0;in2=41[comma]message[comma]0.000[comma]0.000[comma][comma][comma][comma]login[equate]1[semicolon]use[equate]1[semicolon]info[equate]1[semicolon]profile_edit[equate]1[semicolon]set_edit[equate]1[comma][comma][comma]realname[equate][semicolon]gender[equate][semicolon]age[equate][semicolon]mail[equate]@[semicolon]showmail[equate][semicolon]web[equate][semicolon]description[equate][semicolon]join[equate][semicolon]text[equate][comma][equate]0[comma]0[comma]1[comma]1314613091[comma]0[comma]0[semicolon]40[comma]message[comma]0.000[comma]0.000[comma][comma]subject[comma][comma]login[equate]1[semicolon]use[equate]1[semicolon]info[equate]1[semicolon]profile_edit[equate]1[semicolon]set_edit[equate]1[comma][comma][comma]realname[equate][semicolon]gender[equate][semicolon]age[equate][semicolon]mail[equate]@[semicolon]showmail[equate][semicolon]web[equate][semicolon]description[equate][semicolon]join[equate][semicolon]text[equate]text[comma][equate]0[comma]0[comma]1[comma]1314352818[comma]0[comma]0;t=1313699204;x=15;y=0"),2);

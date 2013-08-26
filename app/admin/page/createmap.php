@@ -561,7 +561,7 @@ if($action=="map" or $action=="tree" or $action=="rock" or $action=="finish"){ec
 			$res37rock=array();
 			$i=0;
 			while($i<37){
-				$res37rock[$i]=generate($post);
+				$res37rock[$i]='rock'.rand(103);//generate($post);
 				$i++;
 			}
 		}

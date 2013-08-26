@@ -4,7 +4,7 @@
 //error_reporting(E_ALL ^ E_NOTICE);
 error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED ^ E_WARNING );
 ini_set("register_globals","off");
-
+ini_set("display_errors","on");
 //===============================================================================INC
 //error_reporting(E_ALL);
 //print_r($_SERVER);
@@ -53,6 +53,8 @@ if(!$admin){
    eval("r"."equire(\$GLOBALS['inc']['app'].'/admin/index.php');");
    exit;
 }
+
+
 //===============================================================================
 //if($_GET["e"])$_GET['e']=$_GET["e"];
 list($GLOBALS['url_param'])=explode('#',$GLOBALS['url_param']);
@@ -72,7 +74,6 @@ require(root.core."/func_vals.php");
 require(root.core."/func_object.php");
 require(root.core."/func_main.php");
 require(root.core."/memory.php");
-
 //------------------------------------------------------------------
 //error_reporting(E_ALL);
 //exit(ini_get("register_globals"));
@@ -282,7 +283,7 @@ $lang=$GLOBALS['ss']["lang"];
 //r('set3'.$GLOBALS['ss']["use_object"]->x.','.$GLOBALS['ss']["use_object"]->y);
 t("before content");
 if($_GET['e']){
-	if(logged() or substr($_GET['e'],0,6)=='login-' or $_GET['e']=='help'){
+	if(logged() or substr($_GET['e'],0,6)=='login-' or $_GET['e']=='help' or  substr($_GET['e'],0,5)=='text-'){
 	    //if($_GET["ee"]){$e=$_GET["ee"];}else{$e=$_GET['e'];}
 	    $e=$_GET['e'];
 	    define("subpage", $e);

@@ -147,24 +147,30 @@ foreach($functionlist as $qq_class){
                                 if($settings["move"]==$movefunc)$yes=1;
                         break;*/
                         case 'attack':
-                                //if(id2name($GLOBALS['config']['register_building'])!=$name){
-                                    //$ahref='e=attack-attack;function='.$fname.';master='.$id;
-                                    $set_key='attack_mafu';
+                        
+                                     $set_key='attack_mafu';
                                     $set_value=$id.'-'.$fname;
                                     $set_value2=$id.'-'.$fname.'-'.$xname.'-'.$icon;
-                                    //echo($set_value2);
-                                    $stream=($set_key."='$set_value2".'\';'.borderjs($set_value,$set_value2,$set_key,$iconbrd));
-                                    //echo('('.$GLOBALS['settings'][$set_key].'='.$set_value2.')');
-                                    list($a,$b)=explode('-',$GLOBALS['settings'][$set_key]);                             
-                                    if($a.'-'.$b==$set_value)$yes=1;
-                                    //echo($yes);
-                                    //r($GLOBALS['settings'][$set],$fname);
-                                    //r($stream);
-                                //}
+                                    
+                                    if(!($profile['limit']=='tree' or $profile['limit']=='rock')){
+                                        //if(id2name($GLOBALS['config']['register_building'])!=$name){
+                                        //$ahref='e=attack-attack;function='.$fname.';master='.$id;
+                                        //echo($set_value2);
+                                        $stream=($set_key."='$set_value2".'\';'.borderjs($set_value,$set_value2,$set_key,$iconbrd));
+                                        //echo('('.$GLOBALS['settings'][$set_key].'='.$set_value2.')');
+                                        list($a,$b)=explode('-',$GLOBALS['settings'][$set_key]);                             
+                                        if($a.'-'.$b==$set_value)$yes=1;
+                                        //echo($yes);
+                                        //r($GLOBALS['settings'][$set],$fname);
+                                        //r($stream);
+                                    //}
+                                    }else{
+                                        $ahref='e=content;ee=attack-mine;attack_mafu='.$set_value.';attack_limit='.$profile['limit'];
+                                    }
                                 
                         break;
                         case 'create':
-                               if(is_array($func['profile']['limit']) or !$func['profile']['limit']){
+                               if(is_array($func['profile']['limit']) or !$func['profile']['limit'] or true){
                                     $ahref='e=content;ee=create-unique;type=building;master='.$id.';func='.$fname;
                                }else{
                                     $stream="build($id,".$func['profile']['limit'].",'$fname')";
@@ -258,6 +264,8 @@ foreach($functionlist as $qq_class){
 
 
 if($own!=useid){
+if( $type!='tree' and $type!='rock') {
+    
     if(id2name($GLOBALS['config']['register_building'])!=$name){ 
     if($GLOBALS['settings']['attack_mafu']){
         list($attack_master,$attack_function,$attack_function_name,$attack_function_icon)=explode('-',$GLOBALS['settings']['attack_mafu']);
@@ -293,7 +301,9 @@ if($own!=useid){
     
     }    
     border(iconr('e=content;ee=attack-attack;set=attack_id,'.$id,'f_attack_window','{f_attack_window}',$iconsize),0,$iconsize);
-    }
+}
+}
+
 }
 
 //r('xc='.(-(($y-1)/10)+(($x-1)/10)).';yc='.((($y-1)/10)+(($x-1)/10)));

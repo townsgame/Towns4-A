@@ -83,7 +83,8 @@ function time5($a1,$c1,$a2,$c2){
 //-----------------------------------------
 function fs2lvl($fs,$decimal=0){
     $decimal=pow(10,$decimal);
-    $lvl=ceil(sqrt($fs/*10*/)/*log($fs)*/*$decimal)/$decimal;
+    //$lvl=ceil(sqrt($fs/10/*10*/)/*log($fs)*/*$decimal)/$decimal;
+    $lvl=ceil(log($fs,2)*$decimal)/$decimal;
     //$lvl=$fs;
  return($lvl);   
 }
@@ -291,10 +292,11 @@ mkdir2(root.'world');
 //===========================================================================================================================
 
 try {
+
 $GLOBALS['pdo'] = new PDO('mysql:host='.mysql_host.';dbname='.mysql_db, mysql_user, mysql_password, array(PDO::ATTR_PERSISTENT => true));
 $GLOBALS['pdo']->exec("set names utf8");
 } catch (PDOException $e) {
-    if(!defined('nodie'))exit2('Could not connect: ' . $e->getMessage());
+    if(!defined('nodie'))die('Could not connect: ' . $e->getMessage());
 }
 
 //---------------------

@@ -7,7 +7,7 @@ class object{
      * @param $id
      * @param string $where
      */
-    function __construct($id,$where=""){
+    function __construct($id=0,$where=""){
         //if($where==false){$where="";$this->noupdate=true;}else{$this->noupdate=false;}
         $this->noupdate=false;
         //r($id);
@@ -509,6 +509,15 @@ function nextid($id){
 function id2name($id){
     $name=sql_1data("SELECT name FROM ".mpx."objects WHERE id='$id'");
     return($name);
+}
+
+function name2id($name){
+    if(!is_numeric($name)){
+        $id=sql_1data("SELECT id FROM ".mpx."objects WHERE name='$name'");
+    }else{
+        $id=$name;
+    }
+    return($id);
 }
 
 function id2unique($id){

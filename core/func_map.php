@@ -14,13 +14,39 @@ define("t_sofb",100);//velikost bloku z průvodního obrázku
 
 define("height2",212*1.3);
 define("size2",0.75*(height2/375));
+//--------level
+define('lvl',1);
+define("clvl",35);
+define("sun",0.5);
+define("sunc",15);
+
+define('htmlbgc',60/*-70*/);
+define('htmlunitc',0/*-60-250*/);
+$GLOBALS['t2lvl']=array(
+   't1' =>0,
+   't2' =>40,
+   't3' =>15,
+   't4' =>16,
+   't5' =>50,
+   't6' =>70,
+   't7' =>15,
+   't8' =>30,
+   't9' =>25,
+   't10'=>50,
+   't11'=>10,
+   't12'=>27,
+   't13'=>30
+);
+$GLOBALS['t2lvlexp']=3;
+$GLOBALS['t2rockkk']=2;
+//$GLOBALS['rock2lvl']=100;
 //---------------------------NENASTAVITELNÉ
 define("size",height/212);
 //define("size",0.75*(height/375));
 define("zoom",5);
 
 define("nob",true);
-define("t_",implode(',',array(height,t_brdcc,t_brdcc,t_brdca,t_brdcb,t_pofb,t_sofb,size,zoom,grid)));
+define("t_",implode(',',array(height,t_brdcc,t_brdcc,t_brdca,t_brdcb,t_pofb,t_sofb,size,zoom,grid,clvl,sun,sunc,lvl)).'-'.implode(',',$GLOBALS['t2lvl']));
 //=============================================================
 function imgresizeh($img,$height) {
       $ratio = $height / imagesy($img);
@@ -86,6 +112,8 @@ function map1($param,$xc=false,$yc=false){
     $t_brdcb=t_brdcb;//15;//max radius kule
     $file=tmpfile2("$rand,$param,".t_,"png","map");
     //------------------------------
+    $kk=($param=='t2'?$GLOBALS['t2rockkk']:1);
+    //$kk=2;
     if(file_exists($file) and !notmp /**and false/**/){
         $terrain=imagecreatefrompng($file);
     }else{
@@ -113,7 +141,7 @@ function map1($param,$xc=false,$yc=false){
                 for ($i=1; $t_brdcc*$tmps*$tmps>$i; $i++){
                     $ytmp=rand(0,$tmps-1);
                     $xtmp=rand(0,$tmps-1);
-                    $dist=sqrt(pow($tmps2-$ytmp,2)+pow($tmps2-$xtmp,2));
+                    $dist=pow(pow(abs($tmps2-$ytmp),2)+pow(abs($tmps2-$xtmp),2),1/2);
                     $alpha=$dist/($tmps2*1);
                     if($alpha>1){$alpha=1;}
                     $radiusx=rand($t_brdca,$t_brdcb);
@@ -122,7 +150,9 @@ function map1($param,$xc=false,$yc=false){
                     $r = ($rgb >> 16) & 0xFF;
                     $g = ($rgb >> 8) & 0xFF;
                     $b = $rgb & 0xFF;
-                    $alpha = imagecolorallocatealpha($terrain, $r, $g, $b,$alpha*127);
+                    $a=intval((1-(1-$alpha)*$kk)*127);
+                    if($a<1)$a=1;if($a>127)$a=127;
+                    $alpha = imagecolorallocatealpha($terrain, $r, $g, $b,$a);
                     //imagesetpixel($terrain,$xtmp,$ytmp,$alpha);
                     imagefilledellipse($terrain,$xtmp,$ytmp/2,$radiusx,$radiusy/t_brdcr,$alpha);
                     //imagefilledellipse($terrain,$xtmp,$ytmp,$radiusx,$radiusy,$alpha); 
@@ -150,13 +180,57 @@ function map1($param,$xc=false,$yc=false){
     }
     return($terrain);
 }
-//r(map1());
-//exit;
-/*
+/*r(map1('t2'));
+exit;
+
 r(map1('t1'));
 header("Content-type: image/png");
 imagepng(map1('t1'));
 exit;*/
+//-------------------------------------------------t2rgb
+function t2rgb($param=0){
+    
+    //echo($param);
+    if(!$param){$param='t1';}
+    
+    if(!$GLOBALS['t2rgb'])$GLOBALS['t2rgb']=array();
+    
+    if(!$GLOBALS['t2rgb'][$param]){
+
+        $tmp=imagecreatefrompng(root."data/image/terrain/$param.png");
+
+        $r=0;$g=0;$b=0;
+
+        for($y=1;$y<imagesy($tmp);$y++){
+            for($x=1;$x<imagesx($tmp);$x++){
+                 $rgb = imagecolorat($tmp, $x, $y);
+                 $rr = ($rgb >> 16) & 0xFF;
+                 $gg = ($rgb >> 8) & 0xFF;
+                 $bb = $rgb & 0xFF;
+
+                 $q=imagesx($tmp)*imagesy($tmp);
+
+                 $r+=$rr/$q;
+                 $g+=$gg/$q;
+                 $b+=$bb/$q;
+
+
+            }
+        }
+
+        $r=intval($r);
+        $g=intval($g);
+        $b=intval($b);
+        
+        $GLOBALS['t2rgb'][$param]=array($r,$g,$b);
+    }
+    
+    
+    return($GLOBALS['t2rgb'][$param]);
+}
+//echo('>>');
+//r(t2rgb());
+//exit2();
 //----------------------------------------------------------------------------------------------------------------------MODELS
 //=============================================================
 /*function ImageEllipseAA( &$img, $x, $y, $w, $h,$color,$segments=70){
@@ -258,6 +332,104 @@ function model($res,$s=1,$rot=0,$slnko=1.5,$ciary=0,$zburane=0,$hore=0){$pres=$r
         $res=substr($res,1);
         $res=explode('}',$res,1);
         $res=$res[0];
+    }
+    //--------------------ROCK
+     if(substr($res,0,4)=='rock'){
+         $file=tmpfile2("model,$res","png","model");
+         if(file_exists($file)/** and false/**/){
+            $img=imagecreatefrompng($file);
+            imagealphablending($img,true);
+            imagesavealpha($img,true);
+            return($img);
+        }else{
+            $s=$s*height2/500;
+            $img = imagecreatetruecolor($s*200,$s*380);
+            $img2 = imagecreatetruecolor($s*200,$s*380);   
+            $alpha=  imagecolorallocatealpha($img, 0, 0, 0, 127);
+            imagefill($img,0,0,$alpha);
+            $alpha=  imagecolorallocatealpha($img2, 0, 0, 0, 127);
+            imagefill($img2,0,0,$alpha);
+            //imagesavealpha($img2, false);
+            imagealphablending($img2, false);
+            
+            $maxk=5;
+            $posuvx=-5;
+            $posuvy=-10;
+            
+            
+            $x=0;//0-100
+            $y=-50;
+            $gr=rand(30,130);
+            $lvl=-5;
+            $rx=2;
+            $ry=2;
+            
+            $cx=rand(-10,10);
+            $cy=rand(-10,-30);
+            $vv=rand(1,8)/10;
+            
+            $shade=  imagecolorallocatealpha($img2, 0, 0, 0,0.85*127);
+            
+            //$tmpcolors=array();
+            $i=50000;while($i>0){$i--;
+            
+                $xx=($s*100)+($x*$s);
+                $yy=($s*330)+($y*$s*0.5);
+                
+                $dist2=sqrt(pow($x-$cx,2)+pow($y-$cy,2));
+                
+                $a=(127-$lvl);
+                if($a<1)$a=1;if($a>127)$a=127;
+                //$a=50;
+                //$ii=$gr;
+                /*if(!$tmpcolors[$ii]){
+                    $tmpcolors[$ii]=  imagecolorallocatealpha($img, $gr, $gr, $gr,$a);
+                }
+                imagefilledellipse($img, $xx, $yy-$lvl, $rx, $ry, $tmpcolors[$ii]);*/
+                
+                
+                $tmpcolor=  imagecolorallocatealpha($img, round($gr), round($gr), round($gr),$a);
+                
+                imagefilledellipse($img, $xx+$posuvx, $yy+$posuvy-$lvl, $rx, $ry+($lvl/5), $tmpcolor);
+                imagefilledellipse($img2, $xx+$posuvx+($lvl*sqrt(2)*0.4)+4, $yy+$posuvy+($lvl*sqrt(2)*0.1), $rx, $ry+($lvl/5), $shade);
+                
+                
+            
+                imagecolordeallocate($img, $tmpcolor);
+                
+                $px=$x;$py=$y;
+                $x+=rand(-1,1);
+                $y+=rand(-1,1);
+                $gr+=(rand(-1,1)+2*(-$x+$px))/2;
+                
+                $dist1=sqrt(pow($x-$cx,2)+pow($y-$cy,2));
+                
+                $distq=$dist1-$dist2;
+                
+                $tmp=abs($x-$px)*rand(0,10)*-ceil($distq)+$vv;
+                if($tmp>$maxk)$tmp=$maxk;if($tmp<-$maxk)$tmp=-$maxk;
+                $lvl+=$tmp;
+                $rx+=rand(-1,1);
+                $ry+=rand(-1,1);
+                
+                $bounds=80;
+                if($dist1>$bounds){$x=$px;$y=$py;}
+                //if($x<-$bounds+$rx)$x=-$bounds+$rx;if($x>$bounds-$rx)$x=$bounds-$rx;
+                //if($y<-$bounds+$ry)$y=-$bounds+$ry;if($y>$bounds-$ry)$y=$bounds-$ry;
+                if($gr<30)$gr=30;if($gr>130)$gr=130;
+                if($lvl<-5)$lvl=-5;if($lvl>200)$lvl=200;
+                if($rx<2)$rx=2;if($rx>11)$rx=11;
+                if($ry<2)$ry=2;if($ry>11)$ry=11;
+                
+            }
+            imagealphablending($img2, true);
+            imagecopy($img2, $img,0,0,0,0,imagesx($img2),imagesy($img2));
+            
+            imagesavealpha($img2, true);
+            ImagePng($img2,$file);
+            chmod($file,0777);
+            return($img2);
+        }
     }
     //--------------------NORES - POKUD $res NENí MODEL
     if(substr($res,0,1)=='('){
@@ -519,7 +691,7 @@ function model($res,$s=1,$rot=0,$slnko=1.5,$ciary=0,$zburane=0,$hore=0){$pres=$r
         //$file=tmpfile2("model,$res,$s,$rot,$slnko,$ciary,$zburane,$hore","png");
         ImagePng($GLOBALS['ss']["im"],$file);
         chmod($file,0777);
-        chmod($file);
+        //chmod($file);
         
         
         //imagesavealpha($GLOBALS['ss']["im"],true);
@@ -535,9 +707,113 @@ function model($res,$s=1,$rot=0,$slnko=1.5,$ciary=0,$zburane=0,$hore=0){$pres=$r
 }
 //$res,$s=1,$rot=0,$slnko=1,$ciary=1,$zburane=0,$hore=0
 //r(model(res,1,0,1,0));
+//r(model('rock'.rand(0,100000),1,0,1,0));
+//die();
 //============================================================
+//   //======================================================================================polyrand
+function polyrand($seed,$amplitude,$periode,$x,$y){
+
+		$detail=11;
+                
+                $file=tmpfile2('polyrand-'.$seed,'txt','seed');
+                //echo($file);
+                if(!$GLOBALS/*['ss']*/['polyseed'][$seed]){
+                    if(file_exists($file) /**and false/**/){
+                            $contents=file_get_contents($file);
+                            $GLOBALS/*['ss']*/['polyseed'][$seed]=unserialize($contents);
+                    }else{
+                    //if(!$GLOBALS/*['ss']*/['polyseed'][$seed]){
+
+                            //foreach(array('x','y') as $dim){
+                                    $i=0;while($i<$detail){$i++;
+                                            $GLOBALS/*['ss']*/['polyseed'][$seed]/*[$dim]*/[$i][0]=rand(0,$amplitude*100)/300;//amplituda
+                                            $GLOBALS/*['ss']*/['polyseed'][$seed]/*[$dim]*/[$i][1]=rand($periode*100,$periode*1000)/100;//perioda
+                                            $GLOBALS/*['ss']*/['polyseed'][$seed]/*[$dim]*/[$i][2]=rand(0,$periode*100)/100;//posuv
+                                            $GLOBALS/*['ss']*/['polyseed'][$seed]/*[$dim]*/[$i][3]=rand(0,100)/100;//váha X	
+                                            $GLOBALS/*['ss']*/['polyseed'][$seed]/*[$dim]*/[$i][4]=rand(0,100)/100;//váhaY	
+                                    }
+                            //}
+                            $contents=serialize($GLOBALS/*['ss']*/['polyseed'][$seed]);
+                            file_put_contents2($file, $contents);
+                    }
+                }
+		//--------
+		//$zx=0;$zy=0;
+                //$zdx=0;$zdy=0;
+                $z=0;$zd=0;
+                
+		//foreach(array('x','y') as $dim){
+			$i=0;while($i<$detail){$i++;
+				$p1=$GLOBALS/*['ss']*/['polyseed'][$seed]/*[$dim]*/[$i][0];//amplituda
+				$p2=$GLOBALS/*['ss']*/['polyseed'][$seed]/*[$dim]*/[$i][1];//perioda
+				$p3=$GLOBALS/*['ss']*/['polyseed'][$seed]/*[$dim]*/[$i][2];//posuv	
+                                $p4=$GLOBALS/*['ss']*/['polyseed'][$seed]/*[$dim]*/[$i][3];//váha X	
+                                $p5=$GLOBALS/*['ss']*/['polyseed'][$seed]/*[$dim]*/[$i][4];//váhaY
+                                
+                                /*if($dim=='x'){
+                                    $zx=$zx+(sin(($x*$p2)+$p3));
+                                    $zdx=$zdx+(cos(($x*$p2)+$p3));
+                                }else{
+                                    $zy=$zy+(sin(($y*$p2)+$p3));
+                                    //$zdy=$zdy+(cos(($y*$p2)+$p3));
+                                }*/
+                                $z=$z+(sin(((($x*$p4)+($y*$p5))*$p2)+$p3)*$p1);
+                                $zd=$zd+(cos(((($x*$p4)+($y*$p5))*$p2)+$p3)*$p1);
+                                
+
+			}
+		//}
+                //echo($zy.',');
+                //$z=$zx*$zy*$p1;
+                //$zd=$zdx*$p1;
+                
+		//$range=$to-$from;
+		
+		//$z=intval($z)%$range;
+		//$z=$z+$from;
+                
+                $GLOBALS['dt']=$zd;
+		return($z);
+	}
+//   //======================================================================================rgb2lvl
+function rgb2lvl($r,$g,$b){
+    //clvl,sunc
+    //t2rgb,t2lvl
+    $lvl=0;
+    $sum=0;
+    
+    foreach($GLOBALS['t2lvl'] as $t=>$lvl2){
+        list($rr,$gg,$bb)=t2rgb($t);
+        
+        //$gs2=1/(abs($rr-$gg)+abs($gg-$bb)+abs($bb-$rr)+1);
+        
+        
+        $rate=1/(1+pow(pow(abs($r-$rr),$GLOBALS['t2lvlexp'])+pow(abs($g-$gg),$GLOBALS['t2lvlexp'])+pow(abs($b-$bb),$GLOBALS['t2lvlexp']),1/$GLOBALS['t2lvlexp']));
+        
+        
+        
+        
+        $sum+=$rate;
+        $lvl+=$lvl2*$rate;
+        
+        
+    }
+    //$gs=1/(abs($r-$g)+abs($g-$b)+abs($b-$r)+0.001);
+    //$sum+=$gs;
+    //$lvl+=$GLOBALS['rock2lvl']*$gs;
+    
+    
+    $lvl=$lvl/$sum;
+    
+    
+    
+    $lvl=intval($lvl);
+    
+    return($lvl);
+}
 //----------------------------------------------------------------------------------------------------------------------PROPOJENI
 function mapbg($xc,$yc){
+    //echo("$xc,$yc");
     define("xx",0);
     define("yy",0);
     //define("top",200*(height/375));
@@ -546,7 +822,7 @@ function mapbg($xc,$yc){
         $size=1;
         $width=height*2;//150*5*(height/375);
         $height=height;//75*5*(height/375);
-        $img=imagecreatetruecolor($width,$height);
+        $img=imagecreatetruecolor($width,$height*(lvl?(7/5):1));
         //$black=imagecolorallocate($img, 0, 0, 0);
         $white=imagecolorallocate($img, 255, 255, 255);
         imagefill($img,0,0,$white);
@@ -558,6 +834,7 @@ function mapbg($xc,$yc){
         $zoom=5;
         $exp=4;
         $pos=4.5;
+        $lvlexp=0;
         
         //--------------------
         $data=array();
@@ -569,7 +846,7 @@ function mapbg($xc,$yc){
         }        
         //--------------------
            
-        $array=sql_array("SELECT x,y,terrain from `".mpx."map` WHERE ww=".$GLOBALS['ss']["ww"]." AND `x`>=".round($xc-$exp-$pos)." AND `y`>=".round($yc-$exp-$pos)." AND `x`<".round($xc+$zoom+$exp+$pos)." AND `y`<".round($yc+$zoom+$exp+$pos)." ORDER by `y`,`x`");
+        $array=sql_array("SELECT x,y,terrain from `".mpx."map` WHERE ww=".$GLOBALS['ss']["ww"]." AND `x`>=".round($xc-$exp-$pos)." AND `y`>=".round($yc-$exp-$pos)." AND `x`<".round($xc+$zoom+$exp+$pos+$lvlexp)." AND `y`<".round($yc+$zoom+$exp+$pos+$lvlexp)." ORDER by `y`,`x`");
         
         
         foreach($array as $row){
@@ -602,10 +879,89 @@ function mapbg($xc,$yc){
             if($q)imagecopy($img,$cast,$rx,$ry,0,0,imagesx($cast),imagesy($cast));   
             imagedestroy($cast);
         }}
-        
-        return($img);
+        //------------------------------------------ELEVATION
+        if(lvl){
+            $clvl=-clvl;//-35;
+            $stickarea=10;
+            $sun=sun;//2;
+            $sunc=sunc;//15;
+            
+            $img2=imagecreatetruecolor($width,$height*(7/5));
+            $fill=imagecolorallocatealpha($img2, 0, 0, 0, 127);
+            imagefill($img2, 0, 0, $fill);
+
+
+            for($yy=0;$yy<$height*(6/5);$yy++){
+                for($xx=0;$xx<$width;$xx++){
+
+                    //$lvl=rand(-10,10);
+                    //$lvl=(sin($xx/17)+sin($yy/17))*10+10;
+                    
+                    $x=$xc+($xx*5/$width)-2.5+($yy*5/$heigth);
+                    $y=$yc-($xx*5/$width)+($yy*5/$heigth);
+                    
+                    $rgb = imagecolorat($img, $xx, $yy);
+                    $r = ($rgb >> 16) & 0xFF;
+                    $g = ($rgb >> 8) & 0xFF;
+                    $b = $rgb & 0xFF;
+                    
+                    $lvl=rgb2lvl($r,$g,$b);
+                    //$lvl=polyrand('lvl',20,1,$x,$y);
+                    if($lvl<0)$lvl=0;
+                    $dt=$lvl;/*$GLOBALS['dt'];*/
+                    
+
+                    $r=$r+(($dt+$clvl+$sunc)*$sun);
+                    $g=$g+(($dt+$clvl+$sunc)*$sun);
+                    $b=$b+(($dt+$clvl+$sunc)*$sun);
+                    if($r<0)$r=0;if($r>255)$r=255;
+                    if($g<0)$g=0;if($g>255)$g=255;
+                    if($b<0)$b=0;if($b>255)$b=255;
+                    
+                    if($yy-$lvl-$clvl>$stickarea){
+                        $tmpcolor=imagecolorallocate($img2, $r, $g, $b);
+                    }else{
+                        $a=intval(127*(1-($yy/$stickarea)));
+                        if($a<0)$a=0;if($a>127)$a=127;
+                        $tmpcolor=imagecolorallocatealpha($img2, $r, $g, $b,$a);
+                    }
+
+                    
+                    imagefilledellipse($img2, $xx,  $yy-$lvl-$clvl+50, 5, 100, $tmpcolor);
+                    
+                    //imageline($img2, $xx, $yy-$lvl-$clvl, $xx, $yy-$lvl+100+$clvl, $tmpcolor);
+                    imagecolordeallocate($img2, $tmpcolor);
+                }
+            }
+
+            imagesavealpha($img2,true);
+            return($img2);
+        }else{
+            return($img);
+        }
 }
-//r(mapbg(24,57));
+
+
+/*r(mapbg(20,5));
+r(mapbg(25,0));
+r(mapbg(30,-5));
+die();
+/*br();
+?>
+
+<div style="position: absolute;">
+<div style="position: relative;top:<?php e(-clvl-(height/5)); ?>px;">
+
+<?php r(mapbg(25,10)); ?>
+</div>
+</div>
+
+
+<?php
+
+die();
+ * */
+
 //--------------------------------------------------------------UNITS
 function mapunits($gx,$gy,$xy){
     define("xx",0);
@@ -670,7 +1026,7 @@ function mapunits($gx,$gy,$xy){
 //exit;
 //------------------------------------------------------------------------------------------------------------PROPOJENI2 HTMLMAP
 //=============================================================
-function htmlmap($gx=false,$gy=false,$w=0,$only=false/*$width=424*/){
+function htmlmap($gx=false,$gy=false,$w=0,$only=false,$row=1/*$width=424*/){
             //$gx=-10;            
             //$gy=0;
             $width=424;
@@ -689,8 +1045,8 @@ function htmlmap($gx=false,$gy=false,$w=0,$only=false/*$width=424*/){
             // or ($gx>$xm) or ($gx<-$xm) or ($gy>$ym) or ($gy<0)
             $t=11;
             if(is_bool($gx) or is_bool($gy) or ($x<-$t) or ($y<-$t) or ($x>mapsize+$t) or ($x>mapsize+$t)){$gx=-$xm-1;$gy=-1;}//$gx=-$xm;$gy=0;
-            if($w!=2)$outimg=tmpfile2("outimgbg,".$gx.",".$gy.",".$GLOBALS['ss']["ww"].','.t_,"jpg","map");
-			if($w!=1)$outimgunits=tmpfile2("outimgunits".$gx.",".$gy.",".$GLOBALS['ss']["ww"].','.t_,"png","map");
+            if($w!=2)$outimg=tmpfile2("outimgbg,".$gx.",".$gy.",".$GLOBALS['ss']["ww"].','.t_,/*lvl?'png':*/"jpg","mapbg");
+			if($w!=1)$outimgunits=tmpfile2("outimgunits".$gx.",".$gy.",".$GLOBALS['ss']["ww"].','.t_,"png","mapunits");
 
             if($w==1 and $only)return($outimg);
             if($w==2 and $only)return($outimgunits);
@@ -702,24 +1058,50 @@ function htmlmap($gx=false,$gy=false,$w=0,$only=false/*$width=424*/){
             if(!file_exists($outimg)/** or 1/**/){if(debug)$border=3;
                 $x=($gy+$gx)*5+1-5;
                 $y=($gy-$gx)*5+1-5;
-                $img=mapbg($x,$y/*,"x".$gx."y".$gy*/);
-                //$img=imgresizew($img,424);
-                //r($GLOBALS['ss']["area"]);exit;
-                imagefilter($img, IMG_FILTER_COLORIZE,9,0,5);
-                imagefilter($img, IMG_FILTER_CONTRAST,-10);
-                $emboss = array(array(0, 0.05, 0), array(0.05, 0.8,0.05), array(0, 0.05, 0));
-                imageconvolution($img, $emboss, 1, 0);
+                
+                
+                
+                $img1=mapbg($x,$y/*,"x".$gx."y".$gy*/);
+                $img2=mapbg($x+5,$y+5/*,"x".$gx."y".$gy*/);
+
+                
+                $img=imagecreatetruecolor(imagesx($img1), round($width/424*212));
+                
+                $posuvy=0;
+                imagecopy($img, $img1, 0, imagesy($img)*(-1/5)+$posuvy, 0, 0, imagesx($img1), imagesy($img1));
+                imagecopy($img, $img2, 0, imagesy($img)*(4/5)+$posuvy, 0, 0, imagesx($img1), imagesy($img2));
+//                imagefilter($img, IMG_FILTER_COLORIZE,9,0,5);
+//                imagefilter($img, IMG_FILTER_CONTRAST,-10);
+//                $emboss = array(array(0, 0.05, 0), array(0.05, 0.8,0.05), array(0, 0.05, 0));
+//                imageconvolution($img, $emboss, 1, 0);
             
-                //header('Content-Type: image/jpeg');
-                imagejpeg($img,$outimg,95);
+                /*if(lvl){
+                    imagesavealpha($img,true);
+                    imagepng($img,$outimg);
+                }else{*/
+                    imagejpeg($img,$outimg,95);
+                //}
                 chmod($outimg,0777);
                 ImageDestroy($img);
             }
             //-----------------------
+            if(lvl){
+                //$row=1;
+                //$clvla='<span style="position: relative;top:'.(htmlbgc+(-clvl-(height/5))*$row).'px;">';
+                //$clvlb='</span>';
+                //$clvlh=6/5;
+                $clvla='';$clvlb='';
+                $clvlh=1;
+            }else{
+                $clvla='';$clvlb='';
+                $clvlh=1;
+            }
+            //-----------------------
+            
             $datastream=rebase(url.base.str_replace('../','',$outimg).'?'.filemtime($outimg));
             //$datastream='data:image/png;base64,'.base64_encode(file_get_contents($outimg));
-            if($w==0)$html.='<img src="'.$datastream.'" width="'.$width.'" height="'.(round($width/424*212)).'" style="z-index:1;" height="'.(round($width/424*211)).'" "/>';//class="clickmap"   usemap="#x'.$gx.'y'.$gy.'"
-            else     $html.='<img src="'.$datastream.'" width="'.$width.'" height="'.(round($width/424*212)).'" />';            
+            if($w==0)$html.=$clvla.'<img src="'.$datastream.'" width="'.$width.'" height="'.(round($width/424*212*$clvlh)).'" style="z-index:1;" "/>'.$clvlb;//class="clickmap"   usemap="#x'.$gx.'y'.$gy.'"
+            else     $html.=$clvla.'<img src="'.$datastream.'" width="'.$width.'" height="'.(round($width/424*212*$clvlh)).'" />'.$clvlb;            
             }
             //======================================================UNITS
             if($w!=1){
@@ -746,7 +1128,7 @@ function htmlmap($gx=false,$gy=false,$w=0,$only=false/*$width=424*/){
             if(filesize($outimgunits)>1){
                 $datastream=rebase(url.base.str_replace('../','',$outimgunits).'?'.filemtime($outimgunits));
                 //$datastream='data:image/png;base64,'.base64_encode(file_get_contents($outimg));
-                if($w==0)$html.='<span style="position:absolute;width:0px;z-index:2;"><img src="'.$datastream.'" style="position:relative;left:-'.$width.'px;z-index:2;" class="clickmap" width="'.$width.'" height="'.(round($width/424*212)).'" border="'.$border.'"/></span>';//class="clickmap"   usemap="#x'.$gx.'y'.$gy.'"
+                if($w==0)$html.='<span style="position:absolute;width:0px;z-index:2;"><img src="'.$datastream.'" style="position:relative;left:-'.($width+htmlunitc).'px;z-index:2;" class="clickmap" width="'.$width.'" height="'.(round($width/424*212)).'" border="'.$border.'"/></span>';//class="clickmap"   usemap="#x'.$gx.'y'.$gy.'"
                 else     $html.='<img src="'.$datastream.'" width="'.$width.'" height="'.(round($width/424*212)).'" class="clickmap" border="'.$border.'"/>';
             }elseif($w!=0){
                 $html.='<table width="'.$width.'" height="'.($width/2).'" border="0" cellpadding="0" cellspacing="0" class="clickmap" ><tr><td></td></tr></table>';
@@ -754,6 +1136,7 @@ function htmlmap($gx=false,$gy=false,$w=0,$only=false/*$width=424*/){
             }
             }
             //======================================================
+
                     //NOCACHE//    file_put_contents2($file,$html);
         //NOCACHE// }else{
         //NOCACHE//     //r($file);
@@ -763,9 +1146,14 @@ function htmlmap($gx=false,$gy=false,$w=0,$only=false/*$width=424*/){
     if(!$w)echo($html);
     else   return($html);
 }
-//htmlmap(-3,3);
+//htmlmap(-3,2);
+//br();
+/*htmlmap(-3,3);
 //htmlmap(-2,3);
-//die();
+br();
+htmlmap(-3,4);
+//htmlmap(-2,4);
+die();*/
 //======================================================
 /*function terraincolor($terrain){
     $tmp=imagecreatefrompng(root."data/image/terrain/$terrain.png");

@@ -33,8 +33,10 @@ while($tmp=substr2($stream,'href="','"',$i)){
     $stream=substr2($stream,'href="','"',$i,urlr('e=content;ee=help;page='.$tmp));
     $i++;
 }
-$stream=str_replace('href="javascript:','href="#" onclick="',$stream);
 
+
+$stream=str_replace('href="javascript:','href="#" onclick="',$stream);
+$stream=smiles($stream);
 
 if(!$GLOBALS['nowidth']){
     infob(ahrefr('{help_list}','e=content;ee=help;page=list'));
