@@ -1,0 +1,79 @@
+title=Towns;
+title2=Test version of the system;
+copy=Copyright © Pavel Hejný | 2012 | http://towns.cz | test version;/*&copy;*/
+ok=OK;
+
+left_refresh=Refresh;
+left_logout=Logout;
+
+page_login=Login;
+page_main=Main;
+page_ messages=Messages;
+page_map=Map;
+page_items=Items;
+page_profile=Profile;
+page_images=Images;
+page_set=Settings;
+
+/*hybrid=hybrid;
+nature=příroda;
+message=zpráva;
+hero=uživatel;
+unit=jednotka;
+building=budova;
+item=jednotka;
+terrain=terén;
+image=obrázek;*/
+
+main_=logged;
+
+tasks_deleteprompt=Do you really want to cancel this task?;
+tasks_do=Finished...;
+tasks_none=No task...;
+
+f2_move=Move to [babracket][x],[y][bbbracket];
+
+login_username=Username;
+login_password=Password;
+login_permanent=login permanently on this computer;
+
+messages_unread=New;
+messages_all=All;
+messages_read=Read;
+messages_send=Send;
+messages_new=New message;
+
+/*------------------------------------*/
+mx=x;
+my=y;
+
+time=[day]/[month]/[year] [hour]:[minute];
+timex2=[day]/[month]/[year] [hour]:[minute];
+timex1=yesterday at [hour]:[minute];
+timex=today at [hour]:[minute];
+timeq1=tomorrow at [hour]:[minute];
+timeq2=[day]/[month]/[year] [hour]:[minute];
+
+tleft=finished in;
+tjoin=and;
+tsecond1=a second;
+tsecond2=seconds;
+tsecond5=seconds;
+tminute1=a minute;
+tminute2=minutes;
+tminute5=minutes;
+thour1=an hour;
+thour2=hours;
+thour5=hours;
+tday1=a day;
+tday2=days;
+tday5=days;
+tweek1=a week;
+tweek2=weeks;
+tweek5=weeks;
+tmonth1=a month;
+tmonth2=months;
+tmonth5=months;
+tyear1=a year;
+tyear2=years;
+tyear5=years;
