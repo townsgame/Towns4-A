@@ -15,13 +15,25 @@ define("t_sofb",100);//velikost bloku z průvodního obrázku
 define("height2",212*1.3);
 define("size2",0.75*(height2/375));
 //--------level
-define('lvl',1);
+define('lvl',0);//Zatím je terén vypnutý
 define("clvl",35);
 define("sun",0.5);
 define("sunc",15);
 
-define('htmlbgc',60/*-70*/);
-define('htmlunitc',0/*-60-250*/);
+if(lvl){
+    define('htmlbgc',60/*-70*/);
+    define('htmlunitc',0/*-60-250*/);
+}else{
+    
+    if(logged()){
+        define('htmlbgc',60);
+        define('htmlunitc',0);
+    }else{
+        define('htmlbgc',0);
+        define('htmlunitc',-60);
+    }
+}
+
 $GLOBALS['t2lvl']=array(
    't1' =>0,
    't2' =>40,
@@ -342,6 +354,7 @@ function model($res,$s=1,$rot=0,$slnko=1.5,$ciary=0,$zburane=0,$hore=0){$pres=$r
             imagesavealpha($img,true);
             return($img);
         }else{
+            r('create new rock');
             $s=$s*height2/500;
             $img = imagecreatetruecolor($s*200,$s*380);
             $img2 = imagecreatetruecolor($s*200,$s*380);   
@@ -469,6 +482,7 @@ function model($res,$s=1,$rot=0,$slnko=1.5,$ciary=0,$zburane=0,$hore=0){$pres=$r
         imagesavealpha($img,true);
         return($img);
     }else{
+        r('create new model');
         //$s=0.5;
         //$res=res;
         $res=str_replace("::",":1,1,1:",$res);
@@ -1056,6 +1070,8 @@ function htmlmap($gx=false,$gy=false,$w=0,$only=false,$row=1/*$width=424*/){
             //======================================================BACKGROUND
             if($w!=2){
             if(!file_exists($outimg)/** or 1/**/){if(debug)$border=3;
+                r('generate new bg');
+                
                 $x=($gy+$gx)*5+1-5;
                 $y=($gy-$gx)*5+1-5;
                 
@@ -1106,6 +1122,8 @@ function htmlmap($gx=false,$gy=false,$w=0,$only=false,$row=1/*$width=424*/){
             //======================================================UNITS
             if($w!=1){
             if(!file_exists($outimgunits)/** or 1/**/){if(debug)$border=3;
+                r('generate new units');
+            
                 $x=($gy+$gx)*5+1;
                 $y=($gy-$gx)*5+1;
                 if($img=mapunits($x,$y/*,"x".$gx."y".$gy*/)){

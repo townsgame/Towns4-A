@@ -15,7 +15,13 @@ if(ifobject($id)){
     
 $object= new object($id);
 $eff=$object->supportF('change','eff');
-$surkey=array('fuel'=>'Palivo',
+$surkey1=array('fuel'=>'Palivo',
+              'wood'=>'Dřevo',
+              'stone'=>'Kámen',
+              'iron'=>'Železo',
+	      'gold'=>'Zlato (1:1)'
+);
+$surkey2=array('fuel'=>'Palivo',
               'wood'=>'Dřevo',
               'stone'=>'Kámen',
               'iron'=>'Železo'
@@ -28,9 +34,9 @@ contenu_a();
     $url=("q=$id.change [change_from],[change_to],[change_count]");
     form_a(urlr($url),'change');
     
-    input_select('change_from',NULL,$surkey);
+    input_select('change_from',NULL,$surkey1);
     textb(nbsp3.'{change_fromto}'.nbsp3);
-    input_select('change_to',NULL,$surkey);br();
+    input_select('change_to',NULL,$surkey2);br();
     textb('{change_count}: ');
     input_text('change_count',100,15,7);br();
     

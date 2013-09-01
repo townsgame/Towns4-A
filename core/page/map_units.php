@@ -21,8 +21,23 @@ $px=424/10;$py=$px/2;
 $say="''";//"(SELECT IF((`".mpx."text`.`timestop`=0 OR ".time()."<=`".mpx."text`.`timestop`),`".mpx."text`.`text`,'')  FROM `".mpx."text` WHERE `".mpx."text`.`from`=`".mpx."objects`.id AND `".mpx."text`.`type`='chat' ORDER BY `".mpx."text`.time DESC LIMIT 1)";
 //$say="'ahoj'";
 
+/*$arange=-5;
+$range=45;
+$xpp=5;//5;
+$ypp=-5;//-5;
+$range="x>$xu-$arange+$xpp AND y>$yu-$arange+$ypp AND x<$xu+$range+$xpp AND y<$yu+$range+$ypp";
+$range="(x-y)>($xu-$yu) AND (y-x)>($yu-$xu)-30 AND (x-y)<($xu-$yu)+5 AND (y-x)<($yu-$xu)+20";*/
+
+
+$range="(x-y)>($xu-$yu)-20 AND (x+y)>($xu+$yu)+5 AND (x-y)<($xu-$yu)+35 AND (x+y)<($xu+$yu)+60";
+
+
+
+//$range=1;
+//echo($range);
 $hlname=id2name($GLOBALS['config']['register_building']);
-foreach(sql_array("SELECT `x`,`y`,`type`,`res`,`set`,`name`,`id`,`own`,$say,expand,collapse FROM `[mpx]objects` WHERE ww=".$GLOBALS['ss']["ww"]." AND `type`='building'"/*" AND (`name`!='$hlname' OR (SELECT COUNT(1) FROM [mpx]objects AS X WHERE X. `own`= [mpx]objects.`own` AND X. `type`='building')>1 OR `own`='".logid."' OR `own`='".useid."')"/**/) as $row){//WHERE res=''//modelnamape//    
+// OR (`type`='rock' AND RAND()<0.01)
+foreach(sql_array("SELECT `x`,`y`,`type`,`res`,`set`,`name`,`id`,`own`,$say,expand,collapse FROM `[mpx]objects` WHERE ww=".$GLOBALS['ss']["ww"]." AND (`type`='building') AND ".$range/*" AND (`name`!='$hlname' OR (SELECT COUNT(1) FROM [mpx]objects AS X WHERE X. `own`= [mpx]objects.`own` AND X. `type`='building')>1 OR `own`='".logid."' OR `own`='".useid."')"/**/) as $row){//WHERE res=''//modelnamape//    
     $type=$row[2];    
     $res=$row[3];
     $set=$row[4];
@@ -57,7 +72,8 @@ foreach(sql_array("SELECT `x`,`y`,`type`,`res`,`set`,`name`,`id`,`own`,$say,expa
         $built_ry=$ry;
         //r($built_rx);
     }
-    if($rx>156 and $ry>0 and $rx<424*2.33-10 and $ry<212*3-20/* and $id!=useid*/){ }{
+    //if($rx>156 and $ry>0 and $rx<424*2.33-10 and $ry<212*3-20/* and $id!=useid*/){ }
+    {
         //GRM313
         if(/*($res or debug) and ($set=='x' or $set=='0=x') or $set=='x=x'*/true){
         
@@ -93,7 +109,7 @@ foreach(sql_array("SELECT `x`,`y`,`type`,`res`,`set`,`name`,`id`,`own`,$say,expa
         
         $src=rebase(url.base.$file);        
         $areastream.='<div style="position:absolute;z-index:150;">
-        <div style="position:relative; top:'.($ry-($s/$y/4)).'; left:'.($rx-($s/$y/2)).';" >
+        <div style="position:relative; top:'.($ry-($s/$y/4)-htmlbgc).'; left:'.($rx-($s/$y/2)).';" >
         <img src="'.$src.'" widht="'.($s/$y).'" height="'.($s/$y/2).'"  class="clickmap" border="0" />
         </div></div>';
         }   
@@ -117,12 +133,11 @@ foreach(sql_array("SELECT `x`,`y`,`type`,`res`,`set`,`name`,`id`,`own`,$say,expa
         
         $src=rebase(url.base.$file);        
         $areastream.='<div style="position:absolute;z-index:150;">
-        <div style="position:relative; top:'.($ry-($s/$y/4)).'; left:'.($rx-($s/$y/2)).';" >
+        <div style="position:relative; top:'.($ry-($s/$y/4)-htmlbgc).'; left:'.($rx-($s/$y/2)).';" >
         <img src="'.$src.'" widht="'.($s/$y).'" height="'.($s/$y/2).'"  class="clickmap" border="0" />
         </div></div>';
         }     
         //-------------------------------
-        
         
         $modelurl=modelx($res);
         list($width, $height) = getimagesize($modelurl);
@@ -130,6 +145,7 @@ foreach(sql_array("SELECT `x`,`y`,`type`,`res`,`set`,`name`,`id`,`own`,$say,expa
         $width=$width*$GLOBALS['model_resize'];
         $height=$height*$GLOBALS['model_resize'];
         // width="83"
+        
         ?>
         <?php
         ob_start();        
@@ -157,7 +173,10 @@ foreach(sql_array("SELECT `x`,`y`,`type`,`res`,`set`,`name`,`id`,`own`,$say,expa
         <?php } ?>
         
         
-        <?php }} ?>
+        <?php
+        t($name);
+        }}
+        ?>
         
         
 <div id="expandarea" style="display:none;">  

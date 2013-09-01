@@ -12,6 +12,7 @@ function a_change($from,$to,$count){//e("$from,$to,$count");
     }
     
     $eff=$GLOBALS['ss']["aac_object"]->supportF('change','eff');
+    if($from==plus_res){$eff=1;}
 
      $price=new hold($from.'='.$count);
      if(!use_hold($price)){
@@ -19,6 +20,7 @@ function a_change($from,$to,$count){//e("$from,$to,$count");
          return;
      }
      
+
      $GLOBALS['ss']["use_object"]->hold->add($to,floor($count*$eff));
      //use_hold($price2);
      

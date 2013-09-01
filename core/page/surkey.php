@@ -1,4 +1,5 @@
 <?php
+//e($GLOBALS['ss']['use_object']->hold->vals2str());
 //window("{items}","100%");
 //if($GET['e']!='aac'){
 ?>
