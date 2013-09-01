@@ -175,9 +175,6 @@ res_fuel2=paliva;
 res_stone2=kamene;
 res_wood2=dřeva;
 res_iron2=železa;
-res_gold=zlato;
-res_gold2=zlata;
-res_1=?;
 
 res_no={null};
 
@@ -444,70 +441,15 @@ f_attack_statue=Obsadit;
 
 
 create_error_price=Nedostatek zdrojů!;
-create_error_expand=Vaše město sem nemá dosah!;
 attack_limit_rock=Pomocí této funkce můžete těžit pouze skály!;
 attack_limit_tree=Pomocí této funkce můžete těžit pouze stromy!;
-
+res_1=?;
 
 delete_message_prompt=Opravdu chcete tuto zprávu smazat?;
 attack_no_tree=Není žádný strom v okolí, který by se dal pokácet!;
 attack_no_rock=Není žádná skála v okolí, která by se dala vytěžit!;
 create_error_duplicite=Na tomto místě už něco stojí!;
-f_repair=Opravit;
-repair_success=Budova je opravená!;
-profile_town2=Nepřátelské město;
-profile_user2=Soupeř;
-dtree=_;
-
-
-
-title_plus=Bonusové suroviny;
-plus_infob=Koupit zlato pro město [0];
-plus_info=<b>Podpořte nás a získejte zlato!</b><br>
-Pokud se vám líbí Towns a chtěli byste nám pomoci v jeho dalším vývoji a vylepšování, můžete nás podpořit a za odměnu získat zlato do hry, které můžete následně vyměnit za klasické suroviny - dřevo, kámen, železo a palivo v poměru 1:1.<br>
-Další funkce, které se budou dát za zlato koupit, připravujeme.<br><br>
-Vzhledem k tomu, že je celý systém v testovacím módu, je zatím bohužel možné platit pouze přes PayPal v USD.<br>
-Další možnosti platby připravujeme.<br><br>
-Víme, že se Towns potřebuje neustále zlepšovat a opravovat své chyby. Za každou podporu vám budeme nesmírně vděčni, děkujeme!<br><br>
-Suroviny se dají vyměnit kliknutím na ikonku obchodu: ;
-plus_fromto=za;
-
-plus_offer1=Zlato 1;
-plus_offer2=Zlato 2;
-
-
-paypal_thanks=Děkujeme za vaši objednávku!;
-paypal_o_completed=Objednávka byla dokončena uživatelem;
-paypal_the=Položka;
-paypal_o_assoc=byla připojena k uživatelskému účtu;
-paypal_account= ;
-paypal_o_paid=Zaplatili jste;
-paypal_o_receipt=Potvrzení o nákupu vám bylo zasláno na vaši e-mailovou adresu.;
-paypal_o_login1=Můžete se přihlásit do vašeho PayPal účtu na;
-paypal_o_login2=pro shlédnutí detailů transakce.;
-paypal_p_check=Prosím zkontrolujte objednávku. Poté klikněte na tlačítko "Potvrdit" a vyčkejte na její dokončení.;
-paypal_credit=Kredit;
-paypal_p_amount=Částka;
-paypal_p_user=Uživatel;
-paypal_p_payer=Plátce;
-paypal_confirm=Potvrdit;
-paypal_hack_line=Tato položka neexistuje. Nejsme způsobilí zpracovat takovou objednávku. Kontaktujte zákaznický servis nebo podporu PayPalu.;
-paypal_hack_user=Uživatel neexistuje. Nesme způsobilí zpracovat takovou objednávku. Kontaktujte zákaznický servis nebo podporu PayPalu.;
-paypal_hack_amount=Zaplatili jste odlišnou částku. Nesme způsobilí zpracovat takovou objednávku. Kontaktujte zákaznický servis nebo podporu PayPalu.;
-paypal_hack_currency=Zaplatili jste nám odlišnou měnou. Nesme způsobilí zpracovat takovou objednávku. Kontaktujte zákaznický servis nebo podporu PayPalu.;
-paypal_hack_email=Položka byla zakoupena na špatné stránce. Nesme způsobilí zpracovat takovou objednávku. Kontaktujte zákaznický servis nebo podporu PayPalu.;
-paypal_hack_session=Položka byla zakoupena, ale session vypršela. Prosím kontaktujte nás na info@towns.cz pro dokončení vaší objednávky.;
-paypal_hack_token=Položka byla zakoupena, ale session vypršela.;
-paypal_purchased=Položka byla úspěšně zakoupena.;
-paypal_already_purchased=Položka byla již zakoupena.; 
-paypal_fail=Objednávka nebyla zpracována. Kontaktujte zákaznický servis nebo podporu PayPalu.;
-paypal_noresult=Internetové připojení během procesu selhalo. Obnovte webovou stránku nebo kontaktujte náš zákaznický servis či podporu PayPalu.;
-paypal_account=Účet;
-paypal_close=Zavřít;
-
-
-
-
-
-
-
+f_repair=;
+repair_success=;
+profile_town2=;
+profile_user2=;

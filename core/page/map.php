@@ -43,7 +43,9 @@ if(!defined("func_map"))require(root.core."/func_map.php");
     $yy=(($yc-intval($yc)+$tmp)*-211);
     $xc=intval($xc)+1;
     $yc=intval($yc)-$tmp+2;
-        
+     
+    
+    //$yy=$yy-200;
     }
     
     //if($GLOBALS['ss']["get"]["xc"]!=""){$GLOBALS['ss']["map_xc"]=$GLOBALS['ss']["get"]["xc"];}
@@ -82,10 +84,11 @@ if(!defined("func_map"))require(root.core."/func_map.php");
 <script type="text/javascript">
     /*---------------------------------POSITION*/
         function pos2pos(xt,yt)x{
+                yt=yt+<?php e(htmlbgc); ?>;
                 xxt=(yt/212*5)+(xt/424*5);
                 yyt=(yt/212*5)-(xt/424*5); /*aaa*/
-                xc=<?php echo($xc); ?>;
-                yc=<?php echo($yc); ?>;
+                xc=<?php e($xc); ?>;
+                yc=<?php e($yc); ?>;
                 /*alert(yc);*/
                 xxc=(yc*5)+(xc*5)-12.5+xxt; /*-17.5*/
                 yyc=(yc*5)-(xc*5)+12.5+yyt; /*+17.5*/
@@ -296,7 +299,8 @@ $stream2='';
 //$mapsize=20;
 $screen=1270;
 $ym=6;//6;//$mapsize/5+1;//-1;
-$xm=5;//5;//ceil(($mapsize/5-1)/2);
+$xm=5;//5;//5;//ceil(($mapsize/5-1)/2);
+$xmp=1;
 //echo($xm);
 $ym=$ym-1;$xm=$xm-1;$xm=$xm/2;
 $size=$screen/($xm+$xm+1);//750;
@@ -305,11 +309,12 @@ $ad=("<table cellspacing=\"0\" cellpadding=\"0\" width=\"".$screen."\" id=\"tabu
 $stream1.=$ad;$stream2.=$ad;
 for($y=$yc; $y<=$ym+$yc; $y++){
     $ad=("<tr>");$stream1.=$ad;$stream2.=$ad;
-    for ($x=-$xm+$xc; $x<=$xm+$xc; $x++) {
+    for ($x=-$xm+$xc; $x<=$xm+$xc+$xmp; $x++) {
         $ad=(dnln.'<td width="424" height="211">');$stream1.=$ad;$stream2.=$ad;
         //r("$x,$y");
         $stream1.=htmlmap($x,$y,1,NULL,$y-$yc/**/);
         $stream2.=htmlmap($x,$y,2,NULL,$y-$yc/**/);
+        t();
         $ad=("</td>");$stream1.=$ad;$stream2.=$ad;
     }
     $ad=("</tr>");$stream1.=$ad;$stream2.=$ad;

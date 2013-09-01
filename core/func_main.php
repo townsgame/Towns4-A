@@ -84,6 +84,12 @@ function time5($a1,$c1,$a2,$c2){
 function fs2lvl($fs,$decimal=0){
     $decimal=pow(10,$decimal);
     //$lvl=ceil(sqrt($fs/10/*10*/)/*log($fs)*/*$decimal)/$decimal;
+    
+    /*if(!$GLOBALS['main_building_fs']){
+        $GLOBALS['main_building_fs']=intval(sql_1data('SELECT fs FROM [mpx]objects WHERE id='.register_building));
+    }
+    $fs=$fs-$GLOBALS['main_building_fs']+gr;*/
+    
     $lvl=ceil(log($fs,2)*$decimal)/$decimal;
     //$lvl=$fs;
  return($lvl);   
