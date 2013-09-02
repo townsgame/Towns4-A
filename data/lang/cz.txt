@@ -502,7 +502,7 @@ paypal_purchased=Položka byla úspěšně zakoupena.;
 paypal_already_purchased=Položka byla již zakoupena.; 
 paypal_fail=Objednávka nebyla zpracována. Kontaktujte zákaznický servis nebo podporu PayPalu.;
 paypal_noresult=Internetové připojení během procesu selhalo. Obnovte webovou stránku nebo kontaktujte náš zákaznický servis či podporu PayPalu.;
-paypal_account=Účet;
+paypal_account1=Účet;
 paypal_close=Zavřít;
 
 
