@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 title=Towns;
 title2=Test version;
 info=This is only a test version of the game. Please excuse the possible bugs and errors we constantly try to remove.;
@@ -1041,4 +1040,4 @@ paypal_fail=The order was not processed. Please contact our or PayPal support.;
 paypal_noresult=The internet connection has failed during the process. Refresh the page or contact our or PayPal support.;
 paypal_account1=Account;
 paypal_close=Close;
->>>>>>> refs/remotes/origin/master
+
