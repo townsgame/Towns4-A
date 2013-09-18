@@ -151,7 +151,7 @@ male=muž;
 female=žena;
 web=Web;
 
-f_leave=opustit budovu;
+f_leave=Opustit budovu;
 f_leave_prompt=Opravdu chcete opustit budovu?;
 
 f_move=pohyb;
@@ -502,12 +502,34 @@ paypal_purchased=Položka byla úspěšně zakoupena.;
 paypal_already_purchased=Položka byla již zakoupena.; 
 paypal_fail=Objednávka nebyla zpracována. Kontaktujte zákaznický servis nebo podporu PayPalu.;
 paypal_noresult=Internetové připojení během procesu selhalo. Obnovte webovou stránku nebo kontaktujte náš zákaznický servis či podporu PayPalu.;
-paypal_account=Účet;
 paypal_close=Zavřít;
 
 
 
 
+//---------------------------------nové zatím nerozřazené položky, které si automaticky přidává systém (potřeba rozřadit výše):
+
+
+ 
+
+f_dismantle_prompt=Opravdu chcete rozebrat budovu?;
+f_dismantle=Rozebrat budovu;
+create_remain=K postavení budovy potřebujete ještě;
+plus_pay=Koupit;  
+
+towns_towns=Towns&nbsp;-&nbsp;Města;
+welcome=Vítejte na stránkách nové online hry.;
+lang_cz=Čeština;
+lang_en=English;
+fp=Život;
+position=Pozice;
+xtype_own=vlastní budova;
+xtype_nature=příroda;
+xtype_noown=opuštěná budova;
 
 
 
+
+
+ 
+ 

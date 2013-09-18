@@ -48,6 +48,9 @@ if(!defined("func_map"))require(root.core."/func_map.php");
     //$yy=$yy-200;
     }
     
+    
+    $GLOBALS['lxx']=$GLOBALS['ss']["map_xx"];
+    $GLOBALS['lyy']=$GLOBALS['ss']["map_yy"];
     //if($GLOBALS['ss']["get"]["xc"]!=""){$GLOBALS['ss']["map_xc"]=$GLOBALS['ss']["get"]["xc"];}
     //if($GLOBALS['ss']["get"]["yc"]!=""){$GLOBALS['ss']["map_yc"]=$GLOBALS['ss']["get"]["yc"];}
     if($_GET["xc"]!=""){$xc=$_GET["xc"];}
@@ -82,6 +85,7 @@ if(!defined("func_map"))require(root.core."/func_map.php");
     if(logged()){
 ?>
 <script type="text/javascript">
+
     /*---------------------------------POSITION*/
         function pos2pos(xt,yt)x{
                 yt=yt+<?php e(htmlbgc); ?>;
@@ -324,10 +328,24 @@ $ad=("</table>");$stream1.=$ad;$stream2.=$ad;/**/
 
 e('<div style="position:absolute;width:0px;height:0px;"><div style="position:relative;top:'.htmlbgc.'px;left:0px;z-index:100;">'.$stream1.'</div></div>');
 e('<div style="position:absolute;width:0px;height:0px;"><div style="position:relative;top:'.htmlbgc.'px;left:0px;z-index:200;">');
-eval(subpage('map_units'));
+
+if(logged()){
+    eval(subpage('map_units'));
+}else{
+    e('<span id="map_units">'.nbsp.'</span>');
+    /*subref('map_units');*/
+    $GLOBALS['units_stream']='&nbsp;';
+}
+
+/*if(logged()){
+    $GLOBALS['units_stream']=$GLOBALS['ss']['units_stream'];
+}else{
+    $GLOBALS['units_stream']='';
+}*/
+
 e('</div></div>');
 e('<div style="position:absolute;width:0px;height:0px;"><div style="position:relative;top:'.htmlunitc.'px;left:0px;z-index:300;">'.$stream2.'</div></div>');
-e('<div style="position:absolute;width:0px;height:0px;"><div style="position:relative;top:'.htmlunitc.'px;left:0px;z-index:400;">'.$GLOBALS['units_stream'].'</div></div>');
+e('<div style="position:absolute;width:0px;height:0px;"><div style="position:relative;top:'.htmlunitc.'px;left:0px;z-index:400;" id="units_stream">'.$GLOBALS['units_stream']/**/.'</div></div>');
 
 /*echo('<script type="text/javascript">'.nln);
 $d=17;
@@ -361,3 +379,4 @@ echo('</script>');*/
 ?>
 
 </div>
+<!--<div style="position:absolute;top:0;left:0;z-index:23;" id="zaloha_u">ahoj</div>-->

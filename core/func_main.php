@@ -85,12 +85,13 @@ function fs2lvl($fs,$decimal=0){
     $decimal=pow(10,$decimal);
     //$lvl=ceil(sqrt($fs/10/*10*/)/*log($fs)*/*$decimal)/$decimal;
     
-    /*if(!$GLOBALS['main_building_fs']){
+    if(!$GLOBALS['main_building_fs']){
         $GLOBALS['main_building_fs']=intval(sql_1data('SELECT fs FROM [mpx]objects WHERE id='.register_building));
     }
-    $fs=$fs-$GLOBALS['main_building_fs']+gr;*/
+    /*$fs=$fs-$GLOBALS['main_building_fs']+gr;*/
     
-    $lvl=ceil(log($fs,2)*$decimal)/$decimal;
+    //$lvl=ceil(log($fs,2)*$decimal)/$decimal;
+    $lvl=ceil(($fs/$GLOBALS['main_building_fs'])*4*$decimal)/$decimal;
     //$lvl=$fs;
  return($lvl);   
 }
@@ -302,7 +303,13 @@ try {
 $GLOBALS['pdo'] = new PDO('mysql:host='.mysql_host.';dbname='.mysql_db, mysql_user, mysql_password, array(PDO::ATTR_PERSISTENT => true));
 $GLOBALS['pdo']->exec("set names utf8");
 } catch (PDOException $e) {
-    if(!defined('nodie'))die('Could not connect: ' . $e->getMessage());
+    if(!defined('nodie')){
+	//require(root.core."/output.php");
+	echo('The server is currently unavailable. Please try again later.');
+	die('<!--Could not connect: ' . $e->getMessage().'-->');
+
+
+}
 }
 
 //---------------------

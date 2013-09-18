@@ -55,12 +55,15 @@ if(!$admin){
 }
 
 
+
+
+
 //===============================================================================
 //if($_GET["e"])$_GET['e']=$_GET["e"];
 list($GLOBALS['url_param'])=explode('#',$GLOBALS['url_param']);
 
 //===============================================================================
-define("timeplan",true);
+define("timeplan",false);
 define("timestart", time()+microtime());
 function t($text=""){if(timeplan and debug){
 $text=htmlspecialchars(round(time()+microtime()-timestart,2)." - ".$text);
@@ -74,7 +77,8 @@ require(root.core."/func_vals.php");
 require(root.core."/func_object.php");
 require(root.core."/func_main.php");
 require(root.core."/memory.php");
-//------------------------------------------------------------------
+
+
 //error_reporting(E_ALL);
 //exit(ini_get("register_globals"));
 //try {
@@ -104,6 +108,9 @@ require(root.core."/hold/func_core.php");
 //--------------------------------------------
 define("single", true);
 //--------------------------------------------
+//------------------------------------------------------------------
+if(defined('service'))die('{world_in_service}');
+//------------------------------------------------------------------
 //die(url);
 $GLOBALS['ss']["url"]=url;
 //require("control/cron.php");
@@ -276,14 +283,32 @@ $GLOBALS['settings']=$settings;}
 //r($settings);
 //-------------------------------
 $lang=$GLOBALS['ss']["lang"];
-	if(!$lang){$lang=lang;}
+	if(!$lang){
+		//echo($_SERVER['HTTP_ACCEPT_LANGUAGE']);
+            //list($tmp)=explode(",",$_SERVER['HTTP_ACCEPT_LANGUAGE']); 
+	    $tmp=substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],0,2); 
+            $tmp=strtolower($tmp);
+		//echo($tmp);
+            if($tmp=='en'){
+                $lang='en';
+            }elseif($tmp=='cs'){
+                $lang='cz';
+            }else{
+                $lang=lang;
+            }
+            
+            
+            
+            
+            
+        }
 	if($GLOBALS['get']["lang"]){$lang=$GLOBALS['get']["lang"];}
 	$GLOBALS['ss']["lang"]=$lang; 
 //-------------------------------
 //r('set3'.$GLOBALS['ss']["use_object"]->x.','.$GLOBALS['ss']["use_object"]->y);
 t("before content");
 if($_GET['e']){
-	if(logged() or substr($_GET['e'],0,6)=='login-' or $_GET['e']=='help' or  substr($_GET['e'],0,5)=='text-' or  substr($_GET['e'],0,12)=='plus-paypal-'){
+	if(logged() or $_GET['e']=='map_units' or substr($_GET['e'],0,6)=='login-' or $_GET['e']=='help' or  substr($_GET['e'],0,5)=='text-' or  substr($_GET['e'],0,12)=='plus-paypal-'){
 	    //if($_GET["ee"]){$e=$_GET["ee"];}else{$e=$_GET['e'];}
 	    $e=$_GET['e'];
 	    define("subpage", $e);

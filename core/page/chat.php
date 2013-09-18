@@ -1,8 +1,8 @@
 <div style="width:100%;height:2px;background-color:rgb(0,0,0);"></div>
 <div style="width:100%;height:2px;background-color:rgba(0,0,0,0);"></div>
 
-<div style="width:40%;height:86px;overflow:hidden;">
-<div style="width:110%;height:101px;overflow:scroll;" id="chatscroll">
+<div style="width:40%;height:96px;overflow:hidden;">
+<div style="width:110%;height:111px;overflow: hidden;" id="chatscroll">
 <?php eval(subpage("chat_text"));/*subref("chat_text",3);*/ ?>
 </div>
 </div>

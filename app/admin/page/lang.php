@@ -1,11 +1,31 @@
 <?php ob_end_flush(); ?>
 <h3>Lang </h3>
 <?php
-if($_POST['contents']){
-	echo('<b>změněno</b><br/>');
-	$contents=file_put_contents2(root.'data/lang/cz.txt',$_POST['contents']);
+if(!$GLOBALS['ss']["editlang"]){
+   $GLOBALS['ss']["editlang"]='cz';
 }
-$contents=file_get_contents(root.'data/lang/cz.txt');
+if($_GET["editlang"]){
+   $GLOBALS['ss']["editlang"]=$_GET["editlang"];
+}
+
+$q=false;foreach(array('cz','en') as $lang){
+   if($q){
+      echo('&nbsp;-&nbsp;');
+   }
+   $q=true;
+   if($GLOBALS['ss']["editlang"]==$lang){
+      echo('<b>'.$lang.'</b>');
+   }else{
+      echo('<a href="?editlang='.$lang.'">'.$lang.'</a>');
+   }
+}
+
+
+if($_POST['contents']){
+	echo('<br/><b>změněno</b><br/>');
+	$contents=file_put_contents2(root.'data/lang/'.$GLOBALS['ss']["editlang"].'.txt',$_POST['contents']);
+}
+$contents=file_get_contents(root.'data/lang/'.$GLOBALS['ss']["editlang"].'.txt');
 $contents=htmlspecialchars($contents);
 ?>
 

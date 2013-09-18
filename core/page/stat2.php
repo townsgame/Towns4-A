@@ -34,14 +34,24 @@ foreach($array as $row){$i++;$ii--;
     }*/
     e('<td width="'.intval($contentwidth/$onrow).'">');
     //e($i);
-    $js="w_close('content');build('".$GLOBALS['ss']['master']."$master','$id','".$GLOBALS['get']['func']."');";
+    
+    $fc=new hold($fc);
+    if($GLOBALS['ss']['use_object']->hold->testhold($fc)){
+        $js="w_close('content');build('".$GLOBALS['ss']['master']."$master','$id','".$GLOBALS['get']['func']."');";
+    }else{
+        $tmp=new hold($GLOBALS['ss']['use_object']->hold->vals2str());
+        $tmp->rhold($fc);
+        $js="alert('{create_remain} ".($tmp->textr(2))."');";
+    }
+    
     ahref('<img src="'.modelx($res).'" width="'.(70*0.75).'">',js2($js),'none',true);
     e('</td>');
     e('<td>');
     //e($i);
     ahref($name,'e=content;ee=profile;id='.$id,'none',true);
     br();
-    showhold($fc,true);
+    $fc->showimg(true,true);
+    //showhold($fc,true);
     if($description){
         br();
         e($description);   

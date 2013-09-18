@@ -300,7 +300,7 @@ if($post["kmennuholnik"]){
   <table width="800" border="0">
     <tr>
       <th colspan="2"><div align="center">kmen</div></th>
-      <td width="239" rowspan="15">
+      <td width="239" rowspan="20">
       <img src="<?php $rot=rand(0,360);$GLOBALS['ss']["res"]=$res; echo("model.php?model="."&rotation=".$rot."&sun=1.5&size=1&noln=1"); ?>" />
       </td>
         <td width="239" rowspan="15">
@@ -436,6 +436,45 @@ if($post["kmennuholnik"]){
       <input name="rand3x" type="text" id="rand3x" size="5" value="<?php echo($post["rand3x"]); ?>" />
       </td>
     </tr>
+
+
+    <tr>
+      <th><div align="left">defence:</div></th>
+      <td>
+      <input name="defence" type="text" id="defence" size="5" value="<?php echo($post["defence"]); ?>" />
+      <input name="defencex" type="text" id="defencex" size="5" value="<?php echo($post["defencex"]); ?>" />
+      </td>
+    </tr>
+    <tr>
+      <th><div align="left">fuel:</div></th>
+      <td>
+      <input name="fuel" type="text" id="fuel" size="5" value="<?php echo($post["fuel"]); ?>" />
+      <input name="fuelx" type="text" id="fuelx" size="5" value="<?php echo($post["fuelx"]); ?>" />
+      </td>
+    </tr>
+    <tr>
+      <th><div align="left">wood:</div></th>
+      <td>
+      <input name="wood" type="text" id="wood" size="5" value="<?php echo($post["wood"]); ?>" />
+      <input name="woodx" type="text" id="woodx" size="5" value="<?php echo($post["woodx"]); ?>" />
+      </td>
+    </tr>
+    <tr>
+      <th><div align="left">stone:</div></th>
+      <td>
+      <input name="stone" type="text" id="stone" size="5" value="<?php echo($post["stone"]); ?>" />
+      <input name="stonex" type="text" id="stonex" size="5" value="<?php echo($post["stonex"]); ?>" />
+      </td>
+    </tr>
+    <tr>
+      <th><div align="left">iron:</div></th>
+      <td>
+      <input name="iron" type="text" id="iron" size="5" value="<?php echo($post["iron"]); ?>" />
+      <input name="ironx" type="text" id="ironx" size="5" value="<?php echo($post["ironx"]); ?>" />
+      </td>
+    </tr>
+
+
     <tr>
       <td colspan="3"><div align="left"><input type="submit" name="submit" value="ok" /></div></td>
     </tr>
@@ -467,7 +506,7 @@ if($action=="map" or $action=="tree" or $action=="rock" or $action=="finish"){ec
     }
     $im = imagecreatefrompng($imgurl);
     $bgs=array(
-    
+    array("t0",0,0,"000000"),//temnota
     array("t1",0,0,"5299F9"),//moře //Výbuchy v Blitz Stree
     array("t2",1,1,"545454"),//dlažba
     array("t3",1.1,1.2,"EFF7FB"),//sníh/led
@@ -538,7 +577,7 @@ if($action=="map" or $action=="tree" or $action=="rock" or $action=="finish"){ec
 			$res37tree=array();
 			$i=0;
 			while($i<37){
-				$res37tree[$i]=generate($post);
+				$res37tree[$i]=/*'tree'.rand(103);*/generate($post);
 				$i++;
 			}
 		}
@@ -547,8 +586,11 @@ if($action=="map" or $action=="tree" or $action=="rock" or $action=="finish"){ec
         $xx=$x+(rand(-50,50)/100);
         $yy=$y+(rand(-50,50)/100);
         //sql_query("INSERT INTO `".mpx."objects` (`name`,`res`, `x`, `y`, `hard`) VALUES ('tree [$x,$y]','$res','$xx','$yy',0.15)");
-	$defence=rand(5,15);$a=rand(0,1000);$b=rand(500,1500);
-	sql_query("INSERT INTO `".mpx."objects` (`name`, `type`, `dev`, `fs`, `fp`, `fr`, `fx`, `fc`, `func`, `hold`, `res`, `profile`, `set`, `hard`, `own`, `in`, `ww`, `x`, `y`, `t`) VALUES ('{tree} [$x,$y]', 'tree', 'N', '".pow($defence,2)."', '".pow($defence,2)."', '".($a+$b)."', '".($a+$b+pow($defence,2))."', 'fp=0;iron=".ceil(pow($defence,2)*(2/3)).";fuel=".ceil(pow($defence,2)*(1/3))."', 'defence=class[5]defence[3]params[5]defence[7]5[10]$defence"."[7]2[10]1[3]0[5]profile', 'energy=$a;wood=$b', '$res', '', '', '0.15', '0', '0', '".$GLOBALS['ss']["ww"]."', '$xx', '$yy', '".time()."')");
+	$defence=rand($post['defence'],$post['defencex']);
+	$hold=("fuel=".rand($post['fuel'],$post['fuelx']).";wood=".rand($post['wood'],$post['woodx']).";stone=".rand($post['stone'],$post['stonex']).";iron=".rand($post['iron'],$post['ironx']).";");
+
+
+	sql_query("INSERT INTO `".mpx."objects` (`name`, `type`, `dev`, `fs`, `fp`, `fr`, `fx`, `fc`, `func`, `hold`, `res`, `profile`, `set`, `hard`, `own`, `in`, `ww`, `x`, `y`, `t`) VALUES ('{tree} [$x,$y]', 'tree', 'N', '".pow($defence,2)."', '".pow($defence,2)."', '".($a+$b)."', '".($a+$b+pow($defence,2))."', 'fp=0;iron=".ceil(pow($defence,2)*(2/3)).";fuel=".ceil(pow($defence,2)*(1/3))."', 'defence=class[5]defence[3]params[5]defence[7]5[10]$defence"."[7]2[10]1[3]0[5]profile', '".$hold."', '$res', '', '', '0.15', '0', '0', '".$GLOBALS['ss']["ww"]."', '$xx', '$yy', '".time()."')");
 	
 	//exit;
         $chuj=4;
@@ -570,8 +612,12 @@ if($action=="map" or $action=="tree" or $action=="rock" or $action=="finish"){ec
         $xx=$x+(rand(-50,50)/100);
         $yy=$y+(rand(-50,50)/100);
         //sql_query("INSERT INTO `".mpx."objects` (`name`,`res`, `x`, `y`, `hard`) VALUES ('rock [$x,$y]','$res','$xx','$yy',1)");
-	$defence=rand(20,100);$a=rand(1500,2000);$b=rand(0,2000);
-	sql_query("INSERT INTO `".mpx."objects` (`name`, `type`, `dev`, `fs`, `fp`, `fr`, `fx`, `fc`, `func`, `hold`, `res`, `profile`, `set`, `hard`, `own`, `in`, `ww`, `x`, `y`, `t`) VALUES ('{rock} [$x,$y]', 'rock', 'N', '".pow($defence,2)."', '".pow($defence,2)."', '".($a+$b)."', '".($a+$b+pow($defence,2))."', 'fp=0;iron=".ceil(pow($defence,2)*(2/3)).";fuel=".ceil(pow($defence,2)*(1/3))."', 'defence=class[5]defence[3]params[5]defence[7]5[10]$defence"."[7]2[10]1[3]0[5]profile', 'stone=$a;iron=$b', '$res', '', '', '1', '0', '0', '".$GLOBALS['ss']["ww"]."', '$xx', '$yy', '".time()."')");
+	$defence=rand($post['defence'],$post['defencex']);
+	$hold=("fuel=".rand($post['fuel'],$post['fuelx']).";wood=".rand($post['wood'],$post['woodx']).";stone=".rand($post['stone'],$post['stonex']).";iron=".rand($post['iron'],$post['ironx']).";");
+
+
+
+	sql_query("INSERT INTO `".mpx."objects` (`name`, `type`, `dev`, `fs`, `fp`, `fr`, `fx`, `fc`, `func`, `hold`, `res`, `profile`, `set`, `hard`, `own`, `in`, `ww`, `x`, `y`, `t`) VALUES ('{rock} [$x,$y]', 'rock', 'N', '".pow($defence,2)."', '".pow($defence,2)."', '".($a+$b)."', '".($a+$b+pow($defence,2))."', 'fp=0;iron=".ceil(pow($defence,2)*(2/3)).";fuel=".ceil(pow($defence,2)*(1/3))."', 'defence=class[5]defence[3]params[5]defence[7]5[10]$defence"."[7]2[10]1[3]0[5]profile', '".$hold."', '$res', '', '', '1', '0', '0', '".$GLOBALS['ss']["ww"]."', '$xx', '$yy', '".time()."')");
 
         $chuj=3;
     }

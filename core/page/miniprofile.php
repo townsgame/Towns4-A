@@ -87,13 +87,13 @@ if($sql and $id?ifobject($id):true){
     
     //-----------------------------------------------------------------------------------------------profile
     if($own==useid){ 
-            $own_=('vlastní budova');
+            $own_=('{xtype_own}');
     }elseif($own){
         $own_='město '.($ownname);
     }elseif($type=='tree' or $type=='rock'){        
-        $own_=('příroda');
+        $own_=('{xtype_nature}');
     }else{
-        $own_=('opuštěná budova');
+        $own_=('{xtype_noown}');
     }    
     
     
@@ -101,8 +101,8 @@ if($sql and $id?ifobject($id):true){
 	//e('<hr width="100%" size="2" align="center" style="margin: 0px 0px 0px 0px">');
 	imge('design/dot.png','','100%',2);
 	//echo('<span style="background-color: #cccccc;width:100%;height:2px;"></span>');br();
-	textab_(array(array('život:',$fp.'/'.$fs/*.'('.fs2lvl($fs,2).')'*/),
-	              array('pozice:','['.round($x).','.round($y).']'/*.(($ww!=1)?'['.$ww.']':'')*/),
+	textab_(array(array('{fp}:',$fp.'/'.$fs/*.'('.fs2lvl($fs,2).')'*/),
+	              array('{position}:','['.round($x).','.round($y).']'/*.(($ww!=1)?'['.$ww.']':'')*/),
 	              array($own_)),90,55,13);//br();           
 	e('</td><td align="left" valign="top">');
 	e('<table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td align="left" valign="top">'); 
@@ -238,6 +238,9 @@ foreach($functionlist as $qq_class){
         }
     }
 }   
+
+
+
     if($own==useid){ 
 
 
@@ -247,7 +250,9 @@ foreach($functionlist as $qq_class){
             border(iconr('e=content;ee=create-upgrade;id='.$id,'f_repair','{f_repair}',$iconsize),0,$iconsize); 
        }*/
        if(id2name($GLOBALS['config']['register_building'])!=$name){
+            border(iconr('e=miniprofile;prompt={f_dismantle_prompt};q=dismantle '.$id,'f_dismantle','{f_dismantle}',$iconsize),0,$iconsize);
             border(iconr('e=miniprofile;prompt={f_leave_prompt};q=leave '.$id,'f_leave','{f_leave}',$iconsize),0,$iconsize);
+            //a_dismantle(2000233);
        }else{
             //border(iconr("build('".$GLOBALS['ss']['hl']."_replace',‎'".$GLOBALS['config']['register_building']."');",'f_leave','{f_leave}',$iconsize),0,$iconsize);
        }

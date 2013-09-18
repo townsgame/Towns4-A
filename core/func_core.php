@@ -4,7 +4,28 @@ define("a_leave_help","");
 function a_leave($id){
     sql_query('UPDATE [mpx]objects SET own=0 WHERE own='.useid.' AND id='.$id);
 }
+//======================================================================================LEAVE
+define("a_dismantle_help","");
+function a_dismantle($id){
+    if($id==sql_1data('SELECT id FROM [mpx]objects WHERE own='.useid.' AND id='.$id)){
+        $fc=new hold(sql_1data("SELECT fc FROM ".mpx."objects WHERE id='$id'"));
+        $tmp=new object($id);
+        //$tmp->update(true);
+        //$fc=new hold($tmp->fc);
 
+        //print_r($fc);
+        //$fc=$tmp->func->fs();
+        $fc->multiply(1/-gr);
+        //print_r($fc);
+        
+        $GLOBALS['ss']['use_object']->hold->takehold($fc);
+        
+        
+        $tmp->delete();
+    }
+}
+//echo(useid.','.logid.','.$GLOBALS['ss']['use_object']->name);
+//a_dismantle(2000226);
 //======================================================================================INFO
 
 define("a_info_help","[q={use,log,id}]");

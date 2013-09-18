@@ -152,16 +152,16 @@ male=Male;
 female=Female;
 web=Web;
 
-f_leave=leave the building;
+f_leave=Leave the building;
 f_leave_prompt=Do you really want to leave the building?;
 
 f_move=motion;
 f_move_speed=speed;
 f_move_eff=efficiency;
 
-f_create=construction;
+f_create=Construction;
 
-f_attack=attack;
+f_attack=Attack;
 f_attack_attack=power;
 f_attack_distance=distance;
 f_attack_total=total attack;
@@ -453,8 +453,87 @@ create_error_duplicite=There already stands something in this place!;
 f_repair=Repair;
 repair_success=The building is repaired!;
 profile_town2=Enemy town;
-profile_user2=;
+profile_user2=Enemy;
 
 dtree=Development tree;
 
 
+
+title_plus=Bonus materials;
+plus_infob=Purchase gold for the town [0];
+plus_info=<b>Support us and gain gold!</b><br>
+If you like Towns and would like to help us in the further development and improvement, you can support us and in return receive game gold, which can then be exchanged for classic materials - wood, stone, iron and fuel in a ratio of 1:1.<br>
+Other features that you can change the gold for will be soon available.<br>
+The system is in test mode, so it unfortunately only accepts PayPal payments in USD now.<br>
+Other payment options coming soon.<br>
+We know that Towns needs to be constantly improved and the bugs corrected. We are very grateful for every support, thank you!<br>
+Materials can be exchanged by clicking on the icon Trade: ;
+plus_fromto=for;
+
+plus_offer1=Gold 1;
+plus_offer2=Gold 2;
+
+paypal_thanks=Thank you for your order!;
+paypal_o_completed=The order was completed by;
+paypal_the=The item;
+paypal_o_assoc=was associated to the;
+paypal_account= account;
+paypal_o_paid=You paid;
+paypal_o_receipt=Receipt for your purchase has been emailed to you.;
+paypal_o_login1=You may log into your PayPal account at;
+paypal_o_login2=to view details of the transaction.;
+paypal_p_check=Please review the order. Then click on "Confirm" button to wait until it is finished.;
+paypal_p_amount=Amount;
+paypal_credit=Credit;
+paypal_p_user=User;
+paypal_p_payer=Payer;
+paypal_confirm=Confirm;
+paypal_hack_line=The item does not exist. We are not eligible to process the order. Please contact our or PayPal support.;
+paypal_hack_user=The user does not exist. We are not eligible to process the order. Please contact our or PayPal support.;
+paypal_hack_amount=You paid a different amount. We are not eligible to process the order. Please contact our or PayPal support.;
+paypal_hack_currency=You paid using a different currency. We are not eligible to process the order. Please contact our or PayPal support.;
+paypal_hack_email=The item was purchased on a wrong website. We are not eligible to process the order. Please contact PayPal support.;
+paypal_hack_session=The item was purchased but the session has expired. Please contact our payment support at info@towns.cz to finish your order.;
+paypal_hack_token=The item was purchased but the session has expired.;
+paypal_purchased=The item was successfully purchased.;
+paypal_already_purchased=The item was already purchased.; 
+paypal_fail=The order was not processed. Please contact our or PayPal support.;
+paypal_noresult=The internet connection has failed during the process. Refresh the page or contact our or PayPal support.;
+paypal_close=Close; 
+  
+ 
+
+//fp=;
+//position=;
+//xtype_nature=;
+//res_gold=;
+//lang_cz=;
+//lang_en=;
+//welcome=;
+//towns_towns=; 
+
+//---------------------------------new
+
+
+ 
+
+f_dismantle_prompt=Do you really want to dismantle the building?;
+f_dismantle=Dismantle the building;
+create_remain=To build the building you still need;
+plus_pay=Buy;  
+
+towns_towns=Towns;
+welcome=Welcome to the website of the new online game.;
+lang_cz=Čeština;
+lang_en=English;
+fp=Life;
+position=Position;
+xtype_own=own building;
+xtype_nature=nature;
+xtype_noown=abandoned building; 
+res_gold=gold;
+res_gold2=gold;
+
+//profile_user2=; 
+
+//res_gold2=; 

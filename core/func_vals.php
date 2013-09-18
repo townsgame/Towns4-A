@@ -231,6 +231,7 @@ class func{
          if(!isset($tmp['text']))$this->add('text','text');
          if(!isset($tmp['use']))$this->add('use','use');
          if(!isset($tmp['leave']))$this->add('leave','leave');
+         if(!isset($tmp['dismantle']))$this->add('dismantle','dismantle');
          if(!isset($tmp['repair']))$this->add('repair','repair');
          //}
          //$emptyvals=new vals();
@@ -453,10 +454,10 @@ class hold extends vals{
     fp=>0
     //=>"",
     );
-    function textr(){
+    function textr($q=''){
         $stream="";
         foreach($this->vals as $key=>$value){//hu buc bud
-            if($key and $value)$stream=$stream.("{res_".$key."}: ".ir($value).' ');
+            if($key and $value)$stream=$stream.("{res_".$key.$q."}: ".ir($value).' ');
     }
     if(!$stream)$stream="{res_no}";
     return($stream);
@@ -520,6 +521,20 @@ class hold extends vals{
         if(!$this->testhold($hold))return(false);
         $hold=$hold->vals2list();
         foreach($hold as $key=>$value)$this->take($key,$value);
+        return(true);
+    }
+        //-----
+   function rhold($hold){
+       $newvals=array(); 
+       
+        $hold=$hold->vals2list();
+        foreach($hold as $key=>$value){
+            $newvals[$key]=($this->vals[$key]-$value)*-1;
+            if($newvals[$key]<1)$newvals[$key]=0;
+            
+        }
+        
+        $this->vals=$newvals;
         return(true);
     }
     //-----

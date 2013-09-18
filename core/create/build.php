@@ -11,11 +11,11 @@ $GLOBALS['ss']["object_build_func"]=$func;
 if(!$GLOBALS['ss']["master"] and $_GET["master"])$GLOBALS['ss']["master"]=$_GET["master"];
 
 if($id and $GLOBALS['ss']['master']){//e(1);
-?>
-<script type="text/javascript">
+
+/*<script type="text/javascript">
     _rot=0;
-</script>
-<?php
+</script>*/
+
     $object_build=new object($id);
     $res=$object_build->res;
     //model($res,$s=1,$rot=0,$slnko=1,$ciary=1,$zburane=0,$hore=0)
@@ -54,6 +54,13 @@ if($id and $GLOBALS['ss']['master']){//e(1);
 </div></div>
 
 <?php
+if($qq){
+    $randrot=0;
+}  else {
+    $randrot=rand(0,345/15)*15;
+}
+
+
 for($rot=0;($q?($rot<$angle):($rot==0));$rot=$rot+15){
 $rotx=$rot;
 if($qq)$rotx=($rotx/15)+1;
@@ -63,18 +70,18 @@ if($qq)$rotx=($rotx/15)+1;
     list($width, $height) = getimagesize($modelurl);
 
 //if($rot==0 and (-$height+157)){e('<img src="'.imageurl('design/blank.png').'" border="0"  width="82" height="'.(-$height+157).'"><br/>');}
-e('<div class="build_models" id="build_model_'.$rot.'" style="display:'.($rot==0?'block':'none').';"><img src="'.$modelurl.'" width="'.(110*0.75).'"></div>');
+e('<div class="build_models" id="build_model_'.$rot.'" style="display:'.($rot==$randrot?'block':'none').';"><img src="'.$modelurl.'" width="'.(110*0.75).'"></div>');
 }
 ?>
 
 <script type="text/javascript">
-    _rot=0;
+    _rot=<?php e($randrot); ?>;
     <?php if($q){ ?>
     build_model_rot=function(rot)x{
         $('.build_models').css('display','none');
         $('#build_model_'+rot).css('display','block');
     }x
-    $(document).bind('mousewheel', function(event, delta)x{
+    bind_modelrot_function=function(event, delta)x{
     
         if(delta > 0) x{
             _rot=_rot-15;if(_rot<0)x{_rot=_rot-(-<?php e($angle); ?>);}xbuild_model_rot(_rot);    
@@ -83,10 +90,14 @@ e('<div class="build_models" id="build_model_'.$rot.'" style="display:'.($rot==0
         }x
     
     
-    }x);
+    }x
+    $(document).unbind('mousewheel');
+    $(document).bind('mousewheel',bind_modelrot_function);
     <?php }else{ ?>
     build_model_rot=function(rot)x{}x
-    $(document).bind('mousewheel', function(event, delta)x{}x);
+    bind_modelrot_function=function(event, delta)x{}x
+    $(document).unbind('mousewheel');
+    $(document).bind('mousewheel', bind_modelrot_function);
     <?php } ?>
 </script>
 <?php } ?>

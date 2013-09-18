@@ -1,3 +1,5 @@
+
+
 <div style="width: 100%; height: 100%;background-color:#43a1f7;overflow: hidden;">
 
 
@@ -13,7 +15,7 @@ if(logged()){
     'tabs'=>false,
     'miniprofile'=>false,
     'surkey'=>false,
-    'topcontrol'=>false
+    'topcontrol'=>false,
     );
     //drag,close,mini,changetitle
     //name content x y w h rights noborders
@@ -107,8 +109,9 @@ if($GLOBALS['ss']['fb_select_ids'] and $GLOBALS['ss']['fb_select_key']){
     $windows=array_merge(
     $windows,
     array(
-    "copy"=>array("copy",logged?-50:-143,-25,500,0,array(0,1,1,1),1),
-    "name"=>array("none",'[xx]','[yy]','[ww]','[hh]',array(1,1,1,1),0)
+    'copy'=>array("copy",logged?-50:-143,-25,500,0,array(0,1,1,1),1),
+    'name'=>array("none",'[xx]','[yy]','[ww]','[hh]',array(1,1,1,1),0),
+    'langcontrol'=>array("langcontrol",97,1,62,0,array(0,0,1,1),4)
     ));
     if(debug){
         $windows=array_merge(
@@ -191,7 +194,7 @@ if($w_name=="name")echo("</div>");
 
 
 <script type="text/javascript">
-   
+
    $('#window_table_content').height($(window).height()-118);
    $(window).resize(function()x{
       $('#window_table_content').height($(window).height()-118);
@@ -285,6 +288,8 @@ if($w_name=="name")echo("</div>");
         }x/**/
         
 </script>
+
+
 </div>
 <div style="position:relative;top:-100%;left:0px;width:100%;height:100%;z-index:2;">
 <?php

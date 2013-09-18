@@ -69,6 +69,7 @@ if(defined('analytics')){
 </head>
 <body>
 <script type="text/javascript">
+
     z_index=1000;
     <?php if(!debug){ ?>
     $(document).ready(function()x{
