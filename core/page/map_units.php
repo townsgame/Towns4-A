@@ -8,7 +8,7 @@ require_once(root.core."/func_map.php");
     $ycu=0;
     if($GLOBALS['ss']["map_xc"])$xcu=$GLOBALS['ss']["map_xc"];
     if($GLOBALS['ss']["map_yc"])$ycu=$GLOBALS['ss']["map_yc"];
-    
+    //echo($xcu.','.$ycu);
     
     $xu=($ycu+$xcu)*5+1;
     $yu=($ycu-$xcu)*5+1;
@@ -37,18 +37,30 @@ $range="(x-y)>($xu-$yu)-20 AND (x+y)>($xu+$yu)+5 AND (x-y)<($xu-$yu)+35 AND (x+y
 //echo($range);
 $hlname=id2name($GLOBALS['config']['register_building']);
 // OR (`type`='rock' AND RAND()<0.01)
-foreach(sql_array("SELECT `x`,`y`,`type`,`res`,`set`,`name`,`id`,`own`,$say,expand,collapse FROM `[mpx]objects` WHERE ww=".$GLOBALS['ss']["ww"]." AND (`type`='building') AND ".$range/*" AND (`name`!='$hlname' OR (SELECT COUNT(1) FROM [mpx]objects AS X WHERE X. `own`= [mpx]objects.`own` AND X. `type`='building')>1 OR `own`='".logid."' OR `own`='".useid."')"/**/) as $row){//WHERE res=''//modelnamape//    
+$mapunitstime=intval(file_get_contents(tmpfile2("mapunitstime","txt","text")));
+
+foreach(sql_array("SELECT `x`,`y`,`type`,`res`,`set`,`name`,`id`,`own`,$say,expand,collapse,t FROM `[mpx]objects` WHERE ww=".$GLOBALS['ss']["ww"]." AND ((`own`=".useid." AND `expand`!=0) OR `collapse`!=0 OR `t`>$mapunitstime) AND "/*." AND (`type`='building') AND "*/.$range/*" AND (`name`!='$hlname' OR (SELECT COUNT(1) FROM [mpx]objects AS X WHERE X. `own`= [mpx]objects.`own` AND X. `type`='building')>1 OR `own`='".logid."' OR `own`='".useid."')"/**/) as $row){//WHERE res=''//modelnamape//    
     $type=$row[2];    
     $res=$row[3];
     $set=$row[4];
     //$func=$row[5];
     //$func=func2list($func);
     $name=trim($row[5]);
+    //echo($name);br();
     $id=$row[6];
     $own=$row[7];
-    $text=xx2x($row[8]);
+    //$text=xx2x($row[8]);
     $expand=floatval($row[9]);
     $collapse=floatval($row[10]);
+    $time=intval($row[11]);
+    
+    if(id2name($GLOBALS['config']['register_building'])==$name and logged()){ 
+        $say=id2name($own);
+        $say=str_replace(' ','&nbsp;',$say);
+    }else{
+        $say='';
+    }
+    
     if($id==useid){
         $_xc=$GLOBALS['ss']["use_object"]->x;
         $_yc=$GLOBALS['ss']["use_object"]->y;
@@ -73,7 +85,6 @@ foreach(sql_array("SELECT `x`,`y`,`type`,`res`,`set`,`name`,`id`,`own`,$say,expa
         //r($built_rx);
     }
     //if($rx>156 and $ry>0 and $rx<424*2.33-10 and $ry<212*3-20/* and $id!=useid*/){ }
-    {
         //GRM313
         if(/*($res or debug) and ($set=='x' or $set=='0=x') or $set=='x=x'*/true){
         
@@ -151,19 +162,31 @@ foreach(sql_array("SELECT `x`,`y`,`type`,`res`,`set`,`name`,`id`,`own`,$say,expa
         ob_start();        
         /**/ ?>
         <div style="position:absolute;z-index:<?php  echo($ry+1000); ?>;" <?php  if($id==useid)e('id="jouu"'); ?>>
-        <div id="object<?php  echo($id); ?>" style="position:relative; top:<?php  echo($ry-132-$height+157); ?>; left:<?php  echo($rx-43); ?>;">
+        <div id="object<?php  echo($id); ?>" style="position:relative; top:<?php  echo($ry-132-$height+157+4); ?>; left:<?php  echo($rx-43+2); ?>;">
 
-        <?php if($res){ ?>
+        <?php if($res and (/*$own==useid or */$time>$mapunitstime)){ ?>
         <img src="<?php e($modelurl); ?>" width="82" class="clickmap" border="0" alt="<?php e($name); ?>" title="<?php e($name); ?>">
-        <?php }else{echo('!res');} ?>           
+        <?php }else{r('!res');} ?>           
         </div>
         </div>
 
+        
         <div style="position:absolute;z-index:<?php  echo($ry+2000); ?>;" >
         <div title="<?php e($name); ?>" style="position:relative; top:<?php  echo($ry-132-40+157); ?>; left:<?php  echo($rx-43+7); ?>;">
         <img src="<?php imageurle('design/blank.png'); ?>" class="unit" id="<?php  echo($id); ?>" border="0" alt="<?php e($name); ?>" title="<?php e($name); ?>" width="70" height="35">
         </div>    
         </div>
+        <?php /**/ ?>
+        
+        <?php
+        if($say){
+        ?>
+        <div style="position:absolute;z-index:<?php  echo($ry+2000); ?>;" >
+        <div title="<?php e($name); ?>" style="position:relative; top:<?php  echo($ry-100); ?>; left:<?php  echo($rx-43+7); ?>;background: rgba(0,0,0,0.75); border-radius: 2px; padding: 4px;"><?php e($say); ?></div>    
+        </div>
+        <?php
+        }
+        ?>
 
         <?php
         $GLOBALS['units_stream'].=ob_get_contents();
@@ -175,13 +198,27 @@ foreach(sql_array("SELECT `x`,`y`,`type`,`res`,`set`,`name`,`id`,`own`,$say,expa
         
         <?php
         t($name);
-        }}
+        }
         ?>
         
         
 <div id="expandarea" style="display:none;">  
 <?php echo( $areastream); ?>
 </div>
+<script>
+    /*alert(1);*/
+<?php
+/*if(logged()){
+    $GLOBALS['ss']['units_stream']=$GLOBALS['units_stream'];
+}*/
+if(!logged()){
+    subjs('units_stream',$GLOBALS['units_stream']);
+}
+?>
+//$('#zaloha_u').html('');
+//$('#units_stream').css('left',0);
+//$('#units_stream').css('top',0);
+</script>
 <!--usemap="#clickmap"<map name="clickmap" id="clickmap">
 <area shape="poly" coords="0,137,41,116,83,137,41,157" href="#" class="unit" />
 </map>-->

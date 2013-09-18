@@ -189,7 +189,7 @@ class object{
     /**
      *
      */
-    function update(){
+    function update($force=false){
         //echo("destructing ".$this->id);
         //echo("<br>");
         //echo($this->orig_sum);
@@ -210,12 +210,12 @@ class object{
             }
             $res="''";*/
             //if($this->id==1){cleartmp($this->id);}
-            if($this->orig_sum!=$this->sum()){$this->loaded=false;
+            if($this->orig_sum!=$this->sum() or $force){$this->loaded=false;
                 if($this->orig_sum2!=$this->sum(true)){cleartmp($this->id);}
                 //echo("updating ".$this->id);
                 //echo("<br>");
                 //==================================================================ARYYD
-                if($this->orig_sum_!=$this->sum_() and !$this->noupdate){
+                if(($this->orig_sum_!=$this->sum_() and !$this->noupdate) or $force){
                     r("updating sumaries - ".$this->id." + FS/FP");
                     //------------------------------FS + FC (FP - NONE)
                     $fc= new hold("");
@@ -272,7 +272,9 @@ class object{
                     //------------------------------HARD,EXPAND,COLLAPSE
                     $tmp=$funcs["hard"]["params"]["hard"];$this->hard=$tmp[0]*$tmp[1];//r(444);r($tmp);
 					$tmp=$funcs["expand"]["params"]["distance"];$this->expand_=$tmp[0]*$tmp[1];    
-					$tmp=$funcs["collapse"]["params"]["distance"];$this->collapse_=$tmp[0]*$tmp[1];                    
+					$tmp=$funcs["collapse"]["params"]["distance"];$this->collapse_=$tmp[0]*$tmp[1];
+		    //------------------------------TIME
+		    $this->t=time();                
                     //------------------------------REPORT
                     /*r($this->fs);
                     r($this->fp);
@@ -307,7 +309,7 @@ class object{
                 `own` =  '".(($this->own))."',
                 `in` =  '".(($this->in))."',
                 `ww` =  '".(($this->ww))."',
-                `t`=  '".(time())."',
+                `t`=  '".($this->t)."',
                 `x` =  '".($this->x)."',
                 `y` =  '".($this->y)."'
                 WHERE  id ='".($this->id)."'");

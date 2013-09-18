@@ -1,7 +1,0 @@
-     Order Deny,Allow 
-     Allow from All 
- 
-<Files "password"> 
-     Order Deny,Allow 
-     Deny from All 
-</Files>

@@ -5,4 +5,11 @@
 /index.php.bfproject
 /phpinfo.php
 /index.php
-/nbproject/private/
+/nbproject/
+/app/admin/objects/
+/app/admin/files/
+/app/admin/rootworld/
+/app/admin/world/
+/app/admin/tmp/
+/app/admin/password
+/app/adminer/session/

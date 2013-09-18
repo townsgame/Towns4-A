@@ -3,7 +3,7 @@ if(logged()){
     //r(useid);
     $stream='';
     // `id`,`from`,`to`,`text`,`time`,`timestop`
-    $sql="SELECT  `id`,`type`,`from`,`to`,`title`,`text`,`time` FROM `".mpx."text` WHERE (`to`='' OR `to`='".useid."' OR `from`='".useid."' OR `to`='".logid."' OR `from`='".logid."') AND (`type`='report') ORDER BY time DESC LIMIT 7";
+    $sql="SELECT  `id`,`type`,`from`,`to`,`title`,`text`,`time` FROM `".mpx."text` WHERE (`to`='' OR `to`='".useid."' OR `from`='".useid."' OR `to`='".logid."' OR `from`='".logid."') AND (`type`='report') ORDER BY time DESC LIMIT 5";
     //r($sql);
     $array=sql_array($sql);
     if(count($array)<5)br(5-count($array));

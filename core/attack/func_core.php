@@ -94,7 +94,7 @@ function a_attack($id){
             $attacked->delete();
             //Už ne//changemap($bx,$by);
             if($attacked->type=='building')
-                changemap($bx,$by);//XXX
+                changemap($bx,$by,true);//XXX
             else
                 changemap($bx,$by,true);
         }
@@ -103,7 +103,7 @@ function a_attack($id){
              $GLOBALS['ss']["aac_object"]->delete();
             //Už ne//changemap($bx,$by);
             if($GLOBALS['ss']["aac_object"]->type=='building')
-                changemap($bx,$by);//XXX
+                changemap($bx,$by,true);//XXX
             else
                 changemap($bx,$by,true);
         }   

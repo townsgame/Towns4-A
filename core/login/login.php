@@ -12,12 +12,12 @@ window('',0,0,'login');
 <table border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td width="45" height="45"><?php imge('logo/fract3.png','',73); ?></td>
-    <td width="0" height="0"><span style="font-size:25px;" >&nbsp;Towns&nbsp;-&nbsp;Města</span></td>
+    <td width="0" height="0"><span style="font-size:25px;" >&nbsp;{towns_towns}</span></td>
   </tr>
 </table>
 <br/>
 <div style="background:#111111;" >
-Vítejte na stránkách nové online hry.
+{welcome}
 <br/>
 
 </div>
@@ -54,5 +54,12 @@ if($q==1){
 ?>
 
 <div style="background:#222222;" >{info}</div>
+
+<?php 
+if ( $GLOBALS['mobile_detect']->isMobile() ) {
+?>
+<div style="background:#222222;" >{info_mobile}</div>
+<?php } ?>
+
 </div>
 

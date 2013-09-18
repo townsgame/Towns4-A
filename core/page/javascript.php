@@ -1,6 +1,5 @@
 <script type="text/javascript">
 
-
 /*------------------------------base64*/
             /*function base64_decode(s) x{
                 var e=x{}x,i,k,v=[],r='',w=String.fromCharCode;
@@ -26,11 +25,13 @@
                 return r;
             }x*/
 /*------------------------------parseMap*/
-            xc=<?php echo($GLOBALS['xc']); ?>;
-            yc=<?php echo($GLOBALS['yc']); ?>;
+            xc=0<?php echo($GLOBALS['xc']); ?>;
+            yc=0<?php echo($GLOBALS['yc']); ?>;
+            
             function parseMapF(fff) x{
                 parseMapx(false,fff);
             }x
+		
             function parseMap() x{
                 parseMapx(false,function()x{1;}x);
             }x
@@ -78,9 +79,22 @@
                             
                             zaloha_a=$('#create-build').css('display');
                             zaloha_e=$('#expandarea').css('display');
+                            zaloha_u=$('#units_stream').html();
+                            offset=$('#draglayer').offset();
+                            /*xx=parseFloat($('#draglayer')./*offset.left*css("left"));/*alert(xx);*/
+                            /*yy=parseFloat($('#draglayer')./*offset.top*css("top"));
+                            /*zaloha_uxc=offset.left/*pxx-lxx+xx/*parseFloat($('#draglayer').offset.left/*css('left'))-pxx*/
+                            /*zaloha_uyc=offset.top/*pyy-lyy+yy/*parseFloat($('#draglayer').offset.top/*css('top'))-pyy*/
+                            
                             $('#map').html(vystup);
                             if(zaloha_a=='block')build(window.build_master,window.build_id,window.build_func);
+                                                        
    							$('#expandarea').css('display',zaloha_e);
+                                                        /*$('#zaloha_u').css('left',zaloha_uxc);
+                                                        $('#zaloha_u').css('top',<?php e(htmlunitc); ?>-zaloha_uyc);
+                                                        $('#zaloha_u').html(zaloha_u);
+                                                        //alert(zaloha_uxc+','+zaloha_uyc);*/
+                                                        
                             fff();
                         }x);
                     }x);
@@ -186,7 +200,7 @@
         
         act_tmp=0;
         setInterval(function() x{
-            if(document.activeElement.tagName=='BODY')x{
+            if(/*document.activeElement.tagName=='BODY'*/ true)x{
                                 /*----------------------------------------?FPS*/
                 act_tmpp=act_tmp;
                 act_tmp = new Date();/*act_tmp.getMilliseconds()*/
@@ -216,7 +230,7 @@
                 
                 xx=parseFloat($('#draglayer').css("left"));
                 yy=parseFloat($('#draglayer').css("top"));
-                d=207*act*actx;q=false;
+                d=/*207*/500*act*actx;q=false;
                 xxp=xx;
                 yyp=yy;
                 if ( key_up==true    ) x{yy=yy+d;q=true;}x

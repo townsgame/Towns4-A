@@ -3,6 +3,7 @@ require_once(root.core."/func_vals.php");
 require_once(root.core."/func_object.php");
 require_once(root.core."/func_main.php");
 require_once(root.core."/memory.php");
+require_once(root.core."/mobile_detect.php");
 //=============================================================
 //(4.5*6+5*6+4.5*6+3*2+5*7+1*2)/(6+6+6+2+7+2)
 define("notmp", false);
@@ -42,6 +43,9 @@ $GLOBALS['ss']["setcookie"]=array();*/
 
 //=============================================================
 function changemap($x,$y,$files=false){
+    //v total onMap verzi nemá smysl parametr $files -> nastavit na pevno na true
+    //$files=true;
+    
     if($files){
     //r($x.','.$y);
     if(!defined("func_map"))require(root.core."/func_map.php");
@@ -156,8 +160,8 @@ function target($sub,$w="",$ee="",$q,$only=false,$rot="",$noi=false,$prompt='',$
     if($prompt)$prompt="pokracovat = confirm('$prompt');if(pokracovat)";
     $apart=("w_open('$sub','$ee','$w$q$set');");
     //oldwindow
-    $vi="\$('#loading').css('visibility','visible');";
-    $iv="\$('#loading').css('visibility','hidden');";
+    $vi='';//"\$('#loading').css('visibility','visible');";
+    $iv='';//"\$('#loading').css('visibility','hidden');";
     if(!$noi){$inter="&i=$sub,$ee";}else{$inter="";}
     $bpart=("\$(function()x{\$.get('?e=$ee$w$q$rot$inter$set', function(vystup)x{\$('#$sub').html(vystup);$iv}x);$vi}x);");
     //-------
@@ -207,15 +211,16 @@ if($period){
 }
 }
 //---------------------------------------------------------
-function subjs($sub){
+function subjs($sub,$buffer=false){
     if(!$ee)$ee=$sub;
     list($dir,$ee)=explode('-',$ee);
     if(!$ee){$ee=$dir;$dir='page';}
-     ob_start();
-     include(core.'/'.$dir.'/'.$ee.'.php');
-     $buffer = ob_get_contents();
-     ob_end_clean();
-     
+    if(!$buffer){
+        ob_start();
+        include(core.'/'.$dir.'/'.$ee.'.php');
+        $buffer = ob_get_contents();
+        ob_end_clean();
+    }
      //-------
         $buffer=contentlang($buffer);
         $bufferx="";

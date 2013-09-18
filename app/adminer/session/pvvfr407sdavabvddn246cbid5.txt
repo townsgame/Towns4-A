@@ -1,1 +1,0 @@
-a:1:{s:3:"dbs";a:1:{s:6:"server";a:1:{s:21:"isp-slave1.webdum.com";a:1:{s:7:"c17test";a:2:{i:0;s:18:"information_schema";i:1;s:7:"c17test";}}}}}

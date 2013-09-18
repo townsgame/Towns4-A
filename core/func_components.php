@@ -406,6 +406,12 @@ function imge($file,$alt="",$width="",$height="",$rot=1,$border=0,$grey=0){
 //imge("id_69");
 //--------------------------------------------
 function iconr($url,$icon,$name="",$s=22,$rot=1,$grey=0){
+    if(is_array($s)){
+        list($w,$h)=$s;
+    }else{
+        list($w,$h)=array($s,$s);   
+    }
+    
     //$s=22;
     $file="icons/".$icon.".png";
     //r($file);
@@ -417,7 +423,7 @@ function iconr($url,$icon,$name="",$s=22,$rot=1,$grey=0){
     
     $a="<a $url $onclick >";
     $b="</a>";
-    return($a.imgr($file,$name,$s,$s,$rot,NULL,$grey).$b);
+    return($a.imgr($file,$name,$w,$h,$rot,NULL,$grey).$b);
 }
 function icon($url,$icon,$name="",$s=22,$rot=1,$grey=0){echo(iconr($url,$icon,$name,$s,$rot,$grey));}
 //--------------------------------------------
@@ -1242,11 +1248,11 @@ function profiler($id="use"){
         $stream.=("<hr/>");
         if(useid==$id or logid==$id){
             
-            $stream.=ahrefr("Upravit profil","e=content;ee=profile_edit;id=$id",false);
+            $stream.=ahrefr("{profile_edit}","e=content;ee=profile_edit;id=$id",false);
             $stream.=("<br/>");
             
             if(logid==$id){
-                $stream.=ahrefr("Změnit heslo","e=content;ee=password_edit",false);
+                $stream.=ahrefr("{password_edit}","e=content;ee=password_edit",false);
                 $stream.=("<br/>");
             }
         }else{
