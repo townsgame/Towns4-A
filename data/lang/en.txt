@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 title=Towns;
 title2=Test version;
 info=This is only a test version of the game. Please excuse the possible bugs and errors we constantly try to remove.;
@@ -537,3 +538,507 @@ res_gold2=gold;
 //profile_user2=; 
 
 //res_gold2=; 
+=======
+title=Towns;
+title2=Test version;
+info=This is only a test version of the game. Please excuse the possible bugs and errors we constantly try to remove.;
+copy=© Pavel Hejný | 2013;
+copy2=©2013;
+ok=OK;
+null=(0);
+back=back;
+countdown=The game is going to be launched in;
+
+
+config_error=configuration error;
+
+// System commands
+left_sessiondestroy=New;
+left_refresh=Refresh;
+left_logout=Log out;
+
+messages=Messages;
+
+hybrid=Hybrid;
+nature=Nature;
+tree=Tree;
+rock=Rock;
+// message
+user=player;
+town=town;
+// unit
+building=building;
+//item=item;
+//terrain=terrain;
+//image=image;/**/
+
+
+user1=user;
+
+tree4=tree;
+rock4=rock;
+user4=user;
+unit4=unit;
+building4=building;
+
+/*------------------------------------*/
+
+name_error_same=You already use this name.;
+name_error_space=The name cannot begin nor end with space.;
+name_error_noname=You have to fill the name.;
+name_error_minchars=The name must be at least [0] characters long.;
+name_error_maxchars=The name must not be more than [0] characters long.;
+name_error_specialchars=The name cannot contain special characters.;
+name_error_used=This name is already used.;
+name_error_number=The name cannot be only a number.;
+
+/*------------------------------------*/
+
+title_login=Log in;
+login_username=Username;
+login_password=Password;
+login_permanent=Stay log in;
+login_ok=OK;
+
+register_username=Username;
+register_ok=OK;
+register_info=Password and other data can you insert after signing up.;
+register_error_nospace=We are sorry but the map is entirely occupied!;
+register_nopassword=You need to finish the sign up process by setting a password so you can log in in the future again.;
+register_block_error=The registration is blocked.;
+
+
+password_change_no_error=You have to fill in a password!;
+//password_change_no_error=Fill in a password, good fella!;
+password_change_use_warning=The password is going to be changed for a logged user [0].;
+/*------------------------------------*/
+
+life=Life;
+attack=Attack;
+defence=Defence;
+distance=Distance;
+/*------------------------------------*/
+mx=x;
+my=y;
+
+time=[day]:[month]:[year] [hour]:[minute];
+/*time=stardate [timestamp];*/
+timex2=the day before yesterday at [hour]:[minute];
+timex1=yesterday at [hour]:[minute];
+timex=today at [hour]:[minute];
+timeq1=tomorrow at [hour]:[minute];
+timeq2=the day after tomorrow at [hour]:[minute];
+
+tleft=left;
+tjoin=and;
+tsecond1=second;
+tsecond2=second;
+tsecond5=second;
+tminute1=minute;
+tminute2=minute;
+tminute5=minute;
+thour1=hour;
+thour2=hour;
+thour5=hour;
+tday1=day;
+tday2=day;
+tday5=day;
+tweek1=week;
+tweek2=week;
+tweek5=week;
+tmonth1=month;
+tmonth2=month;
+tmonth5=month;
+tyear1=year;
+tyear2=year;
+tyear5=year;
+
+/*------------------------------------*/
+login=Log in;
+register=Sign up;
+about=About;
+
+
+f_login_changepass=The password has been changed;
+f_login_nochangepass=Passwords do not match;
+f_login_nologin=Wrong log in data;
+f_login_nofblogin=Facebook log in error;
+
+fb_login_button=Log in with Facebook;
+
+
+context_profile=Profile;
+
+
+stat_profile=Profile;
+//units=Units;
+stat_buildings=Buildings;
+stat_towns=Towns;
+stat_users=Users;
+//items=Items;
+//all=All;
+
+stat_first=<<<;
+stat_previous=<<;
+stat_next=>>;
+stat_last=>>>;
+stat_page=page [0]/[1];
+
+
+level=Level;
+life=Life;
+realname=Real name;
+gender=Gender;
+male=Male;
+female=Female;
+web=Web;
+
+f_leave=leave the building;
+f_leave_prompt=Do you really want to leave the building?;
+
+f_move=motion;
+f_move_speed=speed;
+f_move_eff=efficiency;
+
+f_create=construction;
+
+f_attack=attack;
+f_attack_attack=power;
+f_attack_distance=distance;
+f_attack_total=total attack;
+f_attack_on=attack on;
+
+//res_energy=energy;
+res_fuel=fuel;
+res_stone=stone;
+res_wood=wood;
+res_iron=iron;
+res_fuel2=fuel;
+res_stone2=stone;
+res_wood2=wood;
+res_iron2=iron;
+
+res_no={null};
+
+title_profile=Profile;
+
+
+title_messages=Messages;
+messages_public=Discussion;
+messages_unread=Unread;
+messages_all=Messages;
+//messages_read=Read;
+//messages_send=Sent;
+messages_report=Reports;
+messages_new=New&nbsp;message;
+
+message_to=To;
+message_subject=Subject;
+message_reply=Reply;
+
+send_success=The message has been successfully sent.;
+message_limit=You are sending messages too quickly.;
+same_message=You cannot send the same message twice.;
+unknown_user=Unknown user;
+no_message=You have to fill in a subject and a message.;
+
+message_to_info=If you want to send a new message to the discussion, type to the field To number 0.;
+
+
+f_defence=Defence;
+f_defence_defence=Defence;
+
+
+attack_on=Attack on;
+
+attack_wtf=Error: The attack probably already took place, the report is in the messages.;
+attack_unknown=Error: Unknown target;
+attack_noid=Error: Unknown target;
+attack_self=You cannot attack yourself.;
+
+attack_lock=The attack on other players is locked.;
+
+attack_error_distance=First you must get to the building at least [0] boxes from it.;
+attack_error_price=Lack of resources to attack!;
+attack_error_ww=Your target is not on the same map.;
+
+attack_warning_total_kill=Warning: An enemy uses total attack, i. e. you are most likely going to die during the attack!;
+attack_warning_total=Warning: An enemy uses total attack, i. e. they can kill you!;
+
+attack_expected=Expected result;
+
+attack_expected_a=your final life;
+attack_expected_b=the enemy's final life;
+
+attack_price=price;
+attack_steal=prey;
+
+attack_user=Attack;
+attack_building=Destroy;
+attack_tree=Cut down;
+attack_rock=Exploit;
+
+attack_user2=Attacked;
+attack_building2=Destroyed;
+attack_tree2=Cut down;
+attack_rock2=Exploited;
+
+attack_q1=without effect;
+attack_q2=partial win;
+attack_q3=partial loss;
+attack_q4=draw;
+attack_q5=total win;
+attack_q6=total loss;
+attack_q7=mutual destruction;
+attack_q8=occupation;
+attack_q9=unknown;
+
+//[a_name_],[a_name],[b_name],[b_name4],[q],[time],[a_fp2],[b_fp2],[a_tah],[b_tah],[a_atf],[b_atf],[a_seed],[b_seed],[a_fp],[b_fp],[a_at],[b_at],[a_de],[b_de],[a_att],[b_att],[price],[steal];
+
+title_attack_report=Attack report;
+attack_report_title=Attack on [b_name4];
+attack_report_title_q1=[[a_name_]] Attack on [b_name_];
+attack_report_title_q2=[[a_name_]] Damaged [b_name_];
+attack_report_title_q3=[[a_name_]] Attack on [b_name_];
+attack_report_title_q4=[[a_name_]] Attack on [b_name_];
+attack_report_title_q5=[[a_name_]] [attackname] [b_name_];
+attack_report_title_q6=[[a_name_]] Attack on [b_name_];
+attack_report_title_q7=[[a_name_]] Attack on [b_name_];
+attack_report_title_q8=[[a_name_]] Damaged [b_name_];
+
+attack_report=<table border="0" width="100%"><tr><td width="50%" align="left" valign="top">
+<b><u>[a_name]</u></b><br/>
+Attack: [a_at]<br/>
+Defence: [a_de]<br/>
+Luck: [a_seed]%<br/>
+Original life: [a_fp]<br/>
+Final life: [a_fp2]
+</td><td width="50%" align="left" valign="top">
+<b><u>[b_name]</u></b><br/>
+Attack: [b_at]<br/>
+Defence: [b_de]<br/>
+Luck: [b_seed]%<br/>
+Original life: [b_fp]<br/>
+Final life: [b_fp2]
+</td></tr><td colspan="2" width="50%" align="left" valign="top"><hr/>
+Result: [q]<br/>
+Price: [price]<br/>
+Prey: [steal]
+</td><tr>
+</tr></table>;
+
+
+create_building=Construct a building;
+unique_from=[0];
+title_build=Construct a building;
+build_submit=Construct;
+
+f_change=Trade;
+change_from=Exchange;
+change_count=Quantity;
+change_title=Trade;
+change_fromto=for;
+change_error_nocount=Insufficient quantity for the exchange!;
+change_error_same=Enter two different materials!;
+change_error_price=Lack of resources!;
+change_success=Carried from [2] {res_[0]2} to [3] {res_[1]2}.;
+
+
+/*------------------------------------*/
+
+building_main=Main building;
+building_flag=Flag;
+building_master=Builder;
+building_market=Market;
+building_embassy=Embassy;
+building_palisade=Palisade;
+building_small_wall=Small stone wall;
+building_big_wall=Large stone wall;
+building_dark_wall=Dark wall;
+building_small_tower_wall=Wall + Small towers;
+building_big_tower_wall=Wall + Big towers;
+building_bridge=Bridge;
+building_warehouse=Warehouse;
+building_lumberjack=Lumberjack;
+building_mine=Mine;
+building_big_warehouse=Large warehouse;
+building_big_lumberjack=Large lumberjack;
+building_big_mine=Big mine;
+building_hide=Hide;
+building_tower=Tower;
+building_expand_tower=Expansion tower;
+building_attack_tower=Assault tower;
+building_defence_tower=Defence tower;
+building_small_temple=Small temple;
+building_big_temple=Large temple;
+building_statue=Statue of philosopher;
+
+
+building_description_main=Main building is a part of every town. Only the main building can not be destroyed or abandoned. Use the main building to cut down trees and exploit rocks with a little efficiency.;
+building_description_flag=The flag is the cheapest and smallest building used for small area occupation.;
+building_description_master=Use the builder to build a market, palisade, bridge, hide, warehouse or statue of philosopher.;
+building_description_market=Market can change resources in a ratio of 4:1.;
+building_description_embassy=Embassy can change resources in a ratio of 2:1.;
+building_description_palisade=Palisade serves to protect the town from the enemy expansion.;
+building_description_small_wall=Small stone wall serves to protect the town from the enemy expansion.;
+building_description_big_wall=Large stone wall serves to protect the town from the enemy expansion.;
+building_description_dark_wall=Dark wall serves to protect the town from the enemy expansions. It also serves to expand the town.;
+building_description_small_tower_wall=The combination of walls and towers provides protection from the enemy expansion and at the same time it can be used to attack enemy towns.;
+building_description_big_tower_wall=The combination of walls and towers provides protection from the enemy expansion and at the same time it can be used to attack enemy towns.;
+building_description_bridge=With the bridge you can expand across the water surface.;
+building_description_warehouse=With the warehouse you can build lumberjack and mine.;
+building_description_lumberjack=Lumberjack is used to obtain raw materials from trees - wood and fuel.;
+building_description_mine=Mine is used to obtain raw materials from the rocks - stone, iron and fuel.;
+building_description_big_warehouse=With large warehouse building you can build large lumberjack and mine.;
+building_description_big_lumberjack=Large lumberjack is effective for getting raw materials from trees - wood and fuel.;
+building_description_big_mine=Large mine is effective for getting raw materials from the rocks - stone, iron and fuel.;
+building_description_hide=Hide is designed for rapid expansion of the town.;
+building_description_tower=Tower is designed for rapid expansion of the town.;
+building_description_expand_tower=Expansion tower is designed for rapid expansion of the town. It has long eyeshot and you can use it to occupy enemy buildings.;
+building_description_attack_tower=Assault tower is designed to destroy enemy buildings.;
+building_description_defence_tower=Defence tower is designed to protect the town from enemy expansion. Unlike the walls, its protection works at a longer distance.;
+building_description_small_temple=Small temple serves to protect the town from enemy expansion. Its protection works over a large distance. You can also use the temple to occupy enemy buildings.;
+building_description_big_temple=Large temple serves to protect the town from enemy expansion. Its protection works over a large distance. You can also use the temple to occupy enemy buildings.;
+building_description_statue=With the statue of philosopher you can occupy weaker enemy buildings. You can also exchange resources in the ratio of 5:1.;
+
+/*------------------------------------*/
+
+
+
+
+f_text=Messages;
+close=Close;
+f_replace=Move;
+fx_center=Center the map;
+fx_tab=Add a tab;
+profile_town=Town profile;
+profile_user=Player profile;
+logout=Log out;
+help=Help;
+expand=Expand;
+id=id;
+town_count=Count of towns;
+building_count=Count of buildings;
+navigation_up=Up;
+navigation_left=Left;
+navigation_down=Down;
+navigation_right=Right;
+f_create_cooldown=Recovery time;
+f_create_eff=Efficiency;
+f_create_limit=Limit;
+f_attack_count=Hits;
+f_attack_cooldown=Recovery time;
+f_attack_limit=Limit;
+f_attack_eff=Efficiency;
+f_attack_xeff=Exploitation efficiency;
+f_attack_attack2=Attack;
+message_back=Back;
+title_help=Help;
+help_index=Help;
+help_list=List;
+
+
+password_edit=Change password;
+newpass=New password;
+newpass2=Confirm password;
+f_login_createpass=The password has been created!;
+oldpass=Old password;
+f_attack_window=Attacks;
+profile_edit=Edit the profile;
+name=Name;
+description=Description;
+profile_description=Profile;
+editted= - changed;
+
+
+
+
+rotate_left=Rotate left;
+rotate_right=Rotate right;
+cancel=Cancel;
+f_create_building_submit=Construct;
+f_=function;
+attack_count=Hits;
+res_energy=Energy;
+
+
+f_attack_building_main=Cut down;
+f_attack2_building_main=Exploit;
+f_attack_small_tower_wall=Attack;
+f_attack_big_tower_wall=Attack;
+f_attack_lumberjack=Cut down;
+f_attack_mine=Exploit;
+f_attack_big_lumberjack=Cut down;
+f_attack_big_mine=Exploit;
+f_attack_tower=Attack;
+f_attack_expand_tower=Occupy;
+f_attack_attack_tower=Attack;
+f_attack_defence_tower=Attack;
+f_attack_small_temple=Occupy;
+f_attack_big_temple=Occupy;
+f_attack_statue=Occupy;
+
+
+
+
+
+create_error_price=Lack of resources!;
+attack_limit_rock=With this function, you can exploit only rocks!;
+attack_limit_tree=With this function, you can cut down only trees!;
+res_1=?;
+
+delete_message_prompt=Do you really want to delete the message?;
+attack_no_tree=There is no tree in the area that could be cut down!;
+attack_no_rock=There is no rock in the area that could be cut down exploited!;
+create_error_duplicite=There already stands something in this place!;
+f_repair=Repair;
+repair_success=The building is repaired!;
+profile_town2=Enemy town;
+profile_user2=;
+dtree=Development tree;
+
+
+
+title_plus=Bonus materials;
+plus_infob=Purchase gold for the town [0];
+plus_info=<b>Support us and gain gold!</b><br>
+If you like Towns and would like to help us in the further development and improvement, you can support us and in return receive game gold, which can then be exchanged for classic materials - wood, stone, iron and fuel in a ratio of 1:1.<br>
+Other features that you can change the gold for will be soon available.<br>
+The system is in test mode, so it unfortunately only accepts PayPal payments in USD now.<br>
+Other payment options coming soon.<br>
+We know that Towns needs to be constantly improved and the bugs corrected. We are very grateful for every support, thank you!<br>
+Materials can be exchanged by clicking on the icon Trade: ;
+plus_fromto=for;
+
+plus_offer1=Gold 1;
+plus_offer2=Gold 2;
+
+paypal_thanks=Thank you for your order!;
+paypal_o_completed=The order was completed by;
+paypal_the=The item;
+paypal_o_assoc=was associated to the;
+paypal_account= account;
+paypal_o_paid=You paid;
+paypal_o_receipt=Receipt for your purchase has been emailed to you.;
+paypal_o_login1=You may log into your PayPal account at;
+paypal_o_login2=to view details of the transaction.;
+paypal_p_check=Please review the order. Then click on "Confirm" button to wait until it is finished.;
+paypal_p_amount=Amount;
+paypal_credit=Credit;
+paypal_p_user=User;
+paypal_p_payer=Payer;
+paypal_confirm=Confirm;
+paypal_hack_line=The item does not exist. We are not eligible to process the order. Please contact our or PayPal support.;
+paypal_hack_user=The user does not exist. We are not eligible to process the order. Please contact our or PayPal support.;
+paypal_hack_amount=You paid a different amount. We are not eligible to process the order. Please contact our or PayPal support.;
+paypal_hack_currency=You paid using a different currency. We are not eligible to process the order. Please contact our or PayPal support.;
+paypal_hack_email=The item was purchased on a wrong website. We are not eligible to process the order. Please contact PayPal support.;
+paypal_hack_session=The item was purchased but the session has expired. Please contact our payment support at info@towns.cz to finish your order.;
+paypal_hack_token=The item was purchased but the session has expired.;
+paypal_purchased=The item was successfully purchased.;
+paypal_already_purchased=The item was already purchased.; 
+paypal_fail=The order was not processed. Please contact our or PayPal support.;
+paypal_noresult=The internet connection has failed during the process. Refresh the page or contact our or PayPal support.;
+paypal_account1=Account;
+paypal_close=Close;
+>>>>>>> refs/remotes/origin/master
