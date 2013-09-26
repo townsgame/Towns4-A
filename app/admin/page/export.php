@@ -6,6 +6,7 @@
 <!--<a  href="javascript:void(0);" onclick="document.execCommand('SaveAs',true,'files/expor.xml');">Stáhnout</a>-->
 <hr/>
 <?php
+set_time_limit(10000);
 if($_GET['export']){
 $limit='';
 if($_GET['limit'])$limit='LIMIT '.$_GET['limit'];

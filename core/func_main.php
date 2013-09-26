@@ -104,7 +104,12 @@ function nn($tmp){
     }
 }
 //===============================================================================================================
-function rebase($url){ return(preg_replace('(\/[^\/]*\/\.\.\/)', '/', $url));}
+function rebase($url){
+	$url=preg_replace('(\/[^\/]*\/\.\.\/)', '/', $url);
+	$i=strpos($url,'/'.w.'/');$c=strlen(w);
+	$url=substr($url,0,$i).substr($url,$i+$c+1);
+	return($url);
+}
 //echo('ahoj/www/../debile/index.php');
 //die(rebase('ahoj/www/../debile/index.php'));
 //===============================================================================================================
