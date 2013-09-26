@@ -30,8 +30,9 @@ if($GLOBALS['ss']['attack_report']){
             $defence=$tmpfunc->func('defence');
             $defence=$defence['defence'];
             
+	    //e("$defence<$attack");
             //e($tmpid);
-            if($defence<$attack){//e(' - ok');
+            if($defence<$attack){//e($tmpid.' - ok');
                 $attack_id=$tmpid;
                 break;
             }

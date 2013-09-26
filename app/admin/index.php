@@ -114,7 +114,9 @@ exit2();
 }
 }
 
+if($GLOBALS['ss']["page"]!='export'){
 require2("output.php");
+}
 //=============================================================================
 //if($_GET["world"])$GLOBALS['ss']["world"]=$_GET["world"];
 //if($GLOBALS['ss']["world"]){

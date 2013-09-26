@@ -36,7 +36,7 @@ a{color: #cccccc;text-decoration: none;}
 
 <?php
 function script_($script){
-    e('<script type="text/javascript" src="'.rebase(url.base.$script).'"></script>');
+    e('<script type="text/javascript" src="'.rebase(url.base.w.'/'.$script).'"></script>');
 }
 script_('lib/jquery/js/jquery-1.6.2.min.js');
 script_('lib/jquery/js/jquery-ui-1.8.16.custom.min.js');
