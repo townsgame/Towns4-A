@@ -1,4 +1,14 @@
-<script type="text/javascript">
+<?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný | 2011-2013
+   _____________________________
+
+   core/page/javascript.php
+
+   Javascript hlavně pro mapu
+*/
+//==============================
+?><script type="text/javascript">
 
 /*------------------------------base64*/
             /*function base64_decode(s) x{

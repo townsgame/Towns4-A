@@ -1,4 +1,17 @@
 <?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný | 2011-2013
+   _____________________________
+
+   core/func_core.php
+
+   Základní systémové funkce
+*/
+//==============================
+
+
+
+
 //======================================================================================LEAVE
 define("a_leave_help","");
 function a_leave($id){

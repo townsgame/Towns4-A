@@ -1,4 +1,17 @@
 <?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný | 2011-2013
+   _____________________________
+
+   core/login/login.php
+
+   Úvodní přihlašovací obrazovka
+*/
+//==============================
+
+
+
+
 window('',0,0,'login');
 //r($GLOBALS['get']);
 /*if($GLOBALS['get']["login_try"]){

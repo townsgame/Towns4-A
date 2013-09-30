@@ -1,6 +1,14 @@
+<?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný | 2011-2013
+   _____________________________
 
+   core/html_fullscreen.php
 
-<div style="width: 100%; height: 100%;background-color:#43a1f7;overflow: hidden;">
+   V tomto souboru je html vnitřku stránky a správa oken.
+*/
+//==============================
+?><div style="width: 100%; height: 100%;background-color:#43a1f7;overflow: hidden;">
 
 
 <div id="windows" style="position:relative;top:0px;left:0px;width:100%;height:100%;">
@@ -96,7 +104,15 @@ if(logged()){
         $windows=array(
         "login-login"=>array("login-login",50,-450,300,400,array(0,1,1,1),3)
         );
-    }    
+    }
+
+    if ( $GLOBALS['mobile_detect']->isMobile()) {
+        $windows["login-login"]=array("login-login",2,2,'100%',1000,array(0,1,1,1),3);
+    }
+
+
+
+
 if($GLOBALS['ss']['fb_select_ids'] and $GLOBALS['ss']['fb_select_key']){
     //echo('fbwindow');
     $windows=array_merge(
@@ -113,6 +129,11 @@ if($GLOBALS['ss']['fb_select_ids'] and $GLOBALS['ss']['fb_select_key']){
     'name'=>array("none",'[xx]','[yy]','[ww]','[hh]',array(1,1,1,1),0),
     'langcontrol'=>array("langcontrol",97,1,62,0,array(0,0,1,1),4)
     ));
+
+    if ( $GLOBALS['mobile_detect']->isMobile()) {
+        $windows["langcontrol"][1]=-70;
+    }
+
     if(debug){
         $windows=array_merge(
         $windows,
@@ -242,7 +263,7 @@ if($w_name=="name")echo("</div>");
             if(!xx)xx=50;
             if(!yy)yy=50;
             if(!ww)ww=<?php e(contentwidth); ?>;
-            if(!hh)hh=$(document).height()-118;
+            if(!hh)hh=$(/*window*/'#html_fullscreen').height()-118;
         }xelsex{
             if(!xx)xx=1;
             if(!yy)yy=1;

@@ -1,4 +1,17 @@
 <?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný | 2011-2013
+   _____________________________
+
+   core/attack/func_core.php
+
+   Útočné funkce systému
+*/
+//==============================
+
+
+
+
 define('a_attack_cooldown',true);
 function a_attack($id){
     //$id=sg("id");

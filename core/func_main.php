@@ -1,4 +1,17 @@
 <?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný | 2011-2013
+   _____________________________
+
+   core/func_main.php
+
+   Základní php funkce a definice
+*/
+//==============================
+
+
+
+
 define('gr',1.618033);
 define('e',2.71828);
 

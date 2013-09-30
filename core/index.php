@@ -1,5 +1,32 @@
 <?php
-//test
+/* Towns4, www.towns.cz 
+   © Pavel Hejný | 2011-2013
+   _____________________________
+
+   core/index.php
+
+   Základní soubor vyvolávaný inicializací
+
+   _____________________________
+   Struktura systému:
+     Towns4 / core [*][git] - jádro systému + moduly
+              app  [*][git] - (Částečně) externí aplikace
+              lib  [o][git] - Knihovny (např. jQuery)
+              data [*][www] / image    - Obrázky
+                            / lang     - Jazykové soubory
+                            / help     - Nápověda + obrázky nápovědy
+                            / userdata - Data od uživatelů
+              tmp  [o]      - Pomocná složka - cache pro systém
+              index.php   [o][www] - Inicializační soubor
+              favicon.ico [o][git] - Logo
+              .htaccess   [o][git] - Vše spadá do index.php
+
+     [o]    Povolen přístup z www prohlížeče
+     [*]    Přístup zablokovaný pomocí .htaccess
+     [git]  Hlavní vývojová větev je na GITu
+     [www]  Hlavní vývojová větev je na test.towns.cz/world1
+*/
+//==============================
 
 
 //try {

@@ -1,4 +1,17 @@
 <?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný | 2011-2013
+   _____________________________
+
+   core/func.php
+
+   Pokročilé funkce
+*/
+//==============================
+
+
+
+
 require_once(root.core."/func_vals.php");
 require_once(root.core."/func_object.php");
 require_once(root.core."/func_main.php");

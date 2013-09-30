@@ -1,4 +1,17 @@
 <?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný | 2011-2013
+   _____________________________
+
+   core/page/password_edit.php
+
+   Změna / Vytvoření hesla
+*/
+//==============================
+
+
+
+
 window('{password_edit}');
 
 infob(ahrefr('{back}','e=content;ee=profile'));

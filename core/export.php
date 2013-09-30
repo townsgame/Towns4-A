@@ -1,4 +1,17 @@
 <?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný | 2011-2013
+   _____________________________
+
+   core/export.php
+
+   Tento soubor slouží k exportu celého světa pro externí Towns4Admin.
+*/
+//==============================
+
+
+
+
 function export(){
 $limit='';
 if($_GET['limit'])$limit='LIMIT '.$_GET['limit'];

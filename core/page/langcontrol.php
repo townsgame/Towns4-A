@@ -1,4 +1,17 @@
 <?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný | 2011-2013
+   _____________________________
+
+   core/page/langcontrol.php
+
+   Tlačítka přepínání jazyků
+*/
+//==============================
+
+
+
+
 //$iconsize=22; 70a5cc 357088
 
 e('<table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td height="23" bgcolor="#173440" class="dragbar" valign="center">');

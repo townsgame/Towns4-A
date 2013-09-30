@@ -1,4 +1,17 @@
 <?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný | 2011-2013
+   _____________________________
+
+   core/func_query.php
+
+   funkce systému, zde je definováno, jak se zpracovávají dotazy q=, query , systém využívá soubory func_core
+*/
+//==============================
+
+
+
+
 unset($GLOBALS['ss']["use_object"]);
 unset($GLOBALS['ss']["log_object"]);
 //r($GLOBALS['ss']["useid"]);

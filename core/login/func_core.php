@@ -1,4 +1,17 @@
 <?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný | 2011-2013
+   _____________________________
+
+   core/login/func_core.php
+
+   Přihlášení / Registrace - funkce systému
+*/
+//==============================
+
+
+
+
 //======================================================================================REGISTER
 define("a_register_help","user");
 function a_register($param1){

@@ -1,4 +1,14 @@
-<div style="width:100%;height:2px;background-color:rgb(0,0,0);"></div>
+<?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný | 2011-2013
+   _____________________________
+
+   core/page/chat.php
+
+   Chat -obal
+*/
+//==============================
+?><div style="width:100%;height:2px;background-color:rgb(0,0,0);"></div>
 <div style="width:100%;height:2px;background-color:rgba(0,0,0,0);"></div>
 
 <div style="width:40%;height:96px;overflow:hidden;">

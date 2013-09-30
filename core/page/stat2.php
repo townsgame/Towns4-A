@@ -1,4 +1,17 @@
 <?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný | 2011-2013
+   _____________________________
+
+   core/page/stat2.php
+
+   Seznam objektů pro stavění budov
+*/
+//==============================
+
+
+
+
 require_once(root.core."/func_map.php");
 backup($GLOBALS['where'],"1");
 //r($GLOBALS['where']);
