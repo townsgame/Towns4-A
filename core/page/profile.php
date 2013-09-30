@@ -1,4 +1,17 @@
 <?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný | 2011-2013
+   _____________________________
+
+   core/page/profile.php
+
+   Okno profilu / statistik
+*/
+//==============================
+
+
+
+
 window("{title_profile}"/*,520,500*/);
 $GLOBALS['ss']["profileid"]=0;
 //r(imageurl('id_1'));

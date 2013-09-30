@@ -1,4 +1,17 @@
 <?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný | 2011-2013
+   _____________________________
+
+   core/page/chat_aac.php
+
+   Chat -obsah
+*/
+//==============================
+
+
+
+
  $iconsize=30;
  $url="e=content;ee=text-messages;ref=chat;id=".useid;
  $stream='';

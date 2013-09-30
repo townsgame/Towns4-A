@@ -1,4 +1,17 @@
 <?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný | 2011-2013
+   _____________________________
+
+   core/page/tabs.php
+
+   Záložky nad miniprofile.
+*/
+//==============================
+
+
+
+
 
 $tabs=$GLOBALS['ss']["use_object"]->set->ifnot('tabs','');
 $tabs="($tabs)";

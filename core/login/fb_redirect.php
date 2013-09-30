@@ -1,4 +1,17 @@
 <?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný, Přemysl Černý | 2011-2013
+   _____________________________
+
+   core/login/fb_redirect.php
+
+   Přihlašování přes Facebook
+*/
+//==============================
+
+
+
+
 	//echo('bbb');
   eval('req'.'uire_once(root."lib/facebook_sdk/base_facebook.php");');
   eval('req'.'uire_once(root."lib/facebook_sdk/facebook.php");');

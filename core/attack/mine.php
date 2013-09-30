@@ -1,4 +1,17 @@
 <?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný | 2011-2013
+   _____________________________
+
+   core/attack/mine.php
+
+   Stránka pro zahájení těžby
+*/
+//==============================
+
+
+
+
     $iconsize=35;
     $iconbrd=3;
 

@@ -1,4 +1,17 @@
 <?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný, Přemysl Černý | 2011-2013
+   _____________________________
+
+   core/plus/paypal/pconfig.php
+
+   PayPal
+*/
+//==============================
+
+
+
+
 /* 
   NEVER SHOW THIS FILE TO ANYONE
   Copyright Injection Computers, Inc.

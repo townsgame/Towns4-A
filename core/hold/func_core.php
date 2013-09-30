@@ -1,4 +1,17 @@
 <?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný | 2011-2013
+   _____________________________
+
+   core/hold/func_core.php
+
+   Výměna surovin - funkce systému
+*/
+//==============================
+
+
+
+
 //define('a_change_cooldown',true);
 function a_change($from,$to,$count){//e("$from,$to,$count");
     $count=intval($count);

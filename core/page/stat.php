@@ -1,4 +1,17 @@
 <?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný | 2011-2013
+   _____________________________
+
+   core/page/stat.php
+
+   Seznam objektů pro statistiku
+*/
+//==============================
+
+
+
+
 backup($GLOBALS['stattype'],"buildings");
 
 if($GLOBALS['stattype']=='buildings'){

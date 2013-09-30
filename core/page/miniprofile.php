@@ -1,4 +1,17 @@
 <?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný | 2011-2013
+   _____________________________
+
+   core/page/miniprofile.php
+
+   Dolní ovládací prvky u každé budovy
+*/
+//==============================
+
+
+
+
 function centerurl($id,$x='x',$y=0,$ww=1){//echo('bbb');
     if($x=='x'){//echo('aaaaa');echo($id);
         $destinationobject=new object($id);

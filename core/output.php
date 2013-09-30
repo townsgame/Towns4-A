@@ -1,4 +1,17 @@
 <?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný | 2011-2013
+   _____________________________
+
+   core/output.php
+
+   Tento soubor slouží k finální úpravě souboru před odesláním do prohlížeče, nahrzení {lang} proměnných.
+*/
+//==============================
+
+
+
+
 
 function contentantisvin($buffer){
     $kde=strpos($buffer,"<body>")+6;

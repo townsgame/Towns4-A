@@ -1,4 +1,17 @@
 <?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný | 2011-2013
+   _____________________________
+
+   core/func_object.php
+
+   Tento soubor slouží k deklaraci objektu na spávu tabulky [mpx]objects.
+*/
+//==============================
+
+
+
+
 /**
  *
  */
