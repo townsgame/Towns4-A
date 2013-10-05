@@ -1,4 +1,17 @@
 <?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný | 2011-2013
+   _____________________________
+
+   core/text/func_core.php
+
+   Textové(zprávy, diskuse, chat) funkce systému
+*/
+//==============================
+
+
+
+
 
 //======================================================================================
 define("a_text_help","action{list,send,delete}[idle][idle,to,title,text][,id]");

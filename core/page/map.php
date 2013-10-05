@@ -1,4 +1,17 @@
 <?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný | 2011-2013
+   _____________________________
+
+   core/page/map.php
+
+   Mapa
+*/
+//==============================
+
+
+
+
 //r('setx'.$GLOBALS['ss']["use_object"]->x.','.$GLOBALS['ss']["use_object"]->y);
 //Dropbox
 if(!defined("func_map"))require(root.core."/func_map.php");

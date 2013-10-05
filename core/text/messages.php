@@ -1,4 +1,17 @@
 <?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný | 2011-2013
+   _____________________________
+
+   core/text/messages.php
+
+   Okno zpráv
+*/
+//==============================
+
+
+
+
 window("{title_messages}"/*,400,400*/);
 sg("textclass");
 

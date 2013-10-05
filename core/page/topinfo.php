@@ -1,4 +1,17 @@
 <?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný | 2011-2013
+   _____________________________
+
+   core/page/topinfo.php
+
+   Informační lišta nad záložkama - například výzva k vytvoření hesla
+*/
+//==============================
+
+
+
+
 if($GLOBALS['topinfo']){
     if($GLOBALS['topinfo_url']){$url=$GLOBALS['topinfo_url'];}else{$url='';}
     if($GLOBALS['topinfo_color']){$color=$GLOBALS['topinfo_color'];}else{$color=/*'770077'*/'292929';}

@@ -1,4 +1,17 @@
 <?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný | 2011-2013
+   _____________________________
+
+   core/page/help.php
+
+   Tento soubor slouží k zobrazování help oken.
+*/
+//==============================
+
+
+
+
 if(!$GLOBALS['nowidth']){
 window("{title_help}");
 ?>

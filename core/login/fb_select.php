@@ -1,4 +1,17 @@
 <?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný, Přemysl Černý | 2011-2013
+   _____________________________
+
+   core/login/fb_select.php
+
+   Přihlašování přes Facebook
+*/
+//==============================
+
+
+
+
 if(!$GLOBALS['ss']['fb_select_ids'] or !$GLOBALS['ss']['fb_select_key']){
 	w_close('login-fb_select');
 }else{

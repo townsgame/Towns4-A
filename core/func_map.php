@@ -1,4 +1,17 @@
 <?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný | 2011-2013
+   _____________________________
+
+   core/func_map.php
+
+   php funkce pro vykreslení mapových podkladů
+*/
+//==============================
+
+
+
+
 ini_set("max_execution_time","1000");
 define("func_map",true);
 //=============================================================MAPCONFIG

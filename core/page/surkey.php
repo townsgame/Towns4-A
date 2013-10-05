@@ -1,4 +1,17 @@
 <?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný | 2011-2013
+   _____________________________
+
+   core/page/surkey.php
+
+   Surovinová lišta dole
+*/
+//==============================
+
+
+
+
 //e($GLOBALS['ss']['use_object']->hold->vals2str());
 //window("{items}","100%");
 //if($GET['e']!='aac'){

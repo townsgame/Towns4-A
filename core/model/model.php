@@ -1,4 +1,17 @@
 <?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný | 2011-2013
+   _____________________________
+
+   core/model/model.php
+
+   Tento soubor slouží k vykreslování 3D modelů - je vyvolávaný souborem func_map.php.
+*/
+//==============================
+
+
+
+
 //----------------------------------------------------------------------------------------------------------------------MODELS
 //=============================================================
 /*function ImageEllipseAA( &$img, $x, $y, $w, $h,$color,$segments=70){

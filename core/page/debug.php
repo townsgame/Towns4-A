@@ -1,4 +1,17 @@
 <?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný | 2011-2013
+   _____________________________
+
+   core/page/debug.php
+
+   debug menu
+*/
+//==============================
+
+
+
+
 /*if(logged){
     //icon("e=content;ee=help;","help","{help}",30);
     icon("q=logout","logout","{logout}",30);

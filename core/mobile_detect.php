@@ -1,5 +1,12 @@
 <?php
-/**
+/* Towns4, www.towns.cz 
+   _____________________________
+
+   core/mobile_detect.php
+
+   Tento soubor slouží k detekci, o jaké zařízení se jedná.
+
+
  * MIT License
  * ===========
  *

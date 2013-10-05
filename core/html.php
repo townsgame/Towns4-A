@@ -1,10 +1,21 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný | 2011-2013
+   _____________________________
+
+   core/html.php
+
+   V tomto souboru je html "obal".
+*/
+//==============================
+?><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Towns 4</title>
 <meta name="author" content="Pavel Hejný" />
 <meta name="keywords" content="" />
 <meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
 <link rel="shortcut icon" href="<?php e(rebase(root.base)); ?>favicon.ico">
 <style type="text/css">
 <!--
@@ -36,7 +47,7 @@ a{color: #cccccc;text-decoration: none;}
 
 <?php
 function script_($script){
-    e('<script type="text/javascript" src="'.rebase(url.base.$script).'"></script>');
+    e('<script type="text/javascript" src="'.rebase(url.base.'/'.$script).'"></script>');
 }
 script_('lib/jquery/js/jquery-1.6.2.min.js');
 script_('lib/jquery/js/jquery-ui-1.8.16.custom.min.js');
@@ -83,9 +94,9 @@ if(defined('analytics')){
    /*$(document).disableSelection();*/
 </script>
 <?php
-if(logged()){
+if(logged()/** and 0/**/){
 ?>
-<div id="html_fullscreen">
+<div style="width:100%;height:100%;" id="html_fullscreen">
 <table width="100%" height="100%"><tr>
 <td align="center" valign="center"><?php include(root.core."/page/loading.php"); ?></td>
 </tr></table>
