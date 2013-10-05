@@ -1,3 +1,14 @@
+<?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný | 2011-2013
+   _____________________________
+
+   core/login/reg_form.php
+
+   Registrační formulář
+*/
+//==============================
+?>
 <?php if(defined('countdown') and countdown-time()>0){}else{ ?>
 
 <form id="register" name="register" method="POST" action="<?php url("q=register [register_username];login_try=1"); ?>">

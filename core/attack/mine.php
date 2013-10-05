@@ -1,4 +1,17 @@
 <?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný | 2011-2013
+   _____________________________
+
+   core/attack/mine.php
+
+   Stránka pro zahájení těžby
+*/
+//==============================
+
+
+
+
     $iconsize=35;
     $iconbrd=3;
 
@@ -30,8 +43,9 @@ if($GLOBALS['ss']['attack_report']){
             $defence=$tmpfunc->func('defence');
             $defence=$defence['defence'];
             
+	    //e("$defence<$attack");
             //e($tmpid);
-            if($defence<$attack){//e(' - ok');
+            if($defence<$attack){//e($tmpid.' - ok');
                 $attack_id=$tmpid;
                 break;
             }

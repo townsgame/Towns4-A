@@ -1,4 +1,17 @@
 <?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný | 2011-2013
+   _____________________________
+
+   core/plus/index.php
+
+   Okno kupování bonusových surovin
+*/
+//==============================
+
+
+
+
 window("{title_plus}");
 //infob('{plus_infob;'.$GLOBALS['ss']['use_object']->name.'}');
 

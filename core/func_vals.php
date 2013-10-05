@@ -1,4 +1,17 @@
 <?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný | 2011-2013
+   _____________________________
+
+   core/func_vals.php
+
+   Tento soubor slouží k deklaraci speciálních objektů na uložení seznamů, surovin, funkcí,... .
+*/
+//==============================
+
+
+
+
 class vals{
     var $vals=array();
     var $numberindex=0;

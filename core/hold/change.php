@@ -1,4 +1,17 @@
 <?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný | 2011-2013
+   _____________________________
+
+   core/hold/change.php
+
+   Okno výměny surovin
+*/
+//==============================
+
+
+
+
 r($GLOBALS['get']["id"]);
 if($_GET["id"]){
     $id=$_GET["id"];

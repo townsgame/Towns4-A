@@ -1,4 +1,17 @@
 <?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný | 2011-2013
+   _____________________________
+
+   core/create/func_core.php
+
+   Stavící funkce systému
+*/
+//==============================
+
+
+
+
 define('a_create_cooldown',true);
 function a_create($id,$x=0,$y=0,$rot=0){
     r("$id,$x=0,$y=0,$rot=0");

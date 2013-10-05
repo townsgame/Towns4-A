@@ -1,4 +1,17 @@
 <?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný | 2011-2013
+   _____________________________
+
+   core/page/map_units.php
+
+   Mapa budov
+*/
+//==============================
+
+
+
+
 require_once(root.core."/func_map.php");
 
     $GLOBALS['units_stream']='';

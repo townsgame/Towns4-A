@@ -1,4 +1,17 @@
 <?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný | 2011-2013
+   _____________________________
+
+   core/attack/attack.php
+
+   Okno útoků
+*/
+//==============================
+
+
+
+
     $iconsize=35;
     $iconbrd=3;
     $ns=($GLOBALS['get']['noshit']);

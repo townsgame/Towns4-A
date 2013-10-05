@@ -1,3 +1,14 @@
+<?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný | 2011-2013
+   _____________________________
+
+   core/login/log_form.php
+
+   Přihlašovací formulář
+*/
+//==============================
+?>
 <form id="login" name="login" method="POST" action="<?php url("q=login [login_username],towns,[login_password];login_try=1"); ?>">
 <table width="100%">
 <tr>

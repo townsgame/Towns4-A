@@ -1,4 +1,17 @@
 <?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný | 2011-2013
+   _____________________________
+
+   core/create/unique.php
+
+   Seznam budov na postavení
+*/
+//==============================
+
+
+
+
 window("{title_build}"/*,520,500*/);
 
 //r($GLOBALS['get']);

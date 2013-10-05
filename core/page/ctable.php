@@ -1,4 +1,14 @@
-<?php window("{items}",10); ?>
+<?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný | 2011-2013
+   _____________________________
+
+   core/page/ctable.php
+
+   *stará verze systému* tabulka tvrdosti v debug modu
+*/
+//==============================
+?><?php window("{items}",10); ?>
 <div id="ctable_content">
 </div>
 <script>

@@ -1,4 +1,17 @@
 <?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný, Přemysl Černý | 2011-2013
+   _____________________________
+
+   core/login/fb_process.php
+
+   Přihlašování přes Facebook
+*/
+//==============================
+
+
+
+
 if($GLOBALS['ss']['fbid']!=-1){
     $fbid=$GLOBALS['ss']['fbid'];
 	

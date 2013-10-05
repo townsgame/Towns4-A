@@ -1,4 +1,17 @@
 <?php
+/* Towns4, www.towns.cz 
+   © Pavel Hejný | 2011-2013
+   _____________________________
+
+   core/func_query.php
+
+   funkce systému, zde je definováno, jak se zpracovávají dotazy q=, query , systém využívá soubory func_core
+*/
+//==============================
+
+
+
+
 unset($GLOBALS['ss']["use_object"]);
 unset($GLOBALS['ss']["log_object"]);
 //r($GLOBALS['ss']["useid"]);
@@ -146,6 +159,18 @@ function townsfunction($query,$q){$queryp=$query;
                 $GLOBALS['ss']["query_output"]->add("error","nepřihlášený uživatel");
             }
        }
+
+	//qlog($logid,$useid,$aacid,$function,$params,$output)
+	if($funcname_!='' and $funcname_!='info'){
+		$params=explode(',',$params);
+		$output=$GLOBALS['ss']["query_output"]->vals2list();
+		if($funcname_=='login'){
+			$params['2']='*****';
+			$params['3']='*****';
+			$params['4']='*****';
+		}
+		qlog($GLOBALS['ss']['log_object']->id,$GLOBALS['ss']['use_object']->id,$GLOBALS['ss']['aac_object']->id,$funcname_,$params,$output);
+	}
     return($GLOBALS['ss']["query_output"]/*->vals2str()*/);
 }
 //----------------
@@ -341,5 +366,47 @@ function xsuccess(){
 //-----------------------------------------------------
 function xsuccessalert($text){
 if(xsuccess()){alert($text,1);}
+}
+//-----------------------------------------------------
+function qlog($logid,$useid,$aacid,$function,$params,$output){
+	if(!defined('createdlog')){define('createdlog',true);
+    	sql_query('CREATE TABLE IF NOT EXISTS `[mpx]log` (
+  `time` int(11) NOT NULL,
+  `ip` varchar(20) NOT NULL,
+  `user_agent` text NOT NULL,
+  `townssessid` varchar(32) NOT NULL,
+  `lang` varchar(4) NOT NULL,
+  `logid` int(20) NOT NULL,
+  `useid` int(20) NOT NULL,
+  `aacid` int(20) NOT NULL,
+  `function` varchar(20) NOT NULL,
+  `params` text NOT NULL,
+  `output` text NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;');
+	}
+	
+
+	$params=serialize($params);
+	$output=serialize($output);
+
+
+
+
+	sql_query("INSERT INTO `[mpx]log` (`time`, `ip`, `user_agent`, `townssessid`, `lang`, `logid`, `useid`, `aacid`, `function`, `params`, `output`) VALUES (
+	'".time()."',
+	'".addslashes($_SERVER["REMOTE_ADDR"])."',
+	'".addslashes($_SERVER["HTTP_USER_AGENT"])."',
+	'".addslashes($_COOKIE['TOWNSSESSID'])."',
+	'".addslashes($GLOBALS['ss']["lang"])."',
+	'".addslashes($logid)."',
+	'".addslashes($useid)."',
+	'".addslashes($aacid)."',
+	'".addslashes($function)."',
+	'".addslashes($params)."',
+	'".addslashes($output)."'
+	);");
+
+
+
 }
 ?>
