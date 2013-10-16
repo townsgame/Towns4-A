@@ -16,7 +16,7 @@ window("{title_plus}");
 //infob('{plus_infob;'.$GLOBALS['ss']['use_object']->name.'}');
 
 
-$q=submenu(array("content","plus-index"),array("plus_pay"/*,"plus_code"*/),1);
+$q=submenu(array("content","plus-index"),array("plus_pay"/*,"plus_code"*/),1,'plus');
 $q=$GLOBALS['ss']['submenu'];
 
 

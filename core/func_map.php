@@ -360,6 +360,48 @@ function rgb2lvl($r,$g,$b){
     
     return($lvl);
 }
+//----------------------------------------------------------------------------------------------------------------------PREDELMORE A PEVNINY
+
+function t1border($im){//return($im);
+    for($y = 0; $y!=imagesy($im); $y++){
+        for($x = 0; $x!=imagesx($im); $x++){
+                $rgb=imagecolorsforindex($im,imagecolorat($im, $x,$y));
+
+
+                $r=$rgb["red"];
+                $g=$rgb["green"];
+                $b=$rgb["blue"];
+                
+		/*$r=$tmp;
+		$r=$g;
+		$g=$tmp;*/
+		if($b>$r*gr or $b>$g*gr){
+			$b=$b*gr;
+		}
+
+		$k=-0.1;
+		$q=0.1;
+		$r2=($r*(1-$q-$q))+($g*$q)+($b*$q);
+		$g2=($r*$q)+($g*(1-$q-$q))+($b*$q);
+		$b2=($r*$k)+($g*$k)+($b*(1-$k-$k));
+
+
+		if($r2<0)$r2=0;if($r2>255)$r2=255;
+		if($g2<0)$g2=0;if($g2>255)$g2=255;
+		if($b2<0)$b2=0;if($b2>255)$b2=255;
+
+		$tmpcolor=imagecolorallocate($im,$r2,$g2,$b2);
+
+		imagesetpixel($im,$x,$y,$tmpcolor);
+
+		imagecolordeallocate($tmpcolor);
+        }
+    }
+    return($im);
+}
+
+
+
 //----------------------------------------------------------------------------------------------------------------------PROPOJENI
 function mapbg($xc,$yc){
     //echo("$xc,$yc");
@@ -486,15 +528,18 @@ function mapbg($xc,$yc){
             imagesavealpha($img2,true);
             return($img2);
         }else{
+	    $img=t1border($img);
             return($img);
         }
 }
 
 
-/*r(mapbg(20,5));
-r(mapbg(25,0));
-r(mapbg(30,-5));
-die();
+//r(mapbg(20,5));
+//r(mapbg(25,0));
+//r(mapbg(30,-5));
+//br();
+//r(mapbg(25,-5));
+//die();
 /*br();
 ?>
 

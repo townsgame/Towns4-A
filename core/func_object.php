@@ -332,7 +332,9 @@ class object{
                 //r("t");
 //echo(mysql_error());
             }
-        }
+        }else{
+		r('update - not loaded');
+	}
     }
     //--------------------------------------------
     /**

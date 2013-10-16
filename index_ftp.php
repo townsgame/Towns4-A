@@ -23,7 +23,8 @@ $inc=array(
     'paypal_password' => '3E3DVY5G6H9PBHY5',
     'paypal_signature' => 'AiPC9BjkCyDFQXbSkoZcgqH3hpacAU8F0VteQyr3LMgMhs0kv9FFNRnf',
     'paypal_enviroment' => '',
-    'analytics' => 'UA-16346522-15'
+    'analytics' => 'UA-16346522-15',
+    'fb_page' => 'pages/Townscz/224568984369751'
 );
 require($inc['core'].'/index.php');
 ?>
