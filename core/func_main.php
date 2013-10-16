@@ -291,6 +291,7 @@ if(!defined('debug') and $GLOBALS['inc']['debug'])define('debug',1);
 if(!defined('fb_appid') and $GLOBALS['inc']['fb_appid'])define('fb_appid',$GLOBALS['inc']['fb_appid']);
 if(!defined('fb_secret') and $GLOBALS['inc']['fb_secret'])define('fb_secret',$GLOBALS['inc']['fb_secret']);
 if(!defined('analytics') and $GLOBALS['inc']['analytics'])define('analytics',$GLOBALS['inc']['analytics']);
+if(!defined('fb_page') and $GLOBALS['inc']['fb_page'])define('fb_page',$GLOBALS['inc']['fb_page']);
 
 if(!defined('debug'))define('debug',0);
 if(!defined('notmpimg'))define('notmpimg',0);

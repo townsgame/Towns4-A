@@ -121,7 +121,12 @@ if($scroll){
       <?php
     xreport();      
 }
-function contenu_b(){e('</td><td>'.imgr('design/none.png','',1,1000).'</td></tr></table></div></div>');}
+function contenu_b(){
+?>
+
+<?php
+e('</td><td>'.imgr('design/none.png','',1,1000).'</td></tr></table></div></div>');
+}
 
 
 //======================================================================================
@@ -900,7 +905,7 @@ function ahrefr($text,$url,$textd="none",$nol=true,$id=false,$data=false,$onclic
     }
     //if($textd=="none"){$add1="";$add2="";}
     $tmp=urlr($url);
-    if(strpos("x".$tmp,"javascript: ")){$onclick=str_replace("javascript: ","",$tmp);$tmp="#";}
+    if(strpos("x".$tmp,"javascript: ")){$onclick=str_replace("javascript: ","",$tmp);$tmp="#".rand(100000,999999);}
     if($url){$url="href=\"".$tmp."\"";}
     if($onclick){$onclick="onclick=\"$onclick\"";}
     return("<a $url $onclick >$add1$text$add2</a>");
@@ -921,7 +926,7 @@ function ahrefpr($prompt,$text,$url,$textd="underline",$nol=false,$id="page",$da
 }
 function ahrefp($prompt,$text,$url,$textd="underline",$nol=false,$id="page",$data=false){echo(ahrefpr($prompt,$text,$url,$textd,$nol,$id,$data));}
 //==========================================================================================
-function submenu($page,$array,$deafult=1,$session="submenu",$v=false){
+function submenu($page,$array,$deafult=1,$session="",$v=false){$session='submenu_'.$session;
     //r($GLOBALS['ss']["get"]);
     if(is_array($page)){$e=$page[0];$ee=$page[1];}else{$e=$page;$ee=$page;}
     if(!$GLOBALS['ss'][$session]){$GLOBALS['ss'][$session]=$deafult;}

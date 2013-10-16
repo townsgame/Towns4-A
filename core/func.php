@@ -124,15 +124,18 @@ $post=$_POST;
 //---------------------------------------------------------
 function sg($value,$d=false){
 global $$value;
-if(!$GLOBALS['ss'][$value])$GLOBALS['ss'][$value]=$d;
+if(!$GLOBALS['ss']['sg_'.$value])$GLOBALS['ss']['sg_'.$value]=$d;
 if($GLOBALS['ss']["get"][$value]){
-    $GLOBALS['ss'][$value]=$GLOBALS['ss']["get"][$value];
+    $GLOBALS['ss']['sg_'.$value]=$GLOBALS['ss']["get"][$value];
+}
+if($_GET[$value]){
+    $GLOBALS['ss']['sg_'.$value]=$_GET[$value];
 }
 if($GLOBALS['ss']["get"][$value]==="0"){
-    $GLOBALS['ss'][$value]=$d;
+    $GLOBALS['ss']['sg_'.$value]=$d;
 }
-$$value=$GLOBALS['ss'][$value];
-return($GLOBALS['ss'][$value]);
+$$value=$GLOBALS['ss']['sg_'.$value];
+return($GLOBALS['ss']['sg_'.$value]);
 }
 //---------------------------------------------------------
 /*$i=0;foreach($md5 as $a){

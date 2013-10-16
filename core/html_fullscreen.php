@@ -8,7 +8,7 @@
    V tomto souboru je html vnitřku stránky a správa oken.
 */
 //==============================
-?><div style="width: 100%; height: 100%;background-color:#43a1f7;overflow: hidden;">
+?><div style="width: 100%; height: 100%;background-color:#<?php /*43a1f7,458dde,458dfe,689afe*/e('699cfe'); ?>;overflow: hidden;">
 
 
 <div id="windows" style="position:relative;top:0px;left:0px;width:100%;height:100%;">
@@ -69,7 +69,7 @@ if(logged()){
 
     //----------------TUTORIAL
     if($GLOBALS['ss']["log_object"]->set->val("tutorial") and !$windows['help']){
-        $GLOBALS['ss']["page"]='tutorial1';
+        $GLOBALS['ss']["page"]='tutorial_1';
         $windows=array_merge($windows,array('content'=>array("help",1,1,contentwidth,0,array(1,1,1,1),0)));
         $GLOBALS['ss']["log_object"]->set->delete("tutorial");
     }
@@ -98,11 +98,11 @@ if(logged()){
     if(substr($GLOBALS['ss']['bg'],0,1)=='_'){
         $windows=array(
         //"login"=>array("login","-350","%",0,0,array(1,1,1,1),0)
-        "login-login"=>array("login-login",-350,-450,300,400,array(0,1,1,1),3)
+        "login-login"=>array("login-login",-350,-450/*-200+10*/,300,400/*+200*/,array(0,1,1,1),3)
         );
     }else{
         $windows=array(
-        "login-login"=>array("login-login",50,-450,300,400,array(0,1,1,1),3)
+        "login-login"=>array("login-login",50,-450/*-200+10*/,300,400/*+200*/,array(0,1,1,1),3)
         );
     }
 
@@ -121,17 +121,27 @@ if($GLOBALS['ss']['fb_select_ids'] and $GLOBALS['ss']['fb_select_key']){
     "login-fb_select"=>array("login-fb_select",'%','%',0,0,array(1,1,1,1),0),
     ));  
 }
+
+
+    /*$windows=array_merge(
+    $windows,
+    array(
+    "ad"=>array("ad",300,1,0,27,array(1,1,1,1),4),
+    ));*/ 
+
 }
     $windows=array_merge(
     $windows,
     array(
     'copy'=>array("copy",logged?-50:-143,-25,500,0,array(0,1,1,1),1),
     'name'=>array("none",'[xx]','[yy]','[ww]','[hh]',array(1,1,1,1),0),
-    'langcontrol'=>array("langcontrol",97,1,62,0,array(0,0,1,1),4)
+    'langcontrol'=>array("langcontrol",97,1/*logged()?1:30*/,62,27,array(0,0,1,1),4),
+    'fblike'=>array("fblike",170,1/*logged()?1:30*/,120,27,array(0,0,1,1),4)
     ));
 
     if ( $GLOBALS['mobile_detect']->isMobile()) {
         $windows["langcontrol"][1]=-70;
+        $windows["fblike"][1]=-1000;//nemá se zobrazovat-prasácké řešení
     }
 
     if(debug){

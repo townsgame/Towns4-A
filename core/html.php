@@ -13,10 +13,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Towns 4</title>
 <meta name="author" content="Pavel Hejný" />
-<meta name="keywords" content="" />
-<meta name="description" content="" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+<!--<meta name="keywords" content="" />-->
+<meta name="description" content="Towns je nový typ online strategické hry založené na stavění vlastního města. Zažijte zbrusu novou atmosféru stavění města na různých terénech v doprovodu s elegantní grafikou. Bojujte a domlouvejte se se spoluhráči, získávejte suroviny, stavějte a dokonce si vytvářejte vlastní budovy! Všechno, co je potřeba udělat, je napsat svoji přezdívku a můžete ihned začít hrát! Žádné osobní údaje a žádné ověřování účtu není potřeba. | Towns is a new type of online strategy game based on building your own town. Experience a brand new atmosphere of your own town on various terrains, accompanied with elegant graphics. Fight and communicate with players, gain resources, build, and create your own buildings! All you need to do is to write your nickname and you can immediately start playing! No personal information and no account authentication are required." />
+
+
+<meta property="og:image" content="<?php e(imageurl('logo/fract3.png')); ?>" />
 <link rel="shortcut icon" href="<?php e(rebase(root.base)); ?>favicon.ico">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
 <style type="text/css">
 <!--
 body {
@@ -77,8 +80,13 @@ if(defined('analytics')){
 <?php 
 }
 ?>
+
 </head>
 <body>
+
+
+
+
 <script type="text/javascript">
 
     z_index=1000;

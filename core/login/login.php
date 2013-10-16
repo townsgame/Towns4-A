@@ -59,12 +59,14 @@ if($q==1){
 }elseif($q==2){
     eval(subpage('login-reg_form'));
 }elseif($q==3){
-    $GLOBALS['ss']["page"]='about';
+    $GLOBALS['ss']["helppage"]='about';
     $GLOBALS['nowidth']=true;
     eval(subpage('help'));
 }
 
 ?>
+
+
 
 <div style="background:#222222;" >{info}</div>
 
@@ -75,4 +77,46 @@ if ( $GLOBALS['mobile_detect']->isMobile() ) {
 <?php } ?>
 
 </div>
+
+
+<?php if($q==1){ ?>
+
+<?php /* ?>
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5059650173115860";
+google_ad_slot = "9306763729";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="//pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+<?php */ 
+
+tfont('{ad_title}',10);
+?>
+
+<table border="1" cellspacing="0" cellpadding="0" width="100%" bgcolor="#111111" bordercolor="#cccccc">
+<tr>
+<td align="left">
+
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5059650173115860";
+/* towns4-A */
+google_ad_slot = "6375146928";
+google_ad_width = 280;
+google_ad_height = 60;
+//-->
+</script>
+<script type="text/javascript"
+src="//pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+
+
+</td>
+</tr>
+</table>
+
+<?php } ?>
 

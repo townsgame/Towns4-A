@@ -246,6 +246,7 @@ class func{
          if(!isset($tmp['leave']))$this->add('leave','leave');
          if(!isset($tmp['dismantle']))$this->add('dismantle','dismantle');
          if(!isset($tmp['repair']))$this->add('repair','repair');
+         if(!isset($tmp['upgrade']))$this->add('upgrade','upgrade');
          //}
          //$emptyvals=new vals();
          //login=1;use=1;info=1;item=1;profile_edit=1;set_edit=1;move=2;message=1;image=1
@@ -274,7 +275,7 @@ class func{
         //r($this->funcs->vals2list());
     }
         //--------------------------------------------
-    function addF($name,$key,$value,$wtf='params'){
+    function addF($name,$key,$value,$wtf='params',$onlyplus=false){
         //r($this->vals2list());
         $func=$this->funcs->val($name);       
         if(!$func){
@@ -283,6 +284,9 @@ class func{
             $func=$this->funcs->val($name);
             $func=new vals($func);  
         }
+	if(gettype($func)=='string'){
+		$func=new vals($func);
+	}
         //r(gettype($func));
         //r($func);
         
@@ -290,6 +294,8 @@ class func{
         $params=new vals($func->val($wtf));
         //r(2);
         if($wtf=='params')$value=array(floatval($value),1);
+	$params->delete($key);
+	if($onlyplus and $params->val($key)>$value){return(false);}
         $params->add($key,$value);
         //$params->add($key,1);
         //r(3);        
@@ -380,7 +386,8 @@ class func{
         foreach($this->vals2list() as $func){
             $f=$func["class"];
             //$params=$params["class"];
-            $tmp=($GLOBALS['config']["fs"][$f]);
+            $tmp=($GLOBALS['config']['f'][$f]["create"]['q']);
+	    //r($GLOBALS['config']["fs"]);
             if($tmp){
                 //r($func["params"]);
                 foreach($func["params"] as $key=>$v){
@@ -388,14 +395,57 @@ class func{
                     if($e2<1){$e2=1/$e2;}
                     $v=$e1*($e2*$e2);
                     //rn($v);
-                    $tmp=str_replace($key,$v,$tmp);
+                    $tmp=str_replace('$_'.$key,$v,$tmp);
                 }
                 $tmp="\$tmp=".$tmp.";";
+		//echo($tmp);
                 eval($tmp);
                 $fs=$fs+$tmp;
             }
         }
         return($fs);
+    }
+    //--------------------------------------------
+    function fc(){
+        $fc=new hold();
+        foreach($this->vals2list() as $func){
+            $f=$func["class"];
+            //$params=$params["class"];
+            $tmp=($GLOBALS['config']['f'][$f]["create"]['q']);
+	    //r($GLOBALS['config']["fs"]);
+            if($tmp){
+                //r($func["params"]);
+                foreach($func["params"] as $key=>$v){
+                    list($e1,$e2)=$v;
+                    if($e2<1){$e2=1/$e2;}
+                    $v=$e1*($e2*$e2);
+                    //rn($v);
+                    $tmp=str_replace('$_'.$key,$v,$tmp);
+                }
+                $tmp="\$price=".$tmp.";";
+		//echo($tmp);
+                eval($tmp);
+                $tmp=new hold();
+		$wtf=($GLOBALS['config']['f'][$f]["create"]['w']);
+		$cc=0;
+		foreach(explode('+',$wtf) as $wtfx){
+			list($c,$wtfx)=explode('*',$wtfx);
+			if(!$wtfx){$wtfx=$c;$c=1;}
+			$cc-=-$c;
+		}
+		//r($cc);
+		foreach(explode('+',$wtf) as $wtfx){
+			list($c,$wtfx)=explode('*',$wtfx);
+			if(!$wtfx){$wtfx=$c;$c=1;}
+			$tmp->add($wtfx,ceil($price*$c/$cc));
+			//$tmp->add($wtfx,1);
+		}
+		
+
+		$fc->addhold($tmp);
+            }
+        }
+        return($fc);
     }
     //--------------------------------------------
 }
@@ -504,13 +554,14 @@ class hold extends vals{
             return(true);
         }
     }
-    function take($a,$b){
+    function take($a,$b,$force=false){
         //r($a,$b);
         $b=round($b);
-        if($this->vals[$a]<$b){
+        if(!$force and $this->vals[$a]<$b){
             return(false);
         }else{
             $this->vals[$a]=$this->vals[$a]-$b;
+	    if($this->vals[$a]<0 and $force)$this->vals[$a]=0;
             return(true);
         }
     }
@@ -530,10 +581,16 @@ class hold extends vals{
         return(true);
     }
     //-----
-   function takehold($hold){
-        if(!$this->testhold($hold))return(false);
+   function takehold($hold,$force=false){
+        if(!$force and !$this->testhold($hold))return(false);
         $hold=$hold->vals2list();
-        foreach($hold as $key=>$value)$this->take($key,$value);
+        foreach($hold as $key=>$value)$this->take($key,$value,$force);
+        return(true);
+    }
+    //-----
+   function addhold($hold){
+        $hold=$hold->vals2list();
+        foreach($hold as $key=>$value)$this->add($key,$value);
         return(true);
     }
         //-----

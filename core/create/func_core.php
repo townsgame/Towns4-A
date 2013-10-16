@@ -232,5 +232,42 @@ function a_repair(){
     
     
 }
-    
+//================================================================================================================
+define('a_repair_cooldown',true);
+function a_upgrade($funcname,$paramname,$value){
+	//e("$funcname,$paramname,$value");
+
+	if($GLOBALS['ss']["aac_object"]->fp==$GLOBALS['ss']["aac_object"]->fs){
+	
+	$price=new hold($GLOBALS['ss']["aac_object"]->func->fc()->vals2str());
+	$funcx=new func($GLOBALS['ss']["aac_object"]->func->vals2str());
+	$funcx->addF($funcname,$paramname,$value);
+	$pricex=$funcx->fc();
+	//$pricex->showimg(true);
+	//$price->showimg(true);
+	$pricex->takehold($price,true);
+	//$pricex->showimg(true);
+
+	if($GLOBALS['ss']["use_object"]->hold->takehold($pricex)){
+		$GLOBALS['ss']["aac_object"]->func->addF($funcname,$paramname,$value);//->func=$funcx;
+		//r('a');
+		$GLOBALS['ss']["aac_object"]->update(true);
+		//r('b');
+		$GLOBALS['ss']["aac_object"]->fp=$GLOBALS['ss']["aac_object"]->fs;
+		$GLOBALS['ss']["aac_object"]->loaded=true;
+		//$GLOBALS['ss']["aac_object"]->fs=$funcx->fs();
+		//$GLOBALS['ss']["aac_object"]->fc=$funcx->fc();
+		//r('c');
+		$GLOBALS['ss']["aac_object"]->update(true);
+		//r('d');
+                $GLOBALS['ss']["query_output"]->add("success","{upgrade_success}");
+                $GLOBALS['ss']["query_output"]->add("1",1);
+        }else{
+                $GLOBALS['ss']["query_output"]->add("error","{upgrade_error_price}");
+        }
+	}else{
+                $GLOBALS['ss']["query_output"]->add("error","{upgrade_error_fpnotfs}");
+        }
+
+}
 ?>

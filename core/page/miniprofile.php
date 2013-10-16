@@ -210,6 +210,11 @@ foreach($functionlist as $qq_class){
                                 $ahref='e=content;ee=create-upgrade;id='.$id; 
                            }
                         break;
+                        case 'upgrade':
+                           if($fs==$fp){
+                                $ahref='e=content;ee=create-upgrade;id='.$id; 
+                           }
+                        break;
                         case 'change':
                            $ahref='e=content;ee=hold-change;id='.$id; 
                         break;
@@ -394,7 +399,7 @@ border(iconr("e=tabs;tab=$id;wtf=".($q?0:1).";js=".x2xx($stream),'fx_tab','{fx_t
 }
          //icon("js=$(document).fullScreen(true);","fullscreen","{fullscreen}",$iconsize);br();
          icon("q=logout","logout","{logout}",$iconsize);   
-    br();icon("e=content;ee=help;page=index",'help',"{help}",$iconsize); 
+    br();icon("e=content;ee=help;page=index;page=tutorial_x",'help',"{help}",$iconsize); 
     br();icon(js2('if($(\'#expandarea\').css(\'display\')==\'block\')x{$(\'#expandarea\').css(\'display\',\'none\')}xelsex{$(\'#expandarea\').css(\'display\',\'block\')}x1'),"expand","{expand}",$iconsize);
     //Parse error: syntax error, unexpected ')' in /media/towns4/towns4/core/page/miniprofile.php on line 263 
 if($sql and $id?ifobject($id):true){
