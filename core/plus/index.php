@@ -17,11 +17,12 @@ window("{title_plus}");
 
 
 $q=submenu(array("content","plus-index"),array("plus_pay"/*,"plus_code"*/),1,'plus');
-$q=$GLOBALS['ss']['submenu'];
+//$q=$GLOBALS['ss']['submenu'];
 
 
 contenu_a();
 //infob('');
+//echo($q);
 
 if($q==1){
 

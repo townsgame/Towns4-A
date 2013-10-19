@@ -122,7 +122,7 @@ if(!$GLOBALS['ss']["ww"])$GLOBALS['ss']["ww"]=1;
 
 //define("mapsize",50);
 //$GLOBALS['ss']["url"]=url;//"http://localhost/towns4/";
-if($_GET['e']!='-export')require(root.core."/output.php");
+if($_GET['e']!='-export' and $_GET['e']!='create-editor')require(root.core."/output.php");
 
 require(root.core."/func.php");
 require(root.core."/func_core.php");
@@ -338,7 +338,7 @@ $lang=$GLOBALS['ss']["lang"];
 //r('set3'.$GLOBALS['ss']["use_object"]->x.','.$GLOBALS['ss']["use_object"]->y);
 t("before content");
 if($_GET['e']){
-	if(logged() or $_GET['e']=='map_units' or substr($_GET['e'],0,6)=='login-' or $_GET['e']=='help' or  substr($_GET['e'],0,5)=='text-' or  substr($_GET['e'],0,12)=='plus-paypal-'){
+	if(logged() or $_GET['e']=='map_units' or substr($_GET['e'],0,6)=='login-' or $_GET['e']=='help' or  substr($_GET['e'],0,5)=='text-' or  substr($_GET['e'],0,12)=='plus-paypal-' or $_GET['e']=='create-editor'){
 	    //if($_GET["ee"]){$e=$_GET["ee"];}else{$e=$_GET['e'];}
 	    $e=$_GET['e'];
 	    define("subpage", $e);

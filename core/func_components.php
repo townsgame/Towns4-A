@@ -944,6 +944,7 @@ function submenu($page,$array,$deafult=1,$session="",$v=false){$session='submenu
         $i++;
     }
     if(!$v)echo("</tr></table>");
+    $GLOBALS['ss']['submenu']=$GLOBALS['ss'][$session];
     return($GLOBALS['ss'][$session]);
 }
 //======================================================================================

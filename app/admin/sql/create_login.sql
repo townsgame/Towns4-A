@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS `[mpx]login` (
   `id` int(11) NOT NULL,
-  `method` enum('towns','facebook') COLLATE utf8_czech_ci NOT NULL,
+  `method` enum('towns','facebook','editor','bot') COLLATE utf8_czech_ci NOT NULL,
   `key` varchar(100) COLLATE utf8_czech_ci NOT NULL,
   `text` text COLLATE utf8_czech_ci NOT NULL,
   `time_create` int(11) NOT NULL,

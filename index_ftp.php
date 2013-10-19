@@ -26,5 +26,6 @@ $inc=array(
     'analytics' => 'UA-16346522-15',
     'fb_page' => 'pages/Townscz/224568984369751'
 );
+date_default_timezone_set('Europe/Prague');
 require($inc['core'].'/index.php');
 ?>
